@@ -1,4 +1,4 @@
-﻿namespace DDDTableTopFriend.Application.Common.Authentication;
+﻿namespace DDDTableTopFriend.Application.Common.Interfaces.Authentication;
 
 public interface IJwtTokenGenerator
 {
