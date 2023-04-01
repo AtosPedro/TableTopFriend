@@ -15,7 +15,7 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterRequest registerRequest)
+    public IActionResult Register(RegisterRequest registerRequest)
     {
         var authenticationResult = _authenticationService.Register(
             registerRequest.FirstName,
@@ -27,7 +27,7 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginRequest loginRequest)
+    public IActionResult Login(LoginRequest loginRequest)
     {
         var authenticationResult = _authenticationService.Login(loginRequest.Email, loginRequest.Password);
         return Ok(authenticationResult);

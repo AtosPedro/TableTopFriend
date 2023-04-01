@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DDDTableTopFriend.Infrastructure;
 
-public static class DepencyInjection
+public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services, 

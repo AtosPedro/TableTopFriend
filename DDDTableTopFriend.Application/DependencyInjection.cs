@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DDDTableTopFriend.Application;
 
-public static class DepencyInjection
+public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
