@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  TableTopFriend.Api:
+    image: ${DOCKER_REGISTRY-}TableTopFriend.Api
+    build:
+      context: .
+      dockerfile: DDDTableTopFriend.Api\Dockerfile
+    ports:
+      - 4015:443
+    environment:
+      - CONTAINER=true

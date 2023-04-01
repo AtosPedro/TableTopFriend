@@ -1,35 +1,38 @@
-﻿using DDDTableTopFriend.Application.Services.Authentication;
+﻿using DDDTableTopFriend.Application.Authentication.Login.Queries;
+using DDDTableTopFriend.Application.Authentication.Register.Commands;
 using DDDTableTopFriend.Contracts.Authentication;
+using Mapster;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DDDTableTopFriend.Api.Controllers;
 
-[ApiController]
 [Route("v1/api/auth")]
-public class AuthenticationController : ControllerBase
+public class AuthenticationController : ApiController
 {
-    private readonly IAuthenticationService _authenticationService;
-    public AuthenticationController(IAuthenticationService authenticationService)
-    {
-        _authenticationService = authenticationService;
-    }
+    public AuthenticationController(ISender mediator) : base(mediator) { }
 
     [HttpPost("register")]
-    public IActionResult Register(RegisterRequest registerRequest)
+    public async Task<IActionResult> Register(RegisterRequest registerRequest)
     {
-        var authenticationResult = _authenticationService.Register(
-            registerRequest.FirstName,
-            registerRequest.LastName,
-            registerRequest.Email,
-            registerRequest.Password);
+        var command = registerRequest.Adapt<RegisterCommand>();
+        var authenticationResult = await _mediator.Send(command);
 
-        return Ok(authenticationResult);
+        return authenticationResult.Match(
+            authResult => Ok(authResult),
+            errors => Problem(errors)
+        );
     }
 
     [HttpPost("login")]
-    public IActionResult Login(LoginRequest loginRequest)
+    public async Task<IActionResult> Login(LoginRequest loginRequest)
     {
-        var authenticationResult = _authenticationService.Login(loginRequest.Email, loginRequest.Password);
-        return Ok(authenticationResult);
+        var query = loginRequest.Adapt<LoginQuery>();
+        var authenticationResult = await _mediator.Send(query);
+
+        return authenticationResult.Match(
+            authResult => Ok(authResult),
+            errors => Problem(errors)
+        );
     }
 }

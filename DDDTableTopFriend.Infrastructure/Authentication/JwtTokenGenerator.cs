@@ -13,7 +13,7 @@ namespace DDDTableTopFriend.Infrastructure.Authentication
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly JwtSettings _jwtSettings;
         public JwtTokenGenerator(
-            IDateTimeProvider dateTimeProvider, 
+            IDateTimeProvider dateTimeProvider,
             IOptions<JwtSettings> jwtSettings)
         {
             _dateTimeProvider = dateTimeProvider;
@@ -37,8 +37,8 @@ namespace DDDTableTopFriend.Infrastructure.Authentication
             var securityToken = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience,
-                expires: _dateTimeProvider.UtcNow.AddMinutes(_jwtSettings.ExpiraryMinutes),
                 claims: claims,
+                expires: _dateTimeProvider.UtcNow.AddMinutes(_jwtSettings.ExpiratoryMinutes),
                 signingCredentials: signingCredentials);
 
             return new JwtSecurityTokenHandler().WriteToken(securityToken);

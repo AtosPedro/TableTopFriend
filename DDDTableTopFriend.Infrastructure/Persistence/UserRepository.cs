@@ -5,8 +5,8 @@ namespace DDDTableTopFriend.Infrastructure.Persistence;
 
 public class UserRepository : IUserRepository
 {
-    public static List<User> users = new List<User>();
-    
+    public static List<User> users = new();
+
     public void Add(User user)
     {
         users.Add(user);
