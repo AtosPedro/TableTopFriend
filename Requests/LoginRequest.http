@@ -1,0 +1,7 @@
+POST {{host_https}}/{{api_v1_route}}/auth/login
+Content-Type: application/json
+
+{
+    "email":"emailteste@gmail.com",
+    "password":"123"
+}

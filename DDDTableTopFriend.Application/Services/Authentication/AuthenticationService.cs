@@ -32,10 +32,10 @@ public class AuthenticationService : IAuthenticationService
             user.LastName);
 
         return new AuthenticationResult(
-            Guid.NewGuid(),
+            user.Id,
             user.FirstName,
             user.LastName,
-            email,
+            user.Email,
             token);
     }
 

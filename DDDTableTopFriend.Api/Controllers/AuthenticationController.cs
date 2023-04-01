@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DDDTableTopFriend.Api.Controllers;
 
 [ApiController]
-[Route("api/v1/auth")]
+[Route("v1/api/auth")]
 public class AuthenticationController : ControllerBase
 {
     private readonly IAuthenticationService _authenticationService;
@@ -14,7 +14,7 @@ public class AuthenticationController : ControllerBase
         _authenticationService = authenticationService;
     }
 
-    [HttpGet]
+    [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest registerRequest)
     {
         var authenticationResult = _authenticationService.Register(
@@ -26,6 +26,7 @@ public class AuthenticationController : ControllerBase
         return Ok(authenticationResult);
     }
 
+    [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest loginRequest)
     {
         var authenticationResult = _authenticationService.Login(loginRequest.Email, loginRequest.Password);

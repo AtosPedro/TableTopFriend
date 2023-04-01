@@ -1,5 +1,8 @@
-﻿using DDDTableTopFriend.Application.Common.Interfaces.Services;
+﻿using DDDTableTopFriend.Application.Common.Interfaces.Authentication;
+using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
+using DDDTableTopFriend.Application.Common.Interfaces.Services;
 using DDDTableTopFriend.Infrastructure.Authentication;
+using DDDTableTopFriend.Infrastructure.Persistence;
 using DDDTableTopFriend.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +17,8 @@ public static class DepencyInjection
     {
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+        services.AddScoped<IUserRepository, UserRepository>();
         return services;
     }
 }

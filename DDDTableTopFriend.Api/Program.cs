@@ -4,8 +4,8 @@ using DDDTableTopFriend.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services
-        .AddApplication()
-        .AddInfrastructure(builder.Configuration);
+        .AddInfrastructure(builder.Configuration)
+        .AddApplication();
     builder.Services.AddControllers();
 }
 
