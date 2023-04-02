@@ -17,7 +17,6 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
         IUserRepository userRepository,
         IJwtTokenGenerator jwtTokenGenerator)
     {
-        
         _userRepository = userRepository;
         _jwtTokenGenerator = jwtTokenGenerator;
     }

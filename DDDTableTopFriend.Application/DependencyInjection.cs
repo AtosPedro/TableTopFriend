@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 using Mapster;
+using DDDTableTopFriend.Application.Common.Behaviors;
+using FluentValidation;
 
 namespace DDDTableTopFriend.Application;
 
@@ -12,6 +14,8 @@ public static class DependencyInjection
         var config = TypeAdapterConfig.GlobalSettings;
         config.Scan(Assembly.GetExecutingAssembly());
         services.AddSingleton(config);
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddMediatR(typeof(DependencyInjection).Assembly);
         return services;
     }
