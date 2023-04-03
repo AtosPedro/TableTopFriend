@@ -11,5 +11,9 @@
         "prod":{
             "host":""
         }
-    }
+    },
+    "cSpell.words": [
+        "Mapster",
+        "Mediat"
+    ]
 }

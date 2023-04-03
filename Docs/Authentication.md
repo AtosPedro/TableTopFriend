@@ -53,7 +53,6 @@ public record RegisterCommand(
 ) : IRequest<ErrorOr<AuthenticationResult>>;
 ```
 
-
 And this command has a validator that can be encountered in the path: 'DDDTableTopFriend.Application\\Authentication\\Register\\Commands\\RegisterCommandValidator.cs'
 
 ```csharp
