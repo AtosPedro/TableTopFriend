@@ -1,4 +1,4 @@
-POST {{host_https}}/{{api_v1_route}}/auth/register
+POST https://localhost:7044/v1/api/auth/register
 Content-Type: application/json
 
 {
