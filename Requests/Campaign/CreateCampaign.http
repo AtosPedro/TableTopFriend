@@ -1,8 +1,0 @@
-POST {{host_https}}/{{api_v1_route}}/campaigns
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiODAwOGJhYi02MWFiLTRkNWEtYjcxMC03NTgwYjJlMTNiZDEiLCJqdGkiOiJmOWEwNTFiNi1kOWJhLTRhNDktYTRkMy1lYTYwOWJhM2M1MjgiLCJnaXZlbl9uYW1lIjoiQXRvcyIsImZhbWlseV9uYW1lIjoiUGVkcm8iLCJleHAiOjE2ODA1NDA0NjQsImlzcyI6IlRhYmxlVG9wIEZyaWVuZCIsImF1ZCI6IlRhYmxlVG9wIEZyaWVuZCJ9.cLP5zl2HaQjzDakud5MOd47gEkHiWCMjOy5svnLXqWo
-
-{
-    "Name":"Campaign 1",
-    "Description":"Campaign 1 desc"
-}

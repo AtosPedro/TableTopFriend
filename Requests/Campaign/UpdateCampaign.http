@@ -1,7 +1,0 @@
-PUT {{host_https}}/{{api_v1_route}}/campaigns
-Content-Type: application/json
-
-{
-    "Name":"Campaign 1 UPDATE",
-    "Description":"Campaign 1 desc UPDATE"
-}

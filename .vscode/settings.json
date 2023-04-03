@@ -15,5 +15,7 @@
     "cSpell.words": [
         "Mapster",
         "Mediat"
-    ]
+    ],
+    "outline.showProperties": false,
+    "explorer.fileNesting.enabled": true
 }
