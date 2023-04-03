@@ -7,4 +7,4 @@ namespace DDDTableTopFriend.Application.Authentication.Login.Queries;
 public record LoginQuery(
     string Email,
     string Password
-): IRequest<ErrorOr<AuthenticationResult>>;
+) : IRequest<ErrorOr<AuthenticationResult>>;

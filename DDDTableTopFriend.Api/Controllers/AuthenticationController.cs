@@ -3,11 +3,13 @@ using DDDTableTopFriend.Application.Authentication.Register.Commands;
 using DDDTableTopFriend.Contracts.Authentication;
 using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DDDTableTopFriend.Api.Controllers;
 
 [Route("v1/api/auth")]
+[AllowAnonymous]
 public class AuthenticationController : ApiController
 {
     public AuthenticationController(ISender mediator) : base(mediator) { }
