@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
+using DDDTableTopFriend.Infrastructure.Services.Security;
 
 namespace DDDTableTopFriend.Infrastructure;
 
@@ -20,7 +21,9 @@ public static class DependencyInjection
         ConfigurationManager configuration)
     {
         services.AddAuth(configuration);
+        services.AddOptions(configuration);
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.AddSingleton<IHasher, Hasher>();
         services.AddScoped<IUserRepository, UserRepository>();
         return services;
     }
@@ -31,7 +34,7 @@ public static class DependencyInjection
     {
         var jwtSettings = new JwtSettings();
 
-        configuration.Bind(JwtSettings.SectionName,jwtSettings);
+        configuration.Bind(JwtSettings.SectionName, jwtSettings);
         services.AddSingleton(Options.Create(jwtSettings));
 
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
@@ -48,6 +51,17 @@ public static class DependencyInjection
                     Encoding.UTF8.GetBytes(jwtSettings.Secret))
             });
 
+        return services;
+    }
+
+    public static IServiceCollection AddOptions(
+        this IServiceCollection services,
+        ConfigurationManager configuration)
+    {
+        var hasherSettings = new HasherSettings();
+
+        configuration.Bind(HasherSettings.SectionName, hasherSettings);
+        services.AddSingleton(Options.Create(hasherSettings));
         return services;
     }
 }

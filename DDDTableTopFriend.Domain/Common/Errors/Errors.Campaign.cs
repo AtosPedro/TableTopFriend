@@ -6,6 +6,6 @@ public static partial class Errors
 {
     public static class Campaign
     {
-        public static Error DuplicateName => Error.Conflict("Campaign.DuplicateEmail");
+        public static Error DuplicateName => Error.Conflict("Campaign.DuplicateName");
     }
 }

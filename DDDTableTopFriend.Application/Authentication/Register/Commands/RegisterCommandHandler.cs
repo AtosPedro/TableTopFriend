@@ -6,6 +6,7 @@ using DDDTableTopFriend.Application.Common.Interfaces.Authentication;
 using MediatR;
 using DDDTableTopFriend.Application.Authentication.Common;
 using Mapster;
+using DDDTableTopFriend.Application.Common.Interfaces.Services;
 
 namespace DDDTableTopFriend.Application.Authentication.Register.Commands;
 
@@ -13,12 +14,16 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
 {
     private readonly IUserRepository _userRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
+
+    private readonly IHasher _hasher;
     public RegisterCommandHandler(
         IUserRepository userRepository,
-        IJwtTokenGenerator jwtTokenGenerator)
+        IJwtTokenGenerator jwtTokenGenerator,
+        IHasher hasher)
     {
         _userRepository = userRepository;
         _jwtTokenGenerator = jwtTokenGenerator;
+        _hasher = hasher;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand request, CancellationToken cancellationToken)
@@ -28,17 +33,22 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
         if (user is not null)
             return Errors.Authentication.UserAlreadyRegistered;
 
-        user = new User
-        {
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            Email = request.Email,
-            Password = request.Password
-        };
+        string salt = _hasher.GenerateSalt();
+        string passwordHashed = _hasher.ComputeHash(
+            request.Password,
+            salt,
+            _hasher.GetIterations());
+
+        user = User.Create(
+            request.FirstName,
+            request.LastName,
+            request.Email,
+            passwordHashed,
+            salt);
 
         _userRepository.Add(user);
 
-        var token = _jwtTokenGenerator.GenerateToken(user.Id, user.Email, user.LastName);
+        var token = _jwtTokenGenerator.GenerateToken(user.Id.Value, user.Email, user.LastName);
         return (user, token).Adapt<AuthenticationResult>();
     }
 }

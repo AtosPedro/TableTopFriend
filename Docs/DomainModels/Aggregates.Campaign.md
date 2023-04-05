@@ -7,7 +7,6 @@ public sealed class Campaign
 {
     Campaign Create(CampaignId id, string name, string description);
     Campaign Update(CampaignId id, string name, string description, IEnumerable<Guid> characterIds, IEnumerable<Guid> sessionIds);
-    void Delete(CampaignId id);
     void AddCharacter(CampaignId id, CharacterId characterId);
 }
 
@@ -15,16 +14,16 @@ public sealed class Campaign
 
 ```json
 {
-    "Id": { "value": "00000000-0000-0000-0000-00000000000" },
-    "Name": "Campaign 1",
-    "Description": "Campaign 1 description",
-    "CreatedAt":"2023-01-01T00:00:00.0000000Z",
-    "UpdatedAt":"2023-01-01T00:00:00.0000000Z",
-    "CharactersIds":[
+    "id": { "value": "00000000-0000-0000-0000-00000000000" },
+    "name": "Campaign 1",
+    "description": "Campaign 1 description",
+    "charactersIds":[
         { "value": "00000000-0000-0000-0000-00000000000" },
     ],
-    "SessionIds":[
+    "sessionIds":[
         { "value": "00000000-0000-0000-0000-00000000000" },
-    ]
+    ],
+    "createdAt":"2023-01-01T00:00:00.0000000Z",
+    "updatedAt":"2023-01-01T00:00:00.0000000Z",
 }
 ```

@@ -1,17 +1,17 @@
 using DDDTableTopFriend.Domain.Common.Models;
 
-namespace DDDTableTopFriend.Domain.Campaign.ValueObjects;
+namespace DDDTableTopFriend.Domain.Users.ValueObjects;
 
-public sealed class CampaignId : ValueObject
+public sealed class UserId : ValueObject
 {
     public Guid Value { get; set; }
 
-    private CampaignId(Guid value)
+    private UserId(Guid value)
     {
         Value = value;
     }
 
-    public static CampaignId CreateUnique() => new (Guid.NewGuid());
+    public static UserId CreateUnique() => new (Guid.NewGuid());
 
     public override IEnumerable<object> GetEqualityComponents()
     {

@@ -1,4 +1,4 @@
-namespace DDDTableTopFriend.Domain.Entities;
+namespace DDDTableTopFriend.Domain.Common.Enums;
 
 public enum CharacterType
 {
