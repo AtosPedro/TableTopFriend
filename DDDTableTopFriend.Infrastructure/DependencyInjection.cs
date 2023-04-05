@@ -25,6 +25,7 @@ public static class DependencyInjection
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddSingleton<IHasher, Hasher>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddSingleton<ICampaignRepository, CampaignRepository>();
         return services;
     }
 

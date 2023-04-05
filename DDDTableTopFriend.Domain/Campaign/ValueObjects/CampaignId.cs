@@ -12,6 +12,7 @@ public sealed class CampaignId : ValueObject
     }
 
     public static CampaignId CreateUnique() => new (Guid.NewGuid());
+    public static CampaignId Create(Guid id) => new (id);
 
     public override IEnumerable<object> GetEqualityComponents()
     {

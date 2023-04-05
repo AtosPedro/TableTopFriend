@@ -1,0 +1,11 @@
+POST {{host_https}}/{{api_v1_route}}/campaigns
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlMGFkYTExOS1hYTA4LTQ4NmQtYTlmYi0wZDc2NTE1NTNiMGIiLCJqdGkiOiJmZTkyMjc3Ni0xNWEzLTQ4OTktODJhZC1lOWViZmVlYjJkMGYiLCJnaXZlbl9uYW1lIjoiQXRvcyIsImZhbWlseV9uYW1lIjoiUGVkcm8iLCJleHAiOjE2ODA3MjQ4NTMsImlzcyI6IlRhYmxlVG9wIEZyaWVuZCIsImF1ZCI6IlRhYmxlVG9wIEZyaWVuZCJ9.WlyRbWBlkb5fIBoWhVki5CB7FhgTxke4jbCbM1p4In8
+
+{
+   "name":"Campaign 1",
+   "userId": "e0ada119-aa08-486d-a9fb-0d7651553b0b",
+   "description":"Campaign 1 desc",
+   "characterIds":[],
+   "sessionIds":[]
+}

@@ -12,7 +12,7 @@ public sealed class SessionId : ValueObject
     }
 
     public static SessionId CreateUnique() => new (Guid.NewGuid());
-
+    public static SessionId Create(Guid id) => new (id);
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;

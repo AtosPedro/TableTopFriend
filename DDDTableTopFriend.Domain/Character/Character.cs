@@ -1,8 +1,8 @@
 using DDDTableTopFriend.Domain.Character.Entities;
 using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.Character.ValueObjects;
-using DDDTableTopFriend.Domain.Common.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Enums;
+using DDDTableTopFriend.Domain.AudioEffect.ValueObjects;
 
 namespace DDDTableTopFriend.Domain.Character;
 

@@ -12,7 +12,7 @@ public sealed class AudioEffectId : ValueObject
     }
 
     public static AudioEffectId CreateUnique() => new (Guid.NewGuid());
-
+    public static AudioEffectId Create(Guid id) => new (id);
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;

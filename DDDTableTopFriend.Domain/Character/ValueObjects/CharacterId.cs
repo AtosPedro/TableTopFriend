@@ -12,6 +12,7 @@ public sealed class CharacterId : ValueObject
     }
 
     public static CharacterId CreateUnique() => new (Guid.NewGuid());
+    public static CharacterId Create(Guid id) => new (id);
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;

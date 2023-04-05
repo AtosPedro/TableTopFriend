@@ -7,5 +7,6 @@ public static partial class Errors
     public static class Campaign
     {
         public static Error DuplicateName => Error.Conflict("Campaign.DuplicateName");
+        public static Error NotRegistered => Error.NotFound("Campaign.NotRegistered");
     }
 }

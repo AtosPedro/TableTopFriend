@@ -12,6 +12,7 @@ public sealed class CharacterSheetId : ValueObject
     }
 
     public static CharacterSheetId CreateUnique() => new (Guid.NewGuid());
+    public static CharacterSheetId Create(Guid id) => new (id);
 
     public override IEnumerable<object> GetEqualityComponents()
     {

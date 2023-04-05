@@ -12,6 +12,7 @@ public sealed class StatusId : ValueObject
     }
 
     public static StatusId CreateUnique() => new (Guid.NewGuid());
+    public static StatusId Create(Guid id) => new (id);
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;

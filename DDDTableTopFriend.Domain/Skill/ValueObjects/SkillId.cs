@@ -12,7 +12,7 @@ public sealed class SkillId : ValueObject
     }
 
     public static SkillId CreateUnique() => new (Guid.NewGuid());
-
+    public static SkillId Create(Guid id) => new (id);
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
