@@ -10,4 +10,5 @@ public interface ICampaignRepository
     Domain.Campaign.Campaign? GetByName(string name);
     Domain.Campaign.Campaign? GetById(Guid id);
     IEnumerable<Domain.Campaign.Campaign> GetAll();
+    void Remove(Guid id);
 }

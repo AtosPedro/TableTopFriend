@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
 using DDDTableTopFriend.Infrastructure.Services.Security;
+using DDDTableTopFriend.Infrastructure.Persistence.Base;
 
 namespace DDDTableTopFriend.Infrastructure;
 
@@ -60,9 +61,12 @@ public static class DependencyInjection
         ConfigurationManager configuration)
     {
         var hasherSettings = new HasherSettings();
-
         configuration.Bind(HasherSettings.SectionName, hasherSettings);
         services.AddSingleton(Options.Create(hasherSettings));
+
+        var applicationDbSettings = new ApplicationDbSettings();
+        configuration.Bind(ApplicationDbSettings.SectionName, applicationDbSettings);
+        services.AddSingleton(Options.Create(applicationDbSettings));
         return services;
     }
 }
