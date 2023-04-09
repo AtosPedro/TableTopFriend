@@ -1,5 +1,5 @@
-﻿using DDDTableTopFriend.Application.Authentication.Login.Queries;
-using DDDTableTopFriend.Application.Authentication.Register.Commands;
+﻿using DDDTableTopFriend.Application.Authentication.Commands.Register;
+using DDDTableTopFriend.Application.Authentication.Queries.Login;
 using DDDTableTopFriend.Contracts.Authentication;
 using Mapster;
 using MediatR;

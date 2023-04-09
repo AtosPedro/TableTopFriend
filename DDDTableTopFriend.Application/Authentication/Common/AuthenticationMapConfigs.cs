@@ -1,4 +1,4 @@
-using DDDTableTopFriend.Domain.Entities;
+using DDDTableTopFriend.Domain.AggregateUser;
 using Mapster;
 
 namespace DDDTableTopFriend.Application.Authentication.Common;

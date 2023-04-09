@@ -30,8 +30,7 @@ public class Hasher : IHasher
         using var rng = RandomNumberGenerator.Create();
         var byteSalt = new byte[16];
         rng.GetBytes(byteSalt);
-        var salt = Convert.ToBase64String(byteSalt);
-        return salt;
+        return Convert.ToBase64String(byteSalt);
     }
 
     public int GetIterations()

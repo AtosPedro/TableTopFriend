@@ -1,14 +1,15 @@
-using DDDTableTopFriend.Application.Campaigns.Common;
-using ErrorOr;
+using System.Linq.Expressions;
+using DDDTableTopFriend.Domain.AggregateCampaign;
 
 namespace DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 
 public interface ICampaignRepository
 {
-    void Add(Domain.Campaign.Campaign campaign);
-    void Update(Domain.Campaign.Campaign campaign);
-    Domain.Campaign.Campaign? GetByName(string name);
-    Domain.Campaign.Campaign? GetById(Guid id);
-    IEnumerable<Domain.Campaign.Campaign> GetAll();
-    void Remove(Guid id);
+    Task<IEnumerable<Campaign>> Search(Expression<Func<Campaign, bool>> predicate, CancellationToken cancellationToken);
+    Task<Campaign?> GetById(Guid id, CancellationToken cancellationToken);
+    Task<IEnumerable<Campaign>> GetAll(Guid userId, CancellationToken cancellationToken);
+    Task<Campaign?> GetByName(string name, CancellationToken cancellationToken);
+    Task<Campaign> Add(Campaign campaign, CancellationToken cancellationToken);
+    Task<Campaign> Update(Campaign campaign);
+    Task<Campaign> Remove(Campaign campaign);
 }

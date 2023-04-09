@@ -6,7 +6,7 @@
 public sealed class Campaign
 {
     Campaign Create(CampaignId id, string name, string description);
-    Campaign Update(CampaignId id, string name, string description, IEnumerable<Guid> characterIds, IEnumerable<Guid> sessionIds);
+    Campaign Update(CampaignId id, string name, string description, IEnumerable<CharacterId> characterIds, IEnumerable<SessionId> sessionIds);
     void AddCharacter(CampaignId id, CharacterId characterId);
 }
 

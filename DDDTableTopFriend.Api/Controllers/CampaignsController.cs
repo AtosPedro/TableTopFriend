@@ -1,8 +1,9 @@
-using DDDTableTopFriend.Application.Campaigns.Create.Commands;
-using DDDTableTopFriend.Application.Campaigns.Delete.Commands;
+using DDDTableTopFriend.Application.Campaigns.Commands.Create;
+using DDDTableTopFriend.Application.Campaigns.Commands.Delete;
+using DDDTableTopFriend.Application.Campaigns.Commands.Join;
+using DDDTableTopFriend.Application.Campaigns.Commands.Update;
 using DDDTableTopFriend.Application.Campaigns.Get.Queries;
 using DDDTableTopFriend.Application.Campaigns.GetAll.Queries;
-using DDDTableTopFriend.Application.Campaigns.Join.Commands;
 using DDDTableTopFriend.Contracts.Campaign;
 using Mapster;
 using MediatR;

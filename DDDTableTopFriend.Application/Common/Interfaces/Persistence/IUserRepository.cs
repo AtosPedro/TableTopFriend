@@ -1,9 +1,9 @@
-﻿using DDDTableTopFriend.Domain.Entities;
+﻿using DDDTableTopFriend.Domain.AggregateUser;
 
 namespace DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 
 public interface IUserRepository
 {
-    User? GetUserByEmail(string email);
-    void Add(User user);
+    Task<User?> GetUserByEmail(string email, CancellationToken cancellationToken);
+    Task<User> Add(User user, CancellationToken cancellationToken);
 }

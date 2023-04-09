@@ -12,21 +12,28 @@ namespace DDDTableTopFriend.Infrastructure.Persistence.Context;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
-    public DbSet<User> Users { get; set; }
-    public DbSet<AudioEffect> AudioEffects { get; set; }
-    public DbSet<Campaign> Campaigns { get; set; }
-    public DbSet<Session> Sessions { get; set; }
-    public DbSet<Character> Characters { get; set; }
-    public DbSet<CharacterSheet> CharacterSheets { get; set; }
-    public DbSet<Status> Statuses { get; set; }
+    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<AudioEffect> AudioEffects { get; set; } = null!;
+    public DbSet<Campaign> Campaigns { get; set; } = null!;
+    public DbSet<Session> Sessions { get; set; } = null!;
+    public DbSet<Character> Characters { get; set; } = null!;
+    public DbSet<CharacterSheet> CharacterSheets { get; set; } = null!;
+    public DbSet<Status> Statuses { get; set; } = null!;
 
     private readonly ApplicationDbSettings _applicationDbSettings;
-    protected ApplicationDbContext(ApplicationDbSettings applicationDbSettings)
+    protected ApplicationDbContext(
+        ApplicationDbSettings applicationDbSettings)
     {
         _applicationDbSettings = applicationDbSettings;
     }
 
     public new DbSet<T> Set<T>() where T : class => base.Set<T>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        base.OnModelCreating(modelBuilder);
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {

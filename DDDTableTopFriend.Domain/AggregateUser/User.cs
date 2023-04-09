@@ -9,10 +9,9 @@ public sealed class User : AggregateRoot<UserId>
     public string FirstName { get; }
     public string LastName { get; }
     public string Email { get; }
-    public UserRole UserRole { get; }
     public string Password { get; }
     public string PasswordSalt { get; }
-
+    public UserRole UserRole { get; }
     public DateTime? CreatedAt { get; }
     public DateTime? UpdatedAt { get; }
 
@@ -24,8 +23,8 @@ public sealed class User : AggregateRoot<UserId>
         string password,
         string passwordSalt,
         UserRole userRole,
-        DateTime? createdAt,
-        DateTime? updatedAt) : base(id)
+        DateTime? createdAt = null,
+        DateTime? updatedAt = null) : base(id)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -44,8 +43,8 @@ public sealed class User : AggregateRoot<UserId>
         string password,
         string passwordSalt,
         UserRole userRole,
-        DateTime? createdAt,
-        DateTime? updatedAt)
+        DateTime? createdAt = null,
+        DateTime? updatedAt = null)
     {
         return new(
             UserId.CreateUnique(),
@@ -67,8 +66,8 @@ public sealed class User : AggregateRoot<UserId>
        string password,
        string passwordSalt,
        UserRole userRole,
-       DateTime? createdAt,
-       DateTime? updatedAt)
+       DateTime? createdAt = null,
+       DateTime? updatedAt = null)
     {
         return new(
             id,

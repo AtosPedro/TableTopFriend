@@ -1,6 +1,4 @@
-﻿using DDDTableTopFriend.Domain.Users.ValueObjects;
-
-namespace DDDTableTopFriend.Application.Authentication.Common;
+﻿namespace DDDTableTopFriend.Application.Authentication.Common;
 
 public record AuthenticationResult
 {

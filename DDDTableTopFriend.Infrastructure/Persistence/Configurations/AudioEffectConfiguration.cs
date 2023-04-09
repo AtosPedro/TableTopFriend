@@ -1,0 +1,1 @@
+namespace DDDTableTopFriend.Infrastructure.Persistence.Configurations;

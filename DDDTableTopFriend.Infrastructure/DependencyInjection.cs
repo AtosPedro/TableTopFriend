@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
 using DDDTableTopFriend.Infrastructure.Services.Security;
-using DDDTableTopFriend.Infrastructure.Persistence.Base;
+using DDDTableTopFriend.Infrastructure.Persistence.Context;
+using DDDTableTopFriend.Infrastructure.Services.Mail;
 
 namespace DDDTableTopFriend.Infrastructure;
 
@@ -22,11 +23,10 @@ public static class DependencyInjection
         ConfigurationManager configuration)
     {
         services.AddAuth(configuration);
-        services.AddOptions(configuration);
+        services.AddPersistence(configuration);
+        services.AddHasherService(configuration);
+        services.AddMailService(configuration);
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-        services.AddSingleton<IHasher, Hasher>();
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddSingleton<ICampaignRepository, CampaignRepository>();
         return services;
     }
 
@@ -56,7 +56,19 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddOptions(
+    public static IServiceCollection AddMailService(
+        this IServiceCollection services,
+        ConfigurationManager configuration)
+    {
+        var mailServiceSettings = new MailServiceSettings();
+        configuration.Bind(MailServiceSettings.SectionName, mailServiceSettings);
+        services.AddSingleton(Options.Create(mailServiceSettings));
+
+        services.AddSingleton<IMailService, MailService>();
+        return services;
+    }
+
+    public static IServiceCollection AddHasherService(
         this IServiceCollection services,
         ConfigurationManager configuration)
     {
@@ -64,9 +76,21 @@ public static class DependencyInjection
         configuration.Bind(HasherSettings.SectionName, hasherSettings);
         services.AddSingleton(Options.Create(hasherSettings));
 
+        services.AddSingleton<IHasher, Hasher>();
+        return services;
+    }
+
+    public static IServiceCollection AddPersistence(
+        this IServiceCollection services,
+        ConfigurationManager configuration)
+    {
         var applicationDbSettings = new ApplicationDbSettings();
         configuration.Bind(ApplicationDbSettings.SectionName, applicationDbSettings);
         services.AddSingleton(Options.Create(applicationDbSettings));
+
+        services.AddDbContext<ApplicationDbContext>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddSingleton<ICampaignRepository, CampaignRepository>();
         return services;
     }
 }

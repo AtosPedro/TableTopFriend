@@ -3,20 +3,17 @@
 ## Character
 
 ```csharp
-
 public sealed class Character
 {
     Character Create(CharacterId id, string name, string description);
-    Character Update(CharacterId id, string name, string description, IEnumerable<Guid> characterIds, IEnumerable<Guid> sessionIds);
-    void AddSheet(CharacterId id, CharacterSheetId characterId);
-    void AddStatus(SkillId skillId);
-    void AddSkill(SkillId skillId);
+    Character Update(CharacterId id, string name, string description, IEnumerable<AudioEffectId> audioEffectIds);
+    void AddSheet(CharacterSheet characterSheet);
+    void AddStatus(CharacterSheet characterSheet, StatusId statusId);
+    void AddSkill(CharacterSheet characterSheet, SkillId skillId);
 }
-
 ```
 
 ```json
-
 {
     "id":{ "value": "00000000-0000-0000-0000-00000000000" },
     "description": "character's 1 history starts ...",
@@ -40,5 +37,4 @@ public sealed class Character
     "createdAt":"2023-01-01T00:00:00.0000000Z",
     "updatedAt":"2023-01-01T00:00:00.0000000Z",
 }
-
 ```
