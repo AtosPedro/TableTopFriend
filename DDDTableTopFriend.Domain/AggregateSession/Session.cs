@@ -18,6 +18,9 @@ public class Session : AggregateRoot<SessionId>
     public DateTime? UpdatedAt { get; }
     private readonly List<CharacterId> _characterIds = new();
     private readonly List<AudioEffectId> _audioEffectIds = new();
+
+    public Session(SessionId id) : base(id) { }
+
     public Session(
         SessionId id,
         CampaignId campaignId,

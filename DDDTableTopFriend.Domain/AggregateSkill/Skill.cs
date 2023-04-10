@@ -15,6 +15,8 @@ public class Skill : AggregateRoot<SkillId>
     public DateTime? CreatedAt { get; }
     public DateTime? UpdatedAt { get; }
 
+    public Skill(SkillId id) : base(id) { }
+
     public Skill(
         SkillId id,
         string name,

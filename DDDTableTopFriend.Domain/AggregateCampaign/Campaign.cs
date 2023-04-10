@@ -13,15 +13,13 @@ public sealed class Campaign : AggregateRoot<CampaignId>
     public UserId UserId { get; }
     public IReadOnlyList<CharacterId> CharacterIds => _characterIds.AsReadOnly();
     public IReadOnlyList<SessionId> SessionIds => _sessionIds.AsReadOnly();
-    public DateTime? CreatedAt { get; private set;}
+    public DateTime? CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
 
     private readonly List<CharacterId> _characterIds = new();
     private readonly List<SessionId> _sessionIds = new();
 
-    public Campaign(CampaignId id) : base(id)
-    {
-    }
+    public Campaign(CampaignId id) : base(id) { }
 
     private Campaign(
         CampaignId id,

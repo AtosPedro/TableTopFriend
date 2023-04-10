@@ -1,8 +1,8 @@
 using DDDTableTopFriend.Domain.AggregateAudioEffect;
 using DDDTableTopFriend.Domain.AggregateCampaign;
 using DDDTableTopFriend.Domain.AggregateCharacter;
-using DDDTableTopFriend.Domain.AggregateCharacter.Entities;
 using DDDTableTopFriend.Domain.AggregateSession;
+using DDDTableTopFriend.Domain.AggregateSkill;
 using DDDTableTopFriend.Domain.AggregateStatus;
 using DDDTableTopFriend.Domain.AggregateUser;
 using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
@@ -15,6 +15,11 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Campaign> Campaigns { get; set; } = null!;
+    public DbSet<Session> Sessions { get; set; } = null!;
+    public DbSet<AudioEffect> AudioEffects { get; set; } = null!;
+    public DbSet<Character> Characters { get; set; } = null!;
+    public DbSet<Skill> Skills { get; set; } = null!;
+    public DbSet<Status> Statuses { get; set; } = null!;
 
     private readonly ApplicationDbSettings _applicationDbSettings;
     public ApplicationDbContext(IOptions<ApplicationDbSettings>  applicationDbSettings)

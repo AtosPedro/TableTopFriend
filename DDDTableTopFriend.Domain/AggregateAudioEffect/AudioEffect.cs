@@ -12,6 +12,8 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId>
     public DateTime CreatedAt { get; }
     public DateTime UpdatedAt { get; }
 
+    public AudioEffect(AudioEffectId id) : base(id) { }
+
     public AudioEffect(
         AudioEffectId id,
         string name,

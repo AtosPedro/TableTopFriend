@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,7 +36,7 @@ public abstract class Repository<T> where T : class
     /// <param name="cancellationToken"></param>
     /// <returns>A Task of type TEntity or Null if the TEntity was not found</returns>
     public virtual async Task<T?> GetById(
-        Guid id,
+        ValueObject id,
         CancellationToken cancellationToken)
     {
         return await EntityDbSet.FindAsync(new object[] { id }, cancellationToken);

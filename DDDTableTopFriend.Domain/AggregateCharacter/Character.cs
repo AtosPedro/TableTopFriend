@@ -17,6 +17,9 @@ public sealed class Character : AggregateRoot<CharacterId>
     public DateTime? UpdatedAt { get; set; }
 
     private readonly List<AudioEffectId> _audioEffectsIds = new();
+
+    public Character(CharacterId id):base(id){}
+
     public Character(
         CharacterId id,
         string name,

@@ -11,6 +11,8 @@ public class Status : AggregateRoot<StatusId>
     public DateTime? CreatedAt { get; }
     public DateTime? UpdatedAt { get; }
 
+    public Status(StatusId id) : base(id) { }
+
     public Status(
         StatusId id,
         string name,

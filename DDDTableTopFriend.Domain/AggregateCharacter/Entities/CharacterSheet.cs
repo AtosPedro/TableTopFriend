@@ -17,6 +17,8 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
     private readonly List<StatusId> _statusIds = new();
     private readonly List<SkillId> _skillIds = new();
 
+    public CharacterSheet(CharacterSheetId id) : base(id) { }
+
     public CharacterSheet(
         CharacterSheetId id,
         string name,
