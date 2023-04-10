@@ -12,12 +12,8 @@ namespace DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
 public interface IApplicationDbContext
 {
     public DbSet<User> Users { get; set; }
-    public DbSet<AudioEffect> AudioEffects { get; set; }
     public DbSet<Campaign> Campaigns { get; set; }
-    public DbSet<Session> Sessions { get; set; }
-    public DbSet<Character> Characters { get; set; }
-    public DbSet<CharacterSheet> CharacterSheets { get; set; }
-    public DbSet<Status> Statuses { get; set; }
+
     DbSet<T> Set<T>() where T : class;
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
 }

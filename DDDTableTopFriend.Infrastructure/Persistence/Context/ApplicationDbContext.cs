@@ -7,24 +7,19 @@ using DDDTableTopFriend.Domain.AggregateStatus;
 using DDDTableTopFriend.Domain.AggregateUser;
 using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace DDDTableTopFriend.Infrastructure.Persistence.Context;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     public DbSet<User> Users { get; set; } = null!;
-    public DbSet<AudioEffect> AudioEffects { get; set; } = null!;
     public DbSet<Campaign> Campaigns { get; set; } = null!;
-    public DbSet<Session> Sessions { get; set; } = null!;
-    public DbSet<Character> Characters { get; set; } = null!;
-    public DbSet<CharacterSheet> CharacterSheets { get; set; } = null!;
-    public DbSet<Status> Statuses { get; set; } = null!;
 
     private readonly ApplicationDbSettings _applicationDbSettings;
-    protected ApplicationDbContext(
-        ApplicationDbSettings applicationDbSettings)
+    public ApplicationDbContext(IOptions<ApplicationDbSettings>  applicationDbSettings)
     {
-        _applicationDbSettings = applicationDbSettings;
+        _applicationDbSettings = applicationDbSettings.Value;
     }
 
     public new DbSet<T> Set<T>() where T : class => base.Set<T>();

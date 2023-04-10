@@ -19,7 +19,11 @@ public sealed class Campaign : AggregateRoot<CampaignId>
     private readonly List<CharacterId> _characterIds = new();
     private readonly List<SessionId> _sessionIds = new();
 
-    public Campaign(
+    public Campaign(CampaignId id) : base(id)
+    {
+    }
+
+    private Campaign(
         CampaignId id,
         UserId userId,
         string name,

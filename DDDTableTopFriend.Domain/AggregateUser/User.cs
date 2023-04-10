@@ -15,7 +15,9 @@ public sealed class User : AggregateRoot<UserId>
     public DateTime? CreatedAt { get; }
     public DateTime? UpdatedAt { get; }
 
-    public User(
+    public User(UserId id) : base(id) { }
+
+    private User(
         UserId id,
         string firstName,
         string lastName,

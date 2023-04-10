@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using DDDTableTopFriend.Infrastructure.Services.Security;
 using DDDTableTopFriend.Infrastructure.Persistence.Context;
 using DDDTableTopFriend.Infrastructure.Services.Mail;
+using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
 
 namespace DDDTableTopFriend.Infrastructure;
 
@@ -89,7 +90,8 @@ public static class DependencyInjection
         services.AddSingleton(Options.Create(applicationDbSettings));
 
         services.AddDbContext<ApplicationDbContext>();
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddSingleton<IApplicationDbContext, ApplicationDbContext>();
+        services.AddSingleton<IUserRepository, UserRepository>();
         services.AddSingleton<ICampaignRepository, CampaignRepository>();
         return services;
     }

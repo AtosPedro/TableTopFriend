@@ -1,4 +1,3 @@
-using DDDTableTopFriend.Application.Campaigns.Common;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Domain.AggregateCampaign;
 using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
