@@ -14,7 +14,6 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
 {
     private readonly IUserRepository _userRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
-
     private readonly IHasher _hasher;
     public RegisterCommandHandler(
         IUserRepository userRepository,

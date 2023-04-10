@@ -1,5 +1,6 @@
 using DDDTableTopFriend.Application.Campaigns.Common;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
+using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Errors;
 using ErrorOr;
 using Mapster;
@@ -20,7 +21,7 @@ public class DeleteCampaignCommandHandler : IRequestHandler<DeleteCampaignComman
         CancellationToken cancellationToken)
     {
         var campaign = await _campaignRepository.GetById(
-            request.Id,
+            CampaignId.Create(request.Id),
             cancellationToken);
 
         if(campaign is null)

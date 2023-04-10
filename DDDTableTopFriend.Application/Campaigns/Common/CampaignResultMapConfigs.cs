@@ -15,6 +15,7 @@ public class CampaignResultMapConfigs : IRegister
     {
         config.NewConfig<Campaign, CampaignResult>()
             .Map(dest => dest.Id, src => src.Id.Value)
+            .Map(dest => dest.UserId, src => src.UserId.Value)
             .Map(dest => dest.CharacterIds, src => src.CharacterIds.Select(x => x.Value))
             .Map(dest => dest.SessionIds, src => src.SessionIds.Select(x => x.Value))
             .MapToConstructor(true);
@@ -33,6 +34,7 @@ public class CampaignResultMapConfigs : IRegister
             .Map(dest => dest.Id, src => CampaignId.Create(src.Id))
             .Map(dest => dest.UserId, src => UserId.Create(src.UserId))
             .Map(dest => dest.CharacterIds, src => src.CharacterIds.ConvertAll(x => CharacterId.Create(x)))
-            .Map(dest => dest.SessionIds, src => src.SessionIds.ConvertAll(x => SessionId.Create(x)));
+            .Map(dest => dest.SessionIds, src => src.SessionIds.ConvertAll(x => SessionId.Create(x)))
+            .MapToConstructor(true);
     }
 }

@@ -45,8 +45,7 @@ public sealed class User : AggregateRoot<UserId>
         string password,
         string passwordSalt,
         UserRole userRole,
-        DateTime? createdAt = null,
-        DateTime? updatedAt = null)
+        DateTime? createdAt = null)
     {
         return new(
             UserId.CreateUnique(),
@@ -57,7 +56,7 @@ public sealed class User : AggregateRoot<UserId>
             passwordSalt,
             userRole,
             createdAt,
-            updatedAt);
+            null);
     }
 
     public static User Update(
@@ -68,7 +67,7 @@ public sealed class User : AggregateRoot<UserId>
        string password,
        string passwordSalt,
        UserRole userRole,
-       DateTime? createdAt = null,
+       DateTime? createdAt,
        DateTime? updatedAt = null)
     {
         return new(

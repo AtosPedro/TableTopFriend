@@ -1,6 +1,7 @@
 using DDDTableTopFriend.Application.Campaigns.Common;
 using DDDTableTopFriend.Application.Campaigns.GetAll.Queries;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
+using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using ErrorOr;
 using Mapster;
 using MediatR;
@@ -20,7 +21,7 @@ public class GetAllCampaignQueryHandler : IRequestHandler<GetAllCampaignQuery, E
         CancellationToken cancellationToken)
     {
         var campaigns = await _campaignRepository.GetAll(
-            request.UserId,
+            UserId.Create(request.UserId),
             cancellationToken);
 
         var campaignsResult = new List<CampaignResult>();

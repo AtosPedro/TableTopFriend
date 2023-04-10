@@ -60,6 +60,7 @@ public class CampaignConfiguration : IEntityTypeConfiguration<Campaign>
 
         builder.Property(m => m.Name).HasMaxLength(100);
         builder.Property(m => m.Description).HasMaxLength(200);
-        builder.Property(m => m.UserId).HasConversion(id => id.Value, value => UserId.Create(value));
+        builder.Property(m => m.UserId)
+            .HasConversion(id => id.Value, value => UserId.Create(value));
     }
 }
