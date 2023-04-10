@@ -22,6 +22,7 @@ public class AudioEffectConfiguration : IEntityTypeConfiguration<AudioEffect>
             .Property(au => au.Id)
             .ValueGeneratedNever()
             .HasConversion(id => id.Value, value => AudioEffectId.Create(value));
+
         builder
             .Property(au => au.Name)
             .HasMaxLength(50);

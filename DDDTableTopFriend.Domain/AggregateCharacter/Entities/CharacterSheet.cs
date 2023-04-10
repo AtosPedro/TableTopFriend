@@ -7,12 +7,13 @@ namespace DDDTableTopFriend.Domain.AggregateCharacter.Entities;
 
 public sealed class CharacterSheet : Entity<CharacterSheetId>
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
+    public CharacterId CharacterId { get; }
+    public string Name { get; }
+    public string Description { get; }
     public IReadOnlyList<StatusId> StatusIds => _statusIds.AsReadOnly();
     public IReadOnlyList<SkillId> SkillIds => _skillIds.AsReadOnly();
-    public DateTime? CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? CreatedAt { get; }
+    public DateTime? UpdatedAt { get; }
 
     private readonly List<StatusId> _statusIds = new();
     private readonly List<SkillId> _skillIds = new();
@@ -21,6 +22,7 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
 
     private CharacterSheet(
         CharacterSheetId id,
+        CharacterId CharacterId,
         string name,
         string description,
         List<StatusId> statusIds,
@@ -34,9 +36,11 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
         _skillIds = skillIds;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
+        this.CharacterId = CharacterId;
     }
 
     public static CharacterSheet Create(
+        CharacterId characterId,
         string name,
         string description,
         List<StatusId> statusIds,
@@ -46,6 +50,7 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
     {
         return new(
             CharacterSheetId.CreateUnique(),
+            characterId,
             name,
             description,
             statusIds,

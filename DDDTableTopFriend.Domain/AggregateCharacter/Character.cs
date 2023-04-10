@@ -12,11 +12,11 @@ public sealed class Character : AggregateRoot<CharacterId>
     public string Description { get; }
     public CharacterType Type { get; }
     public CharacterSheet CharacterSheet { get; }
-    public IReadOnlyList<AudioEffectId> AudioEffectIds => _audioEffectsIds.AsReadOnly();
+    public IReadOnlyList<AudioEffectId> AudioEffectIds => _audioEffectIds.AsReadOnly();
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 
-    private readonly List<AudioEffectId> _audioEffectsIds = new();
+    private readonly List<AudioEffectId> _audioEffectIds = new();
 
     public Character(CharacterId id):base(id){}
 
@@ -26,14 +26,14 @@ public sealed class Character : AggregateRoot<CharacterId>
         string description,
         CharacterType type,
         CharacterSheet characterSheet,
-        List<AudioEffectId> audioEffectsIds,
+        List<AudioEffectId> audioEffectIds,
         DateTime? createdAt,
         DateTime? updatedAt) : base(id)
     {
         Name = name;
         Description = description;
         CharacterSheet = characterSheet;
-        _audioEffectsIds = audioEffectsIds;
+        _audioEffectIds = audioEffectIds;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         Type = type;
@@ -44,7 +44,7 @@ public sealed class Character : AggregateRoot<CharacterId>
         string description,
         CharacterType type,
         CharacterSheet characterSheet,
-        List<AudioEffectId> audioEffectsIds,
+        List<AudioEffectId> audioEffectIds,
         DateTime? createdAt,
         DateTime? updatedAt)
     {
@@ -54,7 +54,7 @@ public sealed class Character : AggregateRoot<CharacterId>
             description,
             type,
             characterSheet,
-            audioEffectsIds,
+            audioEffectIds,
             createdAt,
             updatedAt);
     }

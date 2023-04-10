@@ -13,7 +13,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
     {
         ConfigureCharactersTable(builder);
         ConfigureCharacterSheetTable(builder);
-        ConfigureSessionAudioEffectIdsTable(builder);
+        ConfigureCharacterAudioEffectIdsTable(builder);
     }
 
     private static void ConfigureCharactersTable(EntityTypeBuilder<Character> characterBuilder)
@@ -40,9 +40,11 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
         characterBuilder
             .Property(ch => ch.Description)
             .HasMaxLength(1000);
+
+        characterBuilder.Property(ch => ch.CharacterSheet);
     }
 
-    private static void ConfigureSessionAudioEffectIdsTable(EntityTypeBuilder<Character> characterBuilder)
+    private static void ConfigureCharacterAudioEffectIdsTable(EntityTypeBuilder<Character> characterBuilder)
     {
         characterBuilder.OwnsMany(m => m.AudioEffectIds, audioEffectIdsBuilder =>
         {
@@ -69,7 +71,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
 
     private static void ConfigureCharacterSheetTable(EntityTypeBuilder<Character> characterBuilder)
     {
-        characterBuilder.OwnsOne(ch => ch.CharacterSheet, characterSheetBuilder =>
+        characterBuilder.OwnsOne(c => c.CharacterSheet, characterSheetBuilder =>
         {
             characterSheetBuilder
                 .ToTable("CharacterSheet");
@@ -79,11 +81,14 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
                 .HasForeignKey("CharacterId");
 
             characterSheetBuilder
-                .HasKey(csh => csh.Id);
+                .HasKey("Id", "CharacterId");
 
             characterSheetBuilder
                 .Property(csh => csh.Id)
-                .HasConversion(id => id.Value, value => CharacterSheetId.Create(value));
+                .HasConversion(
+                    id => id.Value,
+                    value => CharacterSheetId.Create(value)
+                );
 
             characterSheetBuilder
                 .Property(c => c.Name)
@@ -93,66 +98,51 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
                 .Property(c => c.Description)
                 .HasMaxLength(200);
 
-            characterBuilder
-                .Metadata
-                .FindNavigation(nameof(Character.CharacterSheet))!.SetPropertyAccessMode(PropertyAccessMode.Field);
+            characterSheetBuilder.OwnsMany(csh => csh.StatusIds, statusIdsBuilder =>
+            {
+                statusIdsBuilder
+                    .ToTable("CharacterSheetStatusIds");
 
-            ConfigureCharacterSheetStatusIdsTable(characterSheetBuilder, characterBuilder);
-            ConfigureCharacterSheetSkillIdsTable(characterSheetBuilder, characterBuilder);
-        });
-    }
+                statusIdsBuilder
+                    .HasKey("Id");
 
-    private static void ConfigureCharacterSheetStatusIdsTable(
-        OwnedNavigationBuilder<Character, CharacterSheet> characterSheetBuilder,
-        EntityTypeBuilder<Character> characterBuilder)
-    {
-        characterSheetBuilder.OwnsMany(csh => csh.StatusIds, statusIdsBuilder =>
-        {
-            statusIdsBuilder
-                .ToTable("CharacterSheetStatusIds");
+                statusIdsBuilder
+                    .WithOwner()
+                    .HasForeignKey("CharacterSheetId");
 
-            statusIdsBuilder
-                .HasKey("Id");
+                statusIdsBuilder
+                    .Property(c => c.Value)
+                    .HasColumnName("StatusId")
+                    .ValueGeneratedNever();
 
-            statusIdsBuilder
-                .WithOwner()
-                .HasForeignKey("CharacterSheetId");
+                characterSheetBuilder.Navigation(s => s.StatusIds).Metadata.SetField("_statusIds");
+                characterSheetBuilder.Navigation(s => s.StatusIds).UsePropertyAccessMode(PropertyAccessMode.Field);
+            });
 
-            statusIdsBuilder
-                .Property(c => c.Value)
-                .HasColumnName("StatusId")
-                .ValueGeneratedNever();
+            characterSheetBuilder.OwnsMany(csh => csh.StatusIds, skillIdsBuilder =>
+            {
+                skillIdsBuilder
+                    .ToTable("CharacterSheetSkillIds");
 
-            characterBuilder
-                .Metadata
-                .FindNavigation(nameof(CharacterSheet.StatusIds))!.SetPropertyAccessMode(PropertyAccessMode.Field);
-        });
-    }
+                skillIdsBuilder
+                    .WithOwner()
+                    .HasForeignKey("CharacterSheetId");
 
-    private static void ConfigureCharacterSheetSkillIdsTable(
-        OwnedNavigationBuilder<Character, CharacterSheet> builder,
-        EntityTypeBuilder<Character> characterBuilder)
-    {
-        builder.OwnsMany(csh => csh.StatusIds, skillIdsBuilder =>
-        {
-            skillIdsBuilder
-                .ToTable("CharacterSheetSkillIds");
+                skillIdsBuilder
+                    .HasKey("Id");
 
-            skillIdsBuilder
-                .WithOwner()
-                .HasForeignKey("CharacterSheetId");
+                skillIdsBuilder
+                    .Property(c => c.Value)
+                    .HasColumnName("SkillId")
+                    .ValueGeneratedNever();
 
-            skillIdsBuilder
-                .HasKey("Id");
-
-            skillIdsBuilder
-                .Property(c => c.Value)
-                .HasColumnName("SkillId")
-                .ValueGeneratedNever();
+                characterSheetBuilder.Navigation(s => s.StatusIds).Metadata.SetField("_skillIds");
+                characterSheetBuilder.Navigation(s => s.StatusIds).UsePropertyAccessMode(PropertyAccessMode.Field);
+            });
 
             characterBuilder
                 .Metadata
-                .FindNavigation(nameof(Character.CharacterSheet.SkillIds))!.SetPropertyAccessMode(PropertyAccessMode.Field);
+                .FindNavigation(nameof(Character.CharacterSheet))!.SetPropertyAccessMode(PropertyAccessMode.Property);
         });
     }
 }
