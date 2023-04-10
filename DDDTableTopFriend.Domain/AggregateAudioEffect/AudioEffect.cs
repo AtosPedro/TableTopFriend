@@ -14,7 +14,7 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId>
 
     public AudioEffect(AudioEffectId id) : base(id) { }
 
-    public AudioEffect(
+    private AudioEffect(
         AudioEffectId id,
         string name,
         string description,

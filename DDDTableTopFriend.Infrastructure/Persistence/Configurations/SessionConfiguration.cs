@@ -17,26 +17,39 @@ public class SessionConfiguration : IEntityTypeConfiguration<Session>
 
     private static void ConfigureSessionsTable(EntityTypeBuilder<Session> builder)
     {
-        builder.ToTable("Sessions");
+        builder
+            .ToTable("Sessions");
 
-        builder.HasKey(se => se.Id);
-        builder.Property(se => se.Id)
+        builder
+            .HasKey(se => se.Id);
+
+        builder
+            .Property(se => se.Id)
             .ValueGeneratedNever()
             .HasConversion(id => id.Value, value => SessionId.Create(value));
 
-        builder.Property(se => se.CampaignId)
+        builder
+            .Property(se => se.CampaignId)
             .ValueGeneratedNever()
             .HasConversion(campaignId => campaignId.Value, value => CampaignId.Create(value));
     }
 
     private static void ConfigureSessionCharacterIdsTable(EntityTypeBuilder<Session> builder)
     {
-        builder.OwnsMany(m => m.CharacterIds, ch =>
+        builder.OwnsMany(session => session.CharacterIds, characterIdsBuilder =>
         {
-            ch.ToTable("SessionCharacterIds");
-            ch.WithOwner().HasForeignKey("SessionId");
-            ch.HasKey("Id");
-            ch.Property(c => c.Value)
+            characterIdsBuilder
+                .ToTable("SessionCharacterIds");
+
+            characterIdsBuilder
+                .HasKey("Id");
+
+            characterIdsBuilder
+                .WithOwner()
+                .HasForeignKey("SessionId");
+
+            characterIdsBuilder
+                .Property(characterId => characterId.Value)
                 .HasColumnName("CharacterId")
                 .ValueGeneratedNever();
 
@@ -48,12 +61,20 @@ public class SessionConfiguration : IEntityTypeConfiguration<Session>
 
     private static void ConfigureSessionAudioEffectIdsTable(EntityTypeBuilder<Session> builder)
     {
-        builder.OwnsMany(m => m.AudioEffectIds, ch =>
+        builder.OwnsMany(session => session.AudioEffectIds, audioEffectIdsBuilder =>
         {
-            ch.ToTable("SessionAudioEffectIds");
-            ch.WithOwner().HasForeignKey("SessionId");
-            ch.HasKey("Id");
-            ch.Property(c => c.Value)
+            audioEffectIdsBuilder
+                .ToTable("SessionAudioEffectIds");
+
+            audioEffectIdsBuilder
+                .WithOwner()
+                .HasForeignKey("SessionId");
+
+            audioEffectIdsBuilder
+                .HasKey("Id");
+
+            audioEffectIdsBuilder
+                .Property(audioEffectId => audioEffectId.Value)
                 .HasColumnName("AudioEffectId")
                 .ValueGeneratedNever();
 

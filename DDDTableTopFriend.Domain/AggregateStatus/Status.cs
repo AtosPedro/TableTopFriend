@@ -13,7 +13,7 @@ public class Status : AggregateRoot<StatusId>
 
     public Status(StatusId id) : base(id) { }
 
-    public Status(
+    private Status(
         StatusId id,
         string name,
         string description,

@@ -9,8 +9,8 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
 {
     public string Name { get; set; }
     public string Description { get; set; }
-    public IReadOnlyList<StatusId> StatusIds { get => _statusIds.AsReadOnly(); }
-    public IReadOnlyList<SkillId> SkillIds { get => _skillIds.AsReadOnly(); }
+    public IReadOnlyList<StatusId> StatusIds => _statusIds.AsReadOnly();
+    public IReadOnlyList<SkillId> SkillIds => _skillIds.AsReadOnly();
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 
@@ -19,7 +19,7 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
 
     public CharacterSheet(CharacterSheetId id) : base(id) { }
 
-    public CharacterSheet(
+    private CharacterSheet(
         CharacterSheetId id,
         string name,
         string description,

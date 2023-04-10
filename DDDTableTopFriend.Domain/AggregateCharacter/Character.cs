@@ -12,7 +12,7 @@ public sealed class Character : AggregateRoot<CharacterId>
     public string Description { get; }
     public CharacterType Type { get; }
     public CharacterSheet CharacterSheet { get; }
-    public IReadOnlyList<AudioEffectId> AudioEffectIds { get => _audioEffectsIds.AsReadOnly(); }
+    public IReadOnlyList<AudioEffectId> AudioEffectIds => _audioEffectsIds.AsReadOnly();
     public DateTime? CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 
@@ -20,7 +20,7 @@ public sealed class Character : AggregateRoot<CharacterId>
 
     public Character(CharacterId id):base(id){}
 
-    public Character(
+    private Character(
         CharacterId id,
         string name,
         string description,

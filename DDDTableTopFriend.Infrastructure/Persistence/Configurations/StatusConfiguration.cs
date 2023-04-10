@@ -14,17 +14,23 @@ public class StatusConfiguration : IEntityTypeConfiguration<Status>
 
     private static void ConfigureStatusTable(EntityTypeBuilder<Status> builder)
     {
-        builder.ToTable("Status");
+        builder
+            .ToTable("Status");
 
-        builder.HasKey(m => m.Id);
-        builder.Property(us => us.Id)
+        builder
+            .HasKey(m => m.Id);
+
+        builder
+            .Property(us => us.Id)
             .ValueGeneratedNever()
             .HasConversion(us => us.Value, value => StatusId.Create(value));
 
-        builder.Property(sk => sk.Name)
+        builder
+            .Property(sk => sk.Name)
             .HasMaxLength(50);
 
-        builder.Property(sk => sk.Description)
+        builder
+            .Property(sk => sk.Description)
             .HasMaxLength(300);
     }
 }

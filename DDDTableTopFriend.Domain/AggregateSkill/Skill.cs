@@ -17,7 +17,7 @@ public class Skill : AggregateRoot<SkillId>
 
     public Skill(SkillId id) : base(id) { }
 
-    public Skill(
+    private Skill(
         SkillId id,
         string name,
         string? description,

@@ -17,12 +17,20 @@ public class CampaignConfiguration : IEntityTypeConfiguration<Campaign>
 
     private static void ConfigureSessionIdsTable(EntityTypeBuilder<Campaign> builder)
     {
-        builder.OwnsMany(m => m.SessionIds, ch =>
+        builder.OwnsMany(campaign => campaign.SessionIds, sessionIdsBuilder =>
         {
-            ch.ToTable("CampaignSessionIds");
-            ch.WithOwner().HasForeignKey("CampaignId");
-            ch.HasKey("Id");
-            ch.Property(c => c.Value)
+            sessionIdsBuilder
+                .ToTable("CampaignSessionIds");
+
+            sessionIdsBuilder
+                .WithOwner()
+                .HasForeignKey("CampaignId");
+
+            sessionIdsBuilder
+                .HasKey("Id");
+
+            sessionIdsBuilder
+                .Property(c => c.Value)
                 .HasColumnName("SessionId")
                 .ValueGeneratedNever();
 
@@ -34,12 +42,20 @@ public class CampaignConfiguration : IEntityTypeConfiguration<Campaign>
 
     private static void ConfigureCharacterIdsTable(EntityTypeBuilder<Campaign> builder)
     {
-        builder.OwnsMany(m => m.CharacterIds, ch =>
+        builder.OwnsMany(campaign => campaign.CharacterIds, characterIdsBuilder =>
         {
-            ch.ToTable("CampaignCharacterIds");
-            ch.WithOwner().HasForeignKey("CampaignId");
-            ch.HasKey("Id");
-            ch.Property(c => c.Value)
+            characterIdsBuilder
+                .ToTable("CampaignCharacterIds");
+
+            characterIdsBuilder
+                .WithOwner()
+                .HasForeignKey("CampaignId");
+
+            characterIdsBuilder
+                .HasKey("Id");
+
+            characterIdsBuilder
+                .Property(c => c.Value)
                 .HasColumnName("CharacterId")
                 .ValueGeneratedNever();
 
@@ -49,18 +65,27 @@ public class CampaignConfiguration : IEntityTypeConfiguration<Campaign>
         });
     }
 
-    private static void ConfigureCampaignTable(EntityTypeBuilder<Campaign> builder)
+    private static void ConfigureCampaignTable(EntityTypeBuilder<Campaign> campaignBuilder)
     {
-        builder.ToTable("Campaigns");
-        builder.HasKey(m => m.Id);
-        builder
+        campaignBuilder
+            .ToTable("Campaigns");
+
+        campaignBuilder
+            .HasKey(m => m.Id);
+
+        campaignBuilder
             .Property(m => m.Id)
             .ValueGeneratedNever()
             .HasConversion(id => id.Value, value => CampaignId.Create(value));
 
-        builder.Property(m => m.Name).HasMaxLength(100);
-        builder.Property(m => m.Description).HasMaxLength(200);
-        builder.Property(m => m.UserId)
+        campaignBuilder
+            .Property(m => m.Name).HasMaxLength(100);
+
+        campaignBuilder
+            .Property(m => m.Description).HasMaxLength(200);
+
+        campaignBuilder
+            .Property(m => m.UserId)
             .HasConversion(id => id.Value, value => UserId.Create(value));
     }
 }

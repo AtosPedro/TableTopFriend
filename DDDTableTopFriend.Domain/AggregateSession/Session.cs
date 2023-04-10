@@ -21,7 +21,7 @@ public class Session : AggregateRoot<SessionId>
 
     public Session(SessionId id) : base(id) { }
 
-    public Session(
+    private Session(
         SessionId id,
         CampaignId campaignId,
         string name,
@@ -36,9 +36,9 @@ public class Session : AggregateRoot<SessionId>
         Name = name;
         DateTime = dateTime;
         Duration = duration;
-        _characterIds = characterIds;
-        _audioEffectIds = audioEffectIds;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
+        _characterIds = characterIds;
+        _audioEffectIds = audioEffectIds;
     }
 }
