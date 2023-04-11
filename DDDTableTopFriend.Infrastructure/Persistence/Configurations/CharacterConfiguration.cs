@@ -1,5 +1,4 @@
 using DDDTableTopFriend.Domain.AggregateCharacter;
-using DDDTableTopFriend.Domain.AggregateCharacter.Entities;
 using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -40,8 +39,6 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
         characterBuilder
             .Property(ch => ch.Description)
             .HasMaxLength(1000);
-
-        characterBuilder.Property(ch => ch.CharacterSheet);
     }
 
     private static void ConfigureCharacterAudioEffectIdsTable(EntityTypeBuilder<Character> characterBuilder)
@@ -65,7 +62,8 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
 
             characterBuilder
                 .Metadata
-                .FindNavigation(nameof(Character.AudioEffectIds))!.SetPropertyAccessMode(PropertyAccessMode.Field);
+                .FindNavigation(nameof(Character.AudioEffectIds))!
+                    .SetPropertyAccessMode(PropertyAccessMode.Field);
         });
     }
 
@@ -74,7 +72,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
         characterBuilder.OwnsOne(c => c.CharacterSheet, characterSheetBuilder =>
         {
             characterSheetBuilder
-                .ToTable("CharacterSheet");
+                .ToTable("CharacterSheets");
 
             characterSheetBuilder
                 .WithOwner()
@@ -85,6 +83,8 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
 
             characterSheetBuilder
                 .Property(csh => csh.Id)
+                .HasColumnName("CharacterSheetId")
+                .ValueGeneratedNever()
                 .HasConversion(
                     id => id.Value,
                     value => CharacterSheetId.Create(value)
@@ -104,19 +104,24 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
                     .ToTable("CharacterSheetStatusIds");
 
                 statusIdsBuilder
-                    .HasKey("Id");
-
-                statusIdsBuilder
                     .WithOwner()
-                    .HasForeignKey("CharacterSheetId");
+                    .HasForeignKey("CharacterSheetId", "CharacterId");
+
+                statusIdsBuilder.HasKey("Id");
 
                 statusIdsBuilder
                     .Property(c => c.Value)
-                    .HasColumnName("StatusId")
-                    .ValueGeneratedNever();
+                    .ValueGeneratedNever()
+                    .HasColumnName("StatusId");
 
-                characterSheetBuilder.Navigation(s => s.StatusIds).Metadata.SetField("_statusIds");
-                characterSheetBuilder.Navigation(s => s.StatusIds).UsePropertyAccessMode(PropertyAccessMode.Field);
+                characterSheetBuilder
+                    .Navigation(s => s.StatusIds)
+                    .Metadata
+                    .SetField("_statusIds");
+
+                characterSheetBuilder
+                    .Navigation(s => s.StatusIds)
+                    .UsePropertyAccessMode(PropertyAccessMode.Field);
             });
 
             characterSheetBuilder.OwnsMany(csh => csh.StatusIds, skillIdsBuilder =>
@@ -126,23 +131,29 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
 
                 skillIdsBuilder
                     .WithOwner()
-                    .HasForeignKey("CharacterSheetId");
+                    .HasForeignKey("CharacterSheetId", "CharacterId");
 
-                skillIdsBuilder
-                    .HasKey("Id");
+                skillIdsBuilder.HasKey("Id");
 
                 skillIdsBuilder
                     .Property(c => c.Value)
-                    .HasColumnName("SkillId")
-                    .ValueGeneratedNever();
+                    .ValueGeneratedNever()
+                    .HasColumnName("SkillId");
 
-                characterSheetBuilder.Navigation(s => s.StatusIds).Metadata.SetField("_skillIds");
-                characterSheetBuilder.Navigation(s => s.StatusIds).UsePropertyAccessMode(PropertyAccessMode.Field);
+                characterSheetBuilder
+                    .Navigation(s => s.StatusIds)
+                    .Metadata
+                    .SetField("_skillIds");
+
+                characterSheetBuilder
+                    .Navigation(s => s.StatusIds)
+                    .UsePropertyAccessMode(PropertyAccessMode.Field);
             });
 
-            characterBuilder
-                .Metadata
-                .FindNavigation(nameof(Character.CharacterSheet))!.SetPropertyAccessMode(PropertyAccessMode.Property);
+            characterBuilder?
+                .Metadata?
+                .FindNavigation(nameof(Character.CharacterSheet))!
+                    .SetPropertyAccessMode(PropertyAccessMode.Property);
         });
     }
 }

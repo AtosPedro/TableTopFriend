@@ -15,9 +15,9 @@ public class CampaignConfiguration : IEntityTypeConfiguration<Campaign>
         ConfigureSessionIdsTable(builder);
     }
 
-    private static void ConfigureSessionIdsTable(EntityTypeBuilder<Campaign> builder)
+    private static void ConfigureSessionIdsTable(EntityTypeBuilder<Campaign> campaignBuilder)
     {
-        builder.OwnsMany(campaign => campaign.SessionIds, sessionIdsBuilder =>
+        campaignBuilder.OwnsMany(campaign => campaign.SessionIds, sessionIdsBuilder =>
         {
             sessionIdsBuilder
                 .ToTable("CampaignSessionIds");
@@ -34,15 +34,16 @@ public class CampaignConfiguration : IEntityTypeConfiguration<Campaign>
                 .HasColumnName("SessionId")
                 .ValueGeneratedNever();
 
-            builder
+            campaignBuilder
                 .Metadata
-                .FindNavigation(nameof(Campaign.SessionIds))!.SetPropertyAccessMode(PropertyAccessMode.Field);
+                .FindNavigation(nameof(Campaign.SessionIds))!
+                    .SetPropertyAccessMode(PropertyAccessMode.Field);
         });
     }
 
-    private static void ConfigureCharacterIdsTable(EntityTypeBuilder<Campaign> builder)
+    private static void ConfigureCharacterIdsTable(EntityTypeBuilder<Campaign> campaignBuilder)
     {
-        builder.OwnsMany(campaign => campaign.CharacterIds, characterIdsBuilder =>
+        campaignBuilder.OwnsMany(campaign => campaign.CharacterIds, characterIdsBuilder =>
         {
             characterIdsBuilder
                 .ToTable("CampaignCharacterIds");
@@ -59,9 +60,10 @@ public class CampaignConfiguration : IEntityTypeConfiguration<Campaign>
                 .HasColumnName("CharacterId")
                 .ValueGeneratedNever();
 
-            builder
+            campaignBuilder
                 .Metadata
-                .FindNavigation(nameof(Campaign.CharacterIds))!.SetPropertyAccessMode(PropertyAccessMode.Field);
+                .FindNavigation(nameof(Campaign.CharacterIds))!
+                    .SetPropertyAccessMode(PropertyAccessMode.Field);
         });
     }
 
@@ -79,10 +81,12 @@ public class CampaignConfiguration : IEntityTypeConfiguration<Campaign>
             .HasConversion(id => id.Value, value => CampaignId.Create(value));
 
         campaignBuilder
-            .Property(m => m.Name).HasMaxLength(100);
+            .Property(m => m.Name)
+            .HasMaxLength(100);
 
         campaignBuilder
-            .Property(m => m.Description).HasMaxLength(200);
+            .Property(m => m.Description)
+            .HasMaxLength(200);
 
         campaignBuilder
             .Property(m => m.UserId)

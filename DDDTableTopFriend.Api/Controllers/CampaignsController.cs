@@ -66,7 +66,7 @@ public class CampaignsController : ApiController
         var command = request.Adapt<DeleteCampaignCommand>();
         var result = await _mediator.Send(command);
         return result.Match(
-            campaignResult => NoContent(),
+            _ => NoContent(),
             errors => Problem(errors)
         );
     }

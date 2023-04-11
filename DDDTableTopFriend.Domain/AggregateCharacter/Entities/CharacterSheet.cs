@@ -7,13 +7,12 @@ namespace DDDTableTopFriend.Domain.AggregateCharacter.Entities;
 
 public sealed class CharacterSheet : Entity<CharacterSheetId>
 {
-    public CharacterId CharacterId { get; }
-    public string Name { get; }
-    public string Description { get; }
+    public string Name { get; private set;} = null!;
+    public string Description { get; private set;} = null!;
     public IReadOnlyList<StatusId> StatusIds => _statusIds.AsReadOnly();
     public IReadOnlyList<SkillId> SkillIds => _skillIds.AsReadOnly();
-    public DateTime? CreatedAt { get; }
-    public DateTime? UpdatedAt { get; }
+    public DateTime? CreatedAt { get; private set;}
+    public DateTime? UpdatedAt { get; private set;}
 
     private readonly List<StatusId> _statusIds = new();
     private readonly List<SkillId> _skillIds = new();
@@ -22,7 +21,6 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
 
     private CharacterSheet(
         CharacterSheetId id,
-        CharacterId CharacterId,
         string name,
         string description,
         List<StatusId> statusIds,
@@ -32,15 +30,13 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
     {
         Name = name;
         Description = description;
-        _statusIds = statusIds;
-        _skillIds = skillIds;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
-        this.CharacterId = CharacterId;
+        _statusIds = statusIds;
+        _skillIds = skillIds;
     }
 
     public static CharacterSheet Create(
-        CharacterId characterId,
         string name,
         string description,
         List<StatusId> statusIds,
@@ -50,7 +46,6 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
     {
         return new(
             CharacterSheetId.CreateUnique(),
-            characterId,
             name,
             description,
             statusIds,
@@ -58,4 +53,10 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
             createdAt,
             updatedAt);
     }
+
+#pragma warning disable CS8618
+    private CharacterSheet()
+    {
+    }
+#pragma warning restore CS8618
 }

@@ -12,27 +12,32 @@ public class AudioEffectConfiguration : IEntityTypeConfiguration<AudioEffect>
         ConfigureAudioEffectsTable(builder);
     }
 
-    private static void ConfigureAudioEffectsTable(EntityTypeBuilder<AudioEffect> builder)
+    private static void ConfigureAudioEffectsTable(EntityTypeBuilder<AudioEffect> audioEffectBuilder)
     {
-        builder
+        audioEffectBuilder
             .ToTable("AudioEffects");
-        builder
-            .HasKey(au => au.Id);
-        builder
-            .Property(au => au.Id)
+
+        audioEffectBuilder
+            .HasKey(audioEffect => audioEffect.Id);
+
+        audioEffectBuilder
+            .Property(audioEffect => audioEffect.Id)
             .ValueGeneratedNever()
             .HasConversion(id => id.Value, value => AudioEffectId.Create(value));
 
-        builder
-            .Property(au => au.Name)
+        audioEffectBuilder
+            .Property(audioEffect => audioEffect.Name)
             .HasMaxLength(50);
-        builder
-            .Property(au => au.Description)
+
+        audioEffectBuilder
+            .Property(audioEffect => audioEffect.Description)
             .HasMaxLength(200);
-        builder
-            .Property(au => au.AudioLink)
+
+        audioEffectBuilder
+            .Property(audioEffect => audioEffect.AudioLink)
             .HasMaxLength(600);
-        builder
-            .Property(au => au.AudioClip);
+
+        audioEffectBuilder
+            .Property(audioEffect => audioEffect.AudioClip);
     }
 }

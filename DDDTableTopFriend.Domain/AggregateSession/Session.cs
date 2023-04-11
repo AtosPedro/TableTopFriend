@@ -8,14 +8,15 @@ namespace DDDTableTopFriend.Domain.AggregateSession;
 
 public class Session : AggregateRoot<SessionId>
 {
-    public CampaignId CampaignId { get; }
-    public string Name { get; }
-    public DateTime DateTime { get; }
-    public TimeSpan Duration { get; }
+    public CampaignId CampaignId { get; private set; } = null!;
+    public string Name { get; private set; } = null!;
+    public DateTime DateTime { get; private set; }
+    public TimeSpan Duration { get; private set; }
     public IReadOnlyList<CharacterId> CharacterIds => _characterIds.AsReadOnly();
     public IReadOnlyList<AudioEffectId> AudioEffectIds => _audioEffectIds.AsReadOnly();
-    public DateTime? CreatedAt { get; }
-    public DateTime? UpdatedAt { get; }
+    public DateTime? CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
+
     private readonly List<CharacterId> _characterIds = new();
     private readonly List<AudioEffectId> _audioEffectIds = new();
 
@@ -41,4 +42,32 @@ public class Session : AggregateRoot<SessionId>
         _characterIds = characterIds;
         _audioEffectIds = audioEffectIds;
     }
+
+    public static Session Create(
+        CampaignId campaignId,
+        string name,
+        DateTime dateTime,
+        TimeSpan duration,
+        List<CharacterId> characterIds,
+        List<AudioEffectId> audioEffectIds,
+        DateTime? createdAt)
+    {
+        return new(
+            SessionId.CreateUnique(),
+            campaignId,
+            name,
+            dateTime,
+            duration,
+            characterIds,
+            audioEffectIds,
+            createdAt,
+            null
+        );
+    }
+
+#pragma warning disable CS8618
+    private Session()
+    {
+    }
+#pragma warning restore CS8618
 }

@@ -5,12 +5,12 @@ namespace DDDTableTopFriend.Domain.AggregateAudioEffect;
 
 public sealed class AudioEffect : AggregateRoot<AudioEffectId>
 {
-    public string Name { get; }
-    public string Description { get; }
-    public string AudioLink { get; }
-    public byte[] AudioClip { get; }
-    public DateTime CreatedAt { get; }
-    public DateTime UpdatedAt { get; }
+    public string Name { get; private set; } = null!;
+    public string Description { get; private set; } = null!;
+    public string AudioLink { get; private set; } = null!;
+    public byte[] AudioClip { get; private set; } = null!;
+    public DateTime? CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
 
     public AudioEffect(AudioEffectId id) : base(id) { }
 
@@ -20,8 +20,8 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId>
         string description,
         string audioLink,
         byte[] audioClip,
-        DateTime createdAt,
-        DateTime updatedAt) : base(id)
+        DateTime? createdAt = null,
+        DateTime? updatedAt = null) : base(id)
     {
         Name = name;
         Description = description;
@@ -30,4 +30,28 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId>
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
     }
+
+    public static AudioEffect Create(
+        string name,
+        string description,
+        string audioLink,
+        byte[] audioClip,
+        DateTime createdAt)
+    {
+        return new(
+            AudioEffectId.CreateUnique(),
+            name,
+            description,
+            audioLink,
+            audioClip,
+            createdAt,
+            null
+        );
+    }
+
+#pragma warning disable CS8618
+    private AudioEffect()
+    {
+    }
+#pragma warning restore CS8618
 }

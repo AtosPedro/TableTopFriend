@@ -13,40 +13,40 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         ConfigureUsersTable(builder);
     }
 
-    private static void ConfigureUsersTable(EntityTypeBuilder<User> builder)
+    private static void ConfigureUsersTable(EntityTypeBuilder<User> userBuilder)
     {
-        builder
+        userBuilder
             .ToTable("Users");
 
-        builder
+        userBuilder
             .Property(us => us.FirstName)
             .HasMaxLength(50);
 
-        builder
+        userBuilder
             .Property(us => us.LastName)
             .HasMaxLength(50);
 
-        builder
+        userBuilder
             .Property(us => us.Email)
             .HasMaxLength(200);
 
-        builder
+        userBuilder
             .HasKey(m => m.Id);
 
-        builder
+        userBuilder
             .Property(us => us.Id)
             .ValueGeneratedNever()
             .HasConversion(us => us.Value, value => UserId.Create(value));
 
-        builder
+        userBuilder
             .Property(us =>us.UserRole)
             .HasConversion(us => (int)us, value => (UserRole)value);
 
-        builder
+        userBuilder
             .Property(us =>us.Password)
             .HasMaxLength(600);
 
-        builder
+        userBuilder
             .Property(us =>us.PasswordSalt)
             .HasMaxLength(1000);
     }

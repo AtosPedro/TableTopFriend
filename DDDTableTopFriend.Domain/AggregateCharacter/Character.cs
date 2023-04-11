@@ -8,17 +8,17 @@ namespace DDDTableTopFriend.Domain.AggregateCharacter;
 
 public sealed class Character : AggregateRoot<CharacterId>
 {
-    public string Name { get; }
-    public string Description { get; }
-    public CharacterType Type { get; }
-    public CharacterSheet CharacterSheet { get; }
+    public string Name { get; private set; } = null!;
+    public string Description { get; private set; } = null!;
+    public CharacterType Type { get; private set; }
+    public CharacterSheet CharacterSheet { get; private set; } = null!;
     public IReadOnlyList<AudioEffectId> AudioEffectIds => _audioEffectIds.AsReadOnly();
-    public DateTime? CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
 
     private readonly List<AudioEffectId> _audioEffectIds = new();
 
-    public Character(CharacterId id):base(id){}
+    public Character(CharacterId id) : base(id) { }
 
     private Character(
         CharacterId id,
@@ -32,11 +32,11 @@ public sealed class Character : AggregateRoot<CharacterId>
     {
         Name = name;
         Description = description;
-        CharacterSheet = characterSheet;
-        _audioEffectIds = audioEffectIds;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         Type = type;
+        CharacterSheet = characterSheet;
+        _audioEffectIds = audioEffectIds;
     }
 
     public static Character Create(
@@ -56,6 +56,13 @@ public sealed class Character : AggregateRoot<CharacterId>
             characterSheet,
             audioEffectIds,
             createdAt,
-            updatedAt);
+            updatedAt
+        );
     }
+
+#pragma warning disable CS8618
+    private Character()
+    {
+    }
+#pragma warning restore CS8618
 }

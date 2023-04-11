@@ -5,11 +5,11 @@ namespace DDDTableTopFriend.Domain.AggregateStatus;
 
 public class Status : AggregateRoot<StatusId>
 {
-    public string Name { get; }
-    public string Description { get; }
-    public float Quantity { get; }
-    public DateTime? CreatedAt { get; }
-    public DateTime? UpdatedAt { get; }
+    public string Name { get; private set; } = null!;
+    public string Description { get; private set;} = null!;
+    public float Quantity { get; private set;}
+    public DateTime? CreatedAt { get; private set; }
+    public DateTime? UpdatedAt { get; private set;}
 
     public Status(StatusId id) : base(id) { }
 
@@ -27,4 +27,26 @@ public class Status : AggregateRoot<StatusId>
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
     }
+
+    public static Status Create(
+        string name,
+        string description,
+        float quantity,
+        DateTime? createdAt)
+    {
+        return new (
+            StatusId.CreateUnique(),
+            name,
+            description,
+            quantity,
+            createdAt,
+            null
+        );
+    }
+
+#pragma warning disable CS8618
+    private Status()
+    {
+    }
+#pragma warning restore CS8618
 }

@@ -14,26 +14,33 @@ public class SkillConfiguration : IEntityTypeConfiguration<Skill>
         ConfigureSkillsTable(builder);
     }
 
-    private static void ConfigureSkillsTable(EntityTypeBuilder<Skill> builder)
+    private static void ConfigureSkillsTable(EntityTypeBuilder<Skill> skillBuilder)
     {
-        builder.ToTable("Skills");
+        skillBuilder.ToTable("Skills");
 
-        builder.Property(us => us.Id)
+        skillBuilder
+            .HasKey(m => m.Id);
+
+        skillBuilder
+            .Property(us => us.Id)
             .ValueGeneratedNever()
             .HasConversion(us => us.Value, value => SkillId.Create(value));
 
-        builder.Property(us => us.StatusId)
+        skillBuilder
+            .Property(us => us.StatusId)
             .ValueGeneratedNever()
             .HasConversion(us => us.Value, value => StatusId.Create(value));
 
-        builder.Property(us => us.AudioEffectId)
+        skillBuilder.Property(us => us.AudioEffectId)
             .ValueGeneratedNever()
-            .HasConversion(us => us.Value, value => AudioEffectId.Create(value));
+            .HasConversion(us => us.Value, value => AudioEffectId.Create(value) );
 
-        builder.Property(sk => sk.Name)
+        skillBuilder
+            .Property(sk => sk.Name)
             .HasMaxLength(50);
 
-        builder.Property(sk => sk.Description)
+        skillBuilder
+            .Property(sk => sk.Description)
             .HasMaxLength(300);
     }
 }
