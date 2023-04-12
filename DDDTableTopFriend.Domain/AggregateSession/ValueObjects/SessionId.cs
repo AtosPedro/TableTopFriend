@@ -1,10 +1,11 @@
 using DDDTableTopFriend.Domain.Common.Models;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
 
 namespace DDDTableTopFriend.Domain.AggregateSession.ValueObjects;
 
-public sealed class SessionId : ValueObject
+public sealed class SessionId : AggregateRootId<Guid>
 {
-    public Guid Value { get; }
+    public override Guid Value { get; protected set; }
 
     private SessionId(Guid value)
     {

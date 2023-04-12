@@ -5,7 +5,7 @@ using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
 
 namespace DDDTableTopFriend.Domain.AggregateSkill;
 
-public class Skill : AggregateRoot<SkillId>
+public class Skill : AggregateRoot<SkillId,Guid>
 {
     public StatusId StatusId { get; private set; } = null!;
     public AudioEffectId AudioEffectId { get; private set; } = null!;

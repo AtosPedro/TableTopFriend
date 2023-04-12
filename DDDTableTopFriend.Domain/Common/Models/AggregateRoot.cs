@@ -1,9 +1,13 @@
+using DDDTableTopFriend.Domain.Common.ValueObjects;
+
 namespace DDDTableTopFriend.Domain.Common.Models;
 
-public abstract class AggregateRoot<TId> : Entity<TId> where TId : notnull
+public abstract class AggregateRoot<TId, TIdType> : Entity<TId> where TId : notnull
 {
     protected IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
     private readonly List<IDomainEvent> _domainEvents = new();
+
+    public new AggregateRootId<TIdType> Id { get; protected set; } = null!;
 
     protected AggregateRoot(TId id) : base(id) { }
 

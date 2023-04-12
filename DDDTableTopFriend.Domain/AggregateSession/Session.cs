@@ -6,7 +6,7 @@ using DDDTableTopFriend.Domain.AggregateSession.ValueObjects;
 
 namespace DDDTableTopFriend.Domain.AggregateSession;
 
-public class Session : AggregateRoot<SessionId>
+public class Session : AggregateRoot<SessionId,Guid>
 {
     public CampaignId CampaignId { get; private set; } = null!;
     public string Name { get; private set; } = null!;

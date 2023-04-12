@@ -6,7 +6,7 @@ using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 
 namespace DDDTableTopFriend.Domain.AggregateCampaign;
 
-public sealed class Campaign : AggregateRoot<CampaignId>
+public sealed class Campaign : AggregateRoot<CampaignId, Guid>
 {
     public string Name { get; private set;} = null!;
     public string Description { get; private set;} = null!;

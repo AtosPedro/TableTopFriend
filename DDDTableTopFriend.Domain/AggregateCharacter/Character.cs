@@ -6,7 +6,7 @@ using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
 
 namespace DDDTableTopFriend.Domain.AggregateCharacter;
 
-public sealed class Character : AggregateRoot<CharacterId>
+public sealed class Character : AggregateRoot<CharacterId, Guid>
 {
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;

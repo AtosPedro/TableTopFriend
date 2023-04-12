@@ -1,5 +1,10 @@
 using DDDTableTopFriend.Domain.AggregateCharacter;
+using DDDTableTopFriend.Domain.AggregateCharacter.Entities;
 using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
+using DDDTableTopFriend.Domain.AggregateSkill;
+using DDDTableTopFriend.Domain.AggregateSkill.ValueObjects;
+using DDDTableTopFriend.Domain.AggregateStatus;
+using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -79,12 +84,12 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
                 .HasForeignKey("CharacterId");
 
             characterSheetBuilder
-                .HasKey("Id", "CharacterId");
+                .HasKey("Id","CharacterId");
 
             characterSheetBuilder
                 .Property(csh => csh.Id)
-                .HasColumnName("CharacterSheetId")
                 .ValueGeneratedNever()
+                .HasColumnName(nameof(CharacterSheet.Id))
                 .HasConversion(
                     id => id.Value,
                     value => CharacterSheetId.Create(value)
@@ -107,7 +112,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
                     .WithOwner()
                     .HasForeignKey("CharacterSheetId", "CharacterId");
 
-                statusIdsBuilder.HasKey("Id");
+                statusIdsBuilder.HasKey(nameof(Status.Id), "CharacterSheetId", "CharacterId");
 
                 statusIdsBuilder
                     .Property(c => c.Value)
@@ -120,11 +125,11 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
                     .SetField("_statusIds");
 
                 characterSheetBuilder
-                    .Navigation(s => s.StatusIds)
+                    .Navigation(nameof(CharacterSheet.StatusIds))
                     .UsePropertyAccessMode(PropertyAccessMode.Field);
             });
 
-            characterSheetBuilder.OwnsMany(csh => csh.StatusIds, skillIdsBuilder =>
+            characterSheetBuilder.OwnsMany(csh => csh.SkillIds, skillIdsBuilder =>
             {
                 skillIdsBuilder
                     .ToTable("CharacterSheetSkillIds");
@@ -133,7 +138,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
                     .WithOwner()
                     .HasForeignKey("CharacterSheetId", "CharacterId");
 
-                skillIdsBuilder.HasKey("Id");
+                skillIdsBuilder.HasKey(nameof(Skill.Id), "CharacterSheetId", "CharacterId");
 
                 skillIdsBuilder
                     .Property(c => c.Value)
@@ -141,12 +146,12 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
                     .HasColumnName("SkillId");
 
                 characterSheetBuilder
-                    .Navigation(s => s.StatusIds)
+                    .Navigation(s => s.SkillIds)
                     .Metadata
                     .SetField("_skillIds");
 
                 characterSheetBuilder
-                    .Navigation(s => s.StatusIds)
+                    .Navigation(nameof(CharacterSheet.SkillIds))
                     .UsePropertyAccessMode(PropertyAccessMode.Field);
             });
 

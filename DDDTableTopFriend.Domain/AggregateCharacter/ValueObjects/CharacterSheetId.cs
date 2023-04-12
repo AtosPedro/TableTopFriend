@@ -1,10 +1,11 @@
 using DDDTableTopFriend.Domain.Common.Models;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
 
 namespace DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
 
 public sealed class CharacterSheetId : ValueObject
 {
-    public Guid Value { get; }
+    public  Guid Value { get; set; }
 
     private CharacterSheetId(Guid value)
     {

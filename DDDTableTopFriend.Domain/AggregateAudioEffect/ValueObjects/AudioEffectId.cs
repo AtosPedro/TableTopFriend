@@ -1,10 +1,11 @@
 using DDDTableTopFriend.Domain.Common.Models;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
 
 namespace DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
 
-public sealed class AudioEffectId : ValueObject
+public sealed class AudioEffectId : AggregateRootId<Guid>
 {
-    public Guid Value { get; }
+    public override Guid Value { get; protected set; }
 
     private AudioEffectId(Guid value)
     {

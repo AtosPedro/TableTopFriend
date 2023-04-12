@@ -1,10 +1,11 @@
 using DDDTableTopFriend.Domain.Common.Models;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
 
 namespace DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
 
-public sealed class CampaignId : ValueObject
+public sealed class CampaignId : AggregateRootId<Guid>
 {
-    public Guid Value { get; }
+    public override Guid Value { get; protected set; }
 
     private CampaignId(Guid value)
     {

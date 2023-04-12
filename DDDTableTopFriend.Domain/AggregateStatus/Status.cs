@@ -3,7 +3,7 @@ using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
 
 namespace DDDTableTopFriend.Domain.AggregateStatus;
 
-public class Status : AggregateRoot<StatusId>
+public class Status : AggregateRoot<StatusId, Guid>
 {
     public string Name { get; private set; } = null!;
     public string Description { get; private set;} = null!;

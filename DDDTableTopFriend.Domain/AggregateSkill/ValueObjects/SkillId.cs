@@ -1,10 +1,11 @@
 using DDDTableTopFriend.Domain.Common.Models;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
 
 namespace DDDTableTopFriend.Domain.AggregateSkill.ValueObjects;
 
-public sealed class SkillId : ValueObject
+public sealed class SkillId : AggregateRootId<Guid>
 {
-    public Guid Value { get; set; }
+    public override Guid Value { get; protected set; }
 
     private SkillId(Guid value)
     {

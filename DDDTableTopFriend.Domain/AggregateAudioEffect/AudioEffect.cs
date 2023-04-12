@@ -3,7 +3,7 @@ using DDDTableTopFriend.Domain.Common.Models;
 
 namespace DDDTableTopFriend.Domain.AggregateAudioEffect;
 
-public sealed class AudioEffect : AggregateRoot<AudioEffectId>
+public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
 {
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
