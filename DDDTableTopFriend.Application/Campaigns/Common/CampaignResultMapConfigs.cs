@@ -14,7 +14,7 @@ public class CampaignResultMapConfigs : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<Campaign, CampaignResult>()
-            .Map(dest => dest.Id, src => src.Id.Value)
+            .Map(dest => dest.Id, src => src.GetId().Value)
             .Map(dest => dest.UserId, src => src.UserId.Value)
             .Map(dest => dest.CharacterIds, src => src.CharacterIds.Select(x => x.Value))
             .Map(dest => dest.SessionIds, src => src.SessionIds.Select(x => x.Value))

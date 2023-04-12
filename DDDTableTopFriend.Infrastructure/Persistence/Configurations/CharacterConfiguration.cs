@@ -110,14 +110,20 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
 
                 statusIdsBuilder
                     .WithOwner()
-                    .HasForeignKey("CharacterSheetId", "CharacterId");
+                    .HasForeignKey(
+                        nameof(CharacterSheetId),
+                        nameof(CharacterId)
+                    );
 
-                statusIdsBuilder.HasKey(nameof(Status.Id), "CharacterSheetId", "CharacterId");
+                statusIdsBuilder.HasKey(
+                    nameof(CharacterSheetId),
+                    nameof(CharacterId)
+                );
 
                 statusIdsBuilder
                     .Property(c => c.Value)
                     .ValueGeneratedNever()
-                    .HasColumnName("StatusId");
+                    .HasColumnName(nameof(StatusId));
 
                 characterSheetBuilder
                     .Navigation(s => s.StatusIds)
@@ -125,7 +131,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
                     .SetField("_statusIds");
 
                 characterSheetBuilder
-                    .Navigation(nameof(CharacterSheet.StatusIds))
+                    .Navigation(nameof(Character.CharacterSheet.StatusIds))
                     .UsePropertyAccessMode(PropertyAccessMode.Field);
             });
 
@@ -136,14 +142,21 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
 
                 skillIdsBuilder
                     .WithOwner()
-                    .HasForeignKey("CharacterSheetId", "CharacterId");
+                    .HasForeignKey(
+                        nameof(CharacterSheetId),
+                        nameof(CharacterId)
+                    );
 
-                skillIdsBuilder.HasKey(nameof(Skill.Id), "CharacterSheetId", "CharacterId");
+                skillIdsBuilder
+                    .HasKey(
+                        nameof(CharacterSheetId),
+                        nameof(CharacterId)
+                    );
 
                 skillIdsBuilder
                     .Property(c => c.Value)
                     .ValueGeneratedNever()
-                    .HasColumnName("SkillId");
+                    .HasColumnName(nameof(SkillId));
 
                 characterSheetBuilder
                     .Navigation(s => s.SkillIds)
@@ -151,7 +164,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
                     .SetField("_skillIds");
 
                 characterSheetBuilder
-                    .Navigation(nameof(CharacterSheet.SkillIds))
+                    .Navigation(nameof(Character.CharacterSheet.SkillIds))
                     .UsePropertyAccessMode(PropertyAccessMode.Field);
             });
 

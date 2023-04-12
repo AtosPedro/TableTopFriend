@@ -1,12 +1,12 @@
 version: '3.4'
 
 services:
-  TableTopFriend.Api:
-    image: ${DOCKER_REGISTRY-}TableTopFriend.Api
-    build:
-      context: .
-      dockerfile: DDDTableTopFriend.Api\Dockerfile
-    ports:
-      - 4015:443
+  tableTopFriend.db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
-      - CONTAINER=true
+      SA_PASSWORD: "\\@root123"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+      HOMEBREW_NO_ENV_FILTERING: "1"
+    ports:
+      - "1433:1433"
