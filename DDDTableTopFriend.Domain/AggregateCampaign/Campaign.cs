@@ -69,6 +69,20 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         return campaign;
     }
 
+    public void AddCharacterId(CharacterId characterId)
+    {
+        bool exists = _characterIds.Contains(characterId);
+        if (exists)
+            _characterIds.Add(characterId);
+    } 
+
+    public void AddSessionId(SessionId sessionId)
+    {
+        bool exists = _characterIds.Contains(sessionId);
+        if (exists)
+            _characterIds.Add(sessionId);
+    } 
+
 #pragma warning disable CS8618
     private Campaign()
     {

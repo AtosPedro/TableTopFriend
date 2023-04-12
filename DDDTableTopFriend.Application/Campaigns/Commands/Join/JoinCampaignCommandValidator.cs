@@ -6,5 +6,12 @@ public class JoinCampaignCommandValidator : AbstractValidator<JoinCampaignComman
 {
     public JoinCampaignCommandValidator()
     {
+        RuleFor(x => x.Id)
+            .NotEmpty()
+            .NotNull();
+        
+        RuleFor(x => x.CharacterId)
+            .NotEmpty()
+            .NotNull();
     }
 }

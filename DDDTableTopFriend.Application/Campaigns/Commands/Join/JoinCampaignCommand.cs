@@ -5,6 +5,6 @@ using MediatR;
 namespace DDDTableTopFriend.Application.Campaigns.Commands.Join;
 
 public record JoinCampaignCommand(
-    Guid id,
-    Guid characterId
+    Guid Id,
+    Guid CharacterId
 ) : IRequest<ErrorOr<CampaignJoinedResult>>;

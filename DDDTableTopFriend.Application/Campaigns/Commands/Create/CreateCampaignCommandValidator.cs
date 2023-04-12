@@ -6,5 +6,12 @@ public class CreateCampaignCommandValidator : AbstractValidator<CreateCampaignCo
 {
     public CreateCampaignCommandValidator()
     {
+        RuleFor(x => x.Name)
+            .NotEmpty()
+            .NotNull();
+        
+        RuleFor(x => x.Description)
+            .NotEmpty()
+            .NotNull();
     }
 }

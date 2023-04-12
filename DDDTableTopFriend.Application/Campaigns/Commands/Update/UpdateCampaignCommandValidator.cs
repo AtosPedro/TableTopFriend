@@ -6,5 +6,20 @@ public class UpdateCampaignCommandValidator : AbstractValidator<UpdateCampaignCo
 {
     public UpdateCampaignCommandValidator()
     {
+        RuleFor(x => x.Id)
+            .NotEmpty()
+            .NotNull();
+        
+        RuleFor(x => x.UserId)
+            .NotEmpty()
+            .NotNull();
+        
+        RuleFor(x => x.Name)
+            .NotEmpty()
+            .NotNull();
+        
+        RuleFor(x => x.Description)
+            .NotEmpty()
+            .NotNull();
     }
 }

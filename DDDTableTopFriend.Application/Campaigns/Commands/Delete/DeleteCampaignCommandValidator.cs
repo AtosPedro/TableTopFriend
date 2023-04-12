@@ -6,5 +6,8 @@ public class DeleteCampaignCommandValidator : AbstractValidator<DeleteCampaignCo
 {
     public DeleteCampaignCommandValidator()
     {
+        RuleFor(x => x.Id)
+            .NotEmpty()
+            .NotNull();
     }
 }
