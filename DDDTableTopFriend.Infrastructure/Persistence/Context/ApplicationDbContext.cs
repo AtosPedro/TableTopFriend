@@ -1,3 +1,4 @@
+using System.Net;
 using DDDTableTopFriend.Domain.AggregateAudioEffect;
 using DDDTableTopFriend.Domain.AggregateCampaign;
 using DDDTableTopFriend.Domain.AggregateCharacter;

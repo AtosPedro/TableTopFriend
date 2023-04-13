@@ -3,7 +3,6 @@ using DDDTableTopFriend.Application.Common.Interfaces.Authentication;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Application.Common.Interfaces.Services;
 using DDDTableTopFriend.Infrastructure.Authentication;
-using DDDTableTopFriend.Infrastructure.Persistence;
 using DDDTableTopFriend.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +13,9 @@ using DDDTableTopFriend.Infrastructure.Services.Security;
 using DDDTableTopFriend.Infrastructure.Persistence.Context;
 using DDDTableTopFriend.Infrastructure.Services.Mail;
 using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
+using DDDTableTopFriend.Infrastructure.Persistence.Repositories;
+using System.Reflection;
+using MediatR;
 
 namespace DDDTableTopFriend.Infrastructure;
 
@@ -27,6 +29,7 @@ public static class DependencyInjection
         services.AddPersistence(configuration);
         services.AddHasherService(configuration);
         services.AddMailService(configuration);
+        services.AddMediatR(typeof(DependencyInjection).GetTypeInfo().Assembly);
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         return services;
     }
@@ -91,8 +94,10 @@ public static class DependencyInjection
 
         services.AddDbContext<ApplicationDbContext>();
         services.AddSingleton<IApplicationDbContext, ApplicationDbContext>();
+        services.AddSingleton<IUnitOfWork, UnitOfWork>();
         services.AddSingleton<IUserRepository, UserRepository>();
         services.AddSingleton<ICampaignRepository, CampaignRepository>();
+        services.AddSingleton<ICharacterRepository, CharacterRepository>();
         return services;
     }
 }

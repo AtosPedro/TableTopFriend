@@ -74,14 +74,14 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         bool exists = _characterIds.Contains(characterId);
         if (exists)
             _characterIds.Add(characterId);
-    } 
+    }
 
     public void AddSessionId(SessionId sessionId)
     {
-        bool exists = _characterIds.Contains(sessionId);
+        bool exists = _sessionIds.Contains(sessionId);
         if (exists)
-            _characterIds.Add(sessionId);
-    } 
+            _sessionIds.Add(sessionId);
+    }
 
 #pragma warning disable CS8618
     private Campaign()

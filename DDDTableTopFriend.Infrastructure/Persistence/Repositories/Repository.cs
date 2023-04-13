@@ -1,19 +1,23 @@
 using System.Linq.Expressions;
 using DDDTableTopFriend.Domain.Common.Models;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
 using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace DDDTableTopFriend.Infrastructure.Persistence;
 
-public abstract class Repository<T> where T : class
+public abstract class Repository<T, TId, TIdType>
+    where T : AggregateRoot<TId, TIdType>
+    where TId : AggregateRootId<TIdType>
 {
     protected readonly IApplicationDbContext DbContext;
     protected readonly DbSet<T> EntityDbSet;
-
-    protected Repository(IApplicationDbContext dbContext)
+    protected readonly IUnitOfWork UnitOfWork;
+    protected Repository(IApplicationDbContext dbContext, IUnitOfWork unitOfWork)
     {
         DbContext = dbContext;
         EntityDbSet = DbContext.Set<T>();
+        UnitOfWork = unitOfWork;
     }
 
     /// <summary>
@@ -63,7 +67,7 @@ public abstract class Repository<T> where T : class
         CancellationToken cancellationToken)
     {
         await EntityDbSet.AddAsync(entity, cancellationToken);
-        await DbContext.SaveChangesAsync(cancellationToken);
+        await UnitOfWork.Commit(entity.DomainEvents, cancellationToken);
         return entity;
     }
 
@@ -75,7 +79,7 @@ public abstract class Repository<T> where T : class
     public virtual async Task<T> Update(T entity)
     {
         await Task.FromResult(EntityDbSet.Update(entity));
-        await DbContext.SaveChangesAsync();
+        await UnitOfWork.Commit(entity.DomainEvents);
         return entity;
     }
 
@@ -87,7 +91,7 @@ public abstract class Repository<T> where T : class
     public virtual async Task<T> Remove(T entity)
     {
         await Task.FromResult(EntityDbSet.Remove(entity));
-        await DbContext.SaveChangesAsync();
+        await UnitOfWork.Commit(entity.DomainEvents);
         return entity;
     }
 }

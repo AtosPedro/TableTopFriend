@@ -4,11 +4,13 @@ using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
 
-namespace DDDTableTopFriend.Infrastructure.Persistence;
+namespace DDDTableTopFriend.Infrastructure.Persistence.Repositories;
 
-public class CampaignRepository : Repository<Campaign>, ICampaignRepository
+public class CampaignRepository : Repository<Campaign, CampaignId, Guid>, ICampaignRepository
 {
-    public CampaignRepository(IApplicationDbContext dbContext) : base(dbContext)
+    public CampaignRepository(
+        IApplicationDbContext dbContext,
+        IUnitOfWork unitOfWork) : base(dbContext, unitOfWork)
     {
     }
 

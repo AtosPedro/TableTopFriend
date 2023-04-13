@@ -5,7 +5,7 @@ namespace DDDTableTopFriend.Domain.Common.Models;
 public abstract class AggregateRoot<TId, TIdType> :
  Entity<TId> where TId : AggregateRootId<TIdType>
 {
-    protected IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+    public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
     private readonly List<IDomainEvent> _domainEvents = new();
 
     public new AggregateRootId<TIdType> Id { get; protected set; }
@@ -26,7 +26,7 @@ public abstract class AggregateRoot<TId, TIdType> :
     }
 #pragma warning restore CS8618
 
-    protected void AddDomainEvent(IDomainEvent domainEvent) => _domainEvents.Add(domainEvent);
+    public void AddDomainEvent(IDomainEvent domainEvent) => _domainEvents.Add(domainEvent);
 
-    protected bool RemoveDomainEvent(IDomainEvent domainEvent) => _domainEvents.Remove(domainEvent);
+    public bool RemoveDomainEvent(IDomainEvent domainEvent) => _domainEvents.Remove(domainEvent);
 }

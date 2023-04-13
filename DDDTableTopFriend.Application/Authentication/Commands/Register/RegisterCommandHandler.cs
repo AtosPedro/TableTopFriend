@@ -7,6 +7,8 @@ using DDDTableTopFriend.Domain.AggregateUser;
 using ErrorOr;
 using MediatR;
 using Mapster;
+using DDDTableTopFriend.Domain.AggregateUser.Events;
+using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 
 namespace DDDTableTopFriend.Application.Authentication.Commands.Register;
 
@@ -45,6 +47,16 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
             passwordHashed,
             salt,
             request.Role);
+
+        user.AddDomainEvent(
+            new UserRegisteredDomainEvent(
+                UserId.Create(user.Id.Value),
+                user.FirstName,
+                user.LastName,
+                user.Email,
+                user.UserRole,
+                user.CreatedAt
+        ));
 
         await _userRepository.Add(user, cancellationToken);
 

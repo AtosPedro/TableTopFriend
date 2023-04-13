@@ -16,7 +16,7 @@ public static class DependencyInjection
         services.AddSingleton(config);
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        services.AddMediatR(typeof(DependencyInjection).Assembly);
+        services.AddMediatR(typeof(DependencyInjection).GetTypeInfo().Assembly);
         return services;
     }
 }

@@ -3,11 +3,13 @@ using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Enums;
 using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
+using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 
 namespace DDDTableTopFriend.Domain.AggregateCharacter;
 
 public sealed class Character : AggregateRoot<CharacterId, Guid>
 {
+    public UserId UserId { get; set; } = null!;
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
     public CharacterType Type { get; private set; }

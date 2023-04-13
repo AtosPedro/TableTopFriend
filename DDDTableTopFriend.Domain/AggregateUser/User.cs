@@ -1,6 +1,7 @@
 ﻿using DDDTableTopFriend.Domain.Common.Enums;
 using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
+using DDDTableTopFriend.Domain.AggregateUser.Events;
 
 namespace DDDTableTopFriend.Domain.AggregateUser;
 

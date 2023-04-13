@@ -1,12 +1,15 @@
 ﻿using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Domain.AggregateUser;
+using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
 
-namespace DDDTableTopFriend.Infrastructure.Persistence;
+namespace DDDTableTopFriend.Infrastructure.Persistence.Repositories;
 
-public class UserRepository : Repository<User>, IUserRepository
+public class UserRepository : Repository<User, UserId, Guid> , IUserRepository
 {
-    public UserRepository(IApplicationDbContext dbContext) : base(dbContext)
+    public UserRepository(
+        IApplicationDbContext dbContext,
+        IUnitOfWork unitOfWork) : base(dbContext, unitOfWork)
     {
     }
 

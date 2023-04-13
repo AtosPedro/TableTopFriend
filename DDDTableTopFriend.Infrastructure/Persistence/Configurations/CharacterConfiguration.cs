@@ -5,6 +5,7 @@ using DDDTableTopFriend.Domain.AggregateSkill;
 using DDDTableTopFriend.Domain.AggregateSkill.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateStatus;
 using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
+using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -32,6 +33,11 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
             .Property(ch => ch.Id)
             .ValueGeneratedNever()
             .HasConversion(id => id.Value, value => CharacterId.Create(value));
+
+        characterBuilder
+            .Property(ch => ch.UserId)
+            .ValueGeneratedNever()
+            .HasConversion(id => id.Value, value => UserId.Create(value));
 
         characterBuilder
             .Property(ch => ch.Type)
