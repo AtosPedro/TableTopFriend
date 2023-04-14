@@ -10,7 +10,6 @@ public interface IUserRepository
     Task<User> Add(User user, CancellationToken cancellationToken);
     Task<IEnumerable<User>> Search(Expression<Func<User, bool>> predicate, CancellationToken cancellationToken);
     Task<User?> GetById(UserId id, CancellationToken cancellationToken);
-    Task<IEnumerable<User>> GetAll(UserId userId, CancellationToken cancellationToken);
     Task<User> Update(User user);
     Task<User> Remove(User user);
 }

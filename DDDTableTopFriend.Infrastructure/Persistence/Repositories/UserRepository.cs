@@ -13,6 +13,11 @@ public class UserRepository : Repository<User, UserId, Guid> , IUserRepository
     {
     }
 
+    public async Task<User?> GetById(UserId id, CancellationToken cancellationToken)
+    {
+       return await base.GetById(id, cancellationToken);
+    }
+
     public async Task<User?> GetUserByEmail(string email, CancellationToken cancellationToken)
     {
         return (await Search(w => w.Email == email, cancellationToken)).FirstOrDefault();

@@ -16,7 +16,7 @@ public class CampaignsController : ApiController
 {
     public CampaignsController(ISender mediator) : base(mediator){}
 
-    [HttpGet("/all/{userId}")]
+    [HttpGet("/list/{userId}")]
     public async Task<IActionResult> GetCampaigns(Guid userId)
     {
         var query = new GetAllCampaignQuery(userId);
