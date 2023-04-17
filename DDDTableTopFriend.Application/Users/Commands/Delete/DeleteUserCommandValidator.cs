@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace DDDTableTopFriend.Application.Users.Commands;
+namespace DDDTableTopFriend.Application.Users.Commands.Delete;
 
 public class DeleteUserCommandValidator : AbstractValidator<DeleteUserCommand>
 {

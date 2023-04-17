@@ -1,12 +1,12 @@
 PUT {{host_https}}/{{api_v1_route}}/campaigns
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZWJkOGJkNC1mNDQ1LTQ5YzYtOWUzOS04ZGE5NjMyODJkYzAiLCJqdGkiOiJhOTA4Yjc3MS0wM2EzLTQxNWEtYTBiNC1kMmJlYzFiNzgxMWEiLCJnaXZlbl9uYW1lIjoiQXRvcyIsImZhbWlseV9uYW1lIjoiUGVkcm8iLCJleHAiOjE2ODE3NDg3OTksImlzcyI6IlRhYmxlVG9wIEZyaWVuZCIsImF1ZCI6IlRhYmxlVG9wIEZyaWVuZCJ9.jy7w9JlG22GnjplXy1_rn-KEGzrp5iR9jILjwhBmk3U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZWJkOGJkNC1mNDQ1LTQ5YzYtOWUzOS04ZGE5NjMyODJkYzAiLCJqdGkiOiI0NzgyYmI0OC0xM2YwLTRjMjItYTVmOC1jZGUwNzEwMWQ4YTEiLCJnaXZlbl9uYW1lIjoiQXRvcyIsImZhbWlseV9uYW1lIjoiUGVkcm8iLCJleHAiOjE2ODE3NTY2NDksImlzcyI6IlRhYmxlVG9wIEZyaWVuZCIsImF1ZCI6IlRhYmxlVG9wIEZyaWVuZCJ9.hPR5e76hBkWLJAHtQoYV_UEcOslWnzWy9QF-I4fPFcE
 
 {
   "Id": "1b4750e3-e54a-40fc-8f24-3f48575f8e4d",
   "UserId": "9ebd8bd4-f445-49c6-9e39-8da963282dc0",
-  "Name": "Campaign 2",
-  "Description": "Campaign 2 desc",
+  "Name": "Campaign 1 Updated",
+  "Description": "Campaign 1 desc Updated",
   "CharacterIds": [],
   "SessionIds": [],
   "CreatedAt": "2023-04-17T16:20:04.064296Z"

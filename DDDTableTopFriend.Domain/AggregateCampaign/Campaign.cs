@@ -3,7 +3,6 @@ using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.AggregateSession.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
-using DDDTableTopFriend.Domain.Common.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateCampaign.Events;
 using DDDTableTopFriend.Domain.AggregateSession.Events;
 
@@ -78,22 +77,42 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         return campaign;
     }
 
-    public static Campaign Update(
-        Campaign campaign,
-        DateTime? updatedAt)
+    public Campaign Update(
+        string name,
+        string description,
+        List<CharacterId> characterIds,
+        List<SessionId> sessionIds)
     {
-        campaign.UpdatedAt = updatedAt;
-        campaign.AddDomainEvent(new CampaignChangedDomainEvent(
-            CampaignId.Create(campaign.Id.Value),
-            campaign.UserId,
-            campaign.Name,
-            campaign.Description,
-            campaign.CharacterIds,
-            campaign.SessionIds,
-            campaign.CreatedAt.Value,
-            campaign.UpdatedAt.Value
+        Name = name;
+        Description = description;
+        UpdatedAt = DateTime.UtcNow;
+
+        foreach (var id in characterIds)
+        {
+            bool exists = _characterIds.Contains(id);
+            if (!exists)
+                _characterIds.Add(id);
+        }
+
+        foreach (var id in sessionIds)
+        {
+            bool exists = _sessionIds.Contains(id);
+            if (!exists)
+                _sessionIds.Add(id);
+        }
+
+        AddDomainEvent(new CampaignChangedDomainEvent(
+            CampaignId.Create(Id.Value),
+            UserId,
+            Name,
+            Description,
+            CharacterIds,
+            SessionIds,
+            CreatedAt.Value,
+            UpdatedAt.Value
         ));
-        return campaign;
+
+        return this;
     }
 
     public void AddCharacterId(CharacterId characterId)
@@ -106,21 +125,6 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
                 CampaignId.Create(Id.Value),
                 characterId
             ));
-        }
-    }
-
-    public void AddSessionId(SessionId sessionId)
-    {
-        bool exists = _sessionIds.Contains(sessionId);
-        if (!exists)
-        {
-            _sessionIds.Add(sessionId);
-            AddDomainEvent(
-                new SessionScheduledDomainEvent(
-                    CampaignId.Create(Id.Value),
-                    sessionId
-                )
-            );
         }
     }
 

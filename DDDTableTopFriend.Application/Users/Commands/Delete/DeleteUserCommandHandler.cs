@@ -4,7 +4,7 @@ using DDDTableTopFriend.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 
-namespace DDDTableTopFriend.Application.Users.Commands;
+namespace DDDTableTopFriend.Application.Users.Commands.Delete;
 
 public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, ErrorOr<bool>>
 {
