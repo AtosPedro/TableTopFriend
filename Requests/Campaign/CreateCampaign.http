@@ -1,10 +1,10 @@
 POST {{host_https}}/{{api_v1_route}}/campaigns
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZWJkOGJkNC1mNDQ1LTQ5YzYtOWUzOS04ZGE5NjMyODJkYzAiLCJqdGkiOiJmZmI3MGE1YS0yMTU3LTRkYjgtYjFkYy1kMGEyZmZkMWMyMzEiLCJnaXZlbl9uYW1lIjoiQXRvcyIsImZhbWlseV9uYW1lIjoiUGVkcm8iLCJleHAiOjE2ODE0ODQ2ODAsImlzcyI6IlRhYmxlVG9wIEZyaWVuZCIsImF1ZCI6IlRhYmxlVG9wIEZyaWVuZCJ9.dgitZ-CgUdbjqY7T9QHXpPhBraMuMsg-Gc8ARptIhq4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZWJkOGJkNC1mNDQ1LTQ5YzYtOWUzOS04ZGE5NjMyODJkYzAiLCJqdGkiOiIyNTEwZTI2YS03NDE2LTQwNGEtOTNmNy04ZmRiYWYzNzY2OTMiLCJnaXZlbl9uYW1lIjoiQXRvcyIsImZhbWlseV9uYW1lIjoiUGVkcm8iLCJleHAiOjE2ODE3NDgzOTIsImlzcyI6IlRhYmxlVG9wIEZyaWVuZCIsImF1ZCI6IlRhYmxlVG9wIEZyaWVuZCJ9.jasq14QpK6fT1LSsib2_94giwQn9nwAEdwd3cRpSRvw
 
 {
    "name":"Campaign 1",
-   "userId": "5b4989d2-a1da-44b2-9070-36b60f7155dd",
+   "userId": "9ebd8bd4-f445-49c6-9e39-8da963282dc0",
    "description":"Campaign 1 desc",
    "characterIds":[],
    "sessionIds":[]

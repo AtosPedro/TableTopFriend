@@ -5,5 +5,5 @@ using MediatR;
 namespace DDDTableTopFriend.Application.Campaigns.Get.Queries;
 
 public record GetCampaignQuery(
-    Guid id
+    Guid Id
 ) : IRequest<ErrorOr<CampaignResult>>;

@@ -2,6 +2,7 @@ using DDDTableTopFriend.Application.Campaigns.Common;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Application.Common.Interfaces.Services;
 using DDDTableTopFriend.Domain.AggregateCampaign;
+using DDDTableTopFriend.Domain.AggregateCampaign.Events;
 using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateSession.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
@@ -29,6 +30,7 @@ public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignComman
     {
         var campaign = await _campaignRepository.GetByName(
             request.Name,
+            UserId.Create(request.UserId),
             cancellationToken);
 
         if (campaign is not null)

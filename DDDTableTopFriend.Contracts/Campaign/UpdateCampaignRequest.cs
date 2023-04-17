@@ -1,7 +1,8 @@
 namespace DDDTableTopFriend.Contracts.Campaign;
 
 public record UpdateCampaignRequest(
-    Guid id,
+    Guid Id,
+    Guid UserId,
     string Name,
     string Description,
     List<Guid> characterIds,

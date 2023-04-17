@@ -16,7 +16,7 @@ public class CampaignsController : ApiController
 {
     public CampaignsController(ISender mediator) : base(mediator){}
 
-    [HttpGet("/list/{userId}")]
+    [HttpGet("list/{userId}")]
     public async Task<IActionResult> GetCampaigns(Guid userId)
     {
         var query = new GetAllCampaignQuery(userId);
@@ -60,11 +60,10 @@ public class CampaignsController : ApiController
         );
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> DeleteCampaign(DeleteCampaignRequest request)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCampaign(Guid id)
     {
-        var command = request.Adapt<DeleteCampaignCommand>();
-        var result = await _mediator.Send(command);
+        var result = await _mediator.Send(new DeleteCampaignCommand(id));
         return result.Match(
             _ => NoContent(),
             errors => Problem(errors)

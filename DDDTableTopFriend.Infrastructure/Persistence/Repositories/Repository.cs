@@ -30,7 +30,10 @@ public abstract class Repository<T, TId, TIdType>
         Expression<Func<T, bool>> predicate,
         CancellationToken cancellationToken)
     {
-        return await EntityDbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
+        return await EntityDbSet
+            .AsNoTracking()
+            .Where(predicate)
+            .ToListAsync(cancellationToken);
     }
 
     /// <summary>
@@ -40,10 +43,10 @@ public abstract class Repository<T, TId, TIdType>
     /// <param name="cancellationToken"></param>
     /// <returns>A Task of type TEntity or Null if the TEntity was not found</returns>
     public virtual async Task<T?> GetById(
-        ValueObject id,
+        AggregateRootId<TIdType> id,
         CancellationToken cancellationToken)
     {
-        return await EntityDbSet.FindAsync(new object[] { id }, cancellationToken);
+        return await EntityDbSet.FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
     }
 
     /// <summary>

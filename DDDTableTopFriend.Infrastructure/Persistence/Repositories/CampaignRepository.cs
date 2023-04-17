@@ -14,18 +14,18 @@ public class CampaignRepository : Repository<Campaign, CampaignId, Guid>, ICampa
     {
     }
 
-    public async Task<IEnumerable<Campaign>> GetAll(UserId userId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<Campaign>> GetAll(
+        UserId userId,
+        CancellationToken cancellationToken)
     {
         return await Search(w => w.UserId == userId, cancellationToken);
     }
 
-    public async Task<Campaign?> GetById(CampaignId id, CancellationToken cancellationToken)
+    public async Task<Campaign?> GetByName(
+        string name,
+        UserId userId,
+        CancellationToken cancellationToken)
     {
-        return await EntityDbSet.FindAsync(new object[] { id }, cancellationToken);
-    }
-
-    public async Task<Campaign?> GetByName(string name, CancellationToken cancellationToken)
-    {
-        return (await Search(w => w.Name == name, cancellationToken)).FirstOrDefault();
+        return (await Search(w => w.Name == name && w.UserId == userId, cancellationToken)).FirstOrDefault();
     }
 }

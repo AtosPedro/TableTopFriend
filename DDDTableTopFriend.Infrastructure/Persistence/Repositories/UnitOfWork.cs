@@ -14,7 +14,9 @@ public class UnitOfWork : IUnitOfWork
         _publisher = mediator;
     }
 
-    public async Task Commit(IEnumerable<IDomainEvent> domainEvents, CancellationToken cancellationToken = new CancellationToken())
+    public async Task Commit(
+        IEnumerable<IDomainEvent> domainEvents,
+        CancellationToken cancellationToken = new CancellationToken())
     {
         await _applicationDbContext.SaveChangesAsync(cancellationToken);
         foreach (var domainEvent in domainEvents)

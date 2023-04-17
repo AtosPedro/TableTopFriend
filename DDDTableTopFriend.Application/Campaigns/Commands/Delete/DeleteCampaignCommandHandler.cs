@@ -1,5 +1,6 @@
 using DDDTableTopFriend.Application.Campaigns.Common;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
+using DDDTableTopFriend.Domain.AggregateCampaign.Events;
 using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Errors;
 using ErrorOr;
@@ -27,6 +28,7 @@ public class DeleteCampaignCommandHandler : IRequestHandler<DeleteCampaignComman
         if(campaign is null)
             return Errors.Campaign.NotRegistered;
 
+        campaign.AddDomainEvent(new CampaignDeletedDomainEvent(CampaignId.Create(request.Id)));
         await _campaignRepository.Remove(campaign);
         return request.Adapt<CampaignResult>();
     }

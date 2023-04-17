@@ -9,7 +9,7 @@ public class CreateCampaignCommandValidator : AbstractValidator<CreateCampaignCo
         RuleFor(x => x.Name)
             .NotEmpty()
             .NotNull();
-        
+
         RuleFor(x => x.Description)
             .NotEmpty()
             .NotNull();

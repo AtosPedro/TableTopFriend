@@ -1,5 +1,6 @@
 using DDDTableTopFriend.Application.Campaigns.Common;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
+using DDDTableTopFriend.Domain.AggregateCampaign.Events;
 using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Errors;
@@ -13,13 +14,17 @@ public class JoinCampaignCommandHandler : IRequestHandler<JoinCampaignCommand, E
 {
     private readonly ICampaignRepository _campaignRepository;
     private readonly ICharacterRepository _characterRepository;
-    public JoinCampaignCommandHandler(ICampaignRepository campaignRepository, ICharacterRepository characterRepository)
+    public JoinCampaignCommandHandler(
+        ICampaignRepository campaignRepository,
+        ICharacterRepository characterRepository)
     {
         _campaignRepository = campaignRepository;
         _characterRepository = characterRepository;
     }
 
-    public async Task<ErrorOr<CampaignJoinedResult>> Handle(JoinCampaignCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<CampaignJoinedResult>> Handle(
+        JoinCampaignCommand request,
+        CancellationToken cancellationToken)
     {
         var campaign = await _campaignRepository.GetById(
             CampaignId.Create(request.Id),

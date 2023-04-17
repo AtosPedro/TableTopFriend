@@ -3,9 +3,9 @@ using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateSession.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
-using Mapster;
 using DDDTableTopFriend.Application.Campaigns.Commands.Create;
 using DDDTableTopFriend.Application.Campaigns.Commands.Update;
+using Mapster;
 
 namespace DDDTableTopFriend.Application.Campaigns.Common;
 

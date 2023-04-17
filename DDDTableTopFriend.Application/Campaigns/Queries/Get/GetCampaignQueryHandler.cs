@@ -1,6 +1,7 @@
 using DDDTableTopFriend.Application.Campaigns.Common;
 using DDDTableTopFriend.Domain.Common.Errors;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
+using DDDTableTopFriend.Domain.AggregateCampaign;
 using ErrorOr;
 using MediatR;
 using Mapster;
@@ -21,7 +22,7 @@ public class GetCampaignQueryHandler : IRequestHandler<GetCampaignQuery, ErrorOr
         CancellationToken cancellationToken)
     {
         var campaign = await _campaignRepository.GetById(
-            CampaignId.Create(request.id),
+            CampaignId.Create(request.Id),
             cancellationToken);
 
         if(campaign is null)

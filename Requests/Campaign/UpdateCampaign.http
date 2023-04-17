@@ -1,0 +1,13 @@
+PUT {{host_https}}/{{api_v1_route}}/campaigns
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5ZWJkOGJkNC1mNDQ1LTQ5YzYtOWUzOS04ZGE5NjMyODJkYzAiLCJqdGkiOiJhOTA4Yjc3MS0wM2EzLTQxNWEtYTBiNC1kMmJlYzFiNzgxMWEiLCJnaXZlbl9uYW1lIjoiQXRvcyIsImZhbWlseV9uYW1lIjoiUGVkcm8iLCJleHAiOjE2ODE3NDg3OTksImlzcyI6IlRhYmxlVG9wIEZyaWVuZCIsImF1ZCI6IlRhYmxlVG9wIEZyaWVuZCJ9.jy7w9JlG22GnjplXy1_rn-KEGzrp5iR9jILjwhBmk3U
+
+{
+  "Id": "1b4750e3-e54a-40fc-8f24-3f48575f8e4d",
+  "UserId": "9ebd8bd4-f445-49c6-9e39-8da963282dc0",
+  "Name": "Campaign 2",
+  "Description": "Campaign 2 desc",
+  "CharacterIds": [],
+  "SessionIds": [],
+  "CreatedAt": "2023-04-17T16:20:04.064296Z"
+}
