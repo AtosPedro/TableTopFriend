@@ -13,6 +13,5 @@ public record CampaignChangedDomainEvent(
     string Description,
     IReadOnlyList<CharacterId> CharacterIds,
     IReadOnlyList<SessionId> SessionIds,
-    DateTime CreatedAt,
     DateTime UpdatedAt
 ) : IDomainEvent;

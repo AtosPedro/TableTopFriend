@@ -26,8 +26,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
         string password,
         string passwordSalt,
         UserRole userRole,
-        DateTime? createdAt = null,
-        DateTime? updatedAt = null) : base(id)
+        DateTime createdAt) : base(id)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -36,7 +35,6 @@ public sealed class User : AggregateRoot<UserId, Guid>
         PasswordSalt = passwordSalt;
         UserRole = userRole;
         CreatedAt = createdAt;
-        UpdatedAt = updatedAt;
     }
 
     public static User Create(
@@ -46,32 +44,10 @@ public sealed class User : AggregateRoot<UserId, Guid>
         string password,
         string passwordSalt,
         UserRole userRole,
-        DateTime? createdAt = null)
+        DateTime createdAt)
     {
-        return new(
-            UserId.CreateUnique(),
-            firstName,
-            lastName,
-            email,
-            password,
-            passwordSalt,
-            userRole,
-            createdAt,
-            null);
-    }
-
-    public static User Update(
-       UserId id,
-       string firstName,
-       string lastName,
-       string email,
-       string password,
-       string passwordSalt,
-       UserRole userRole,
-       DateTime? createdAt,
-       DateTime? updatedAt = null)
-    {
-        return new(
+        var id = UserId.CreateUnique();
+        var user = new User(
             id,
             firstName,
             lastName,
@@ -79,9 +55,55 @@ public sealed class User : AggregateRoot<UserId, Guid>
             password,
             passwordSalt,
             userRole,
-            createdAt,
-            updatedAt);
+            createdAt);
+
+        user.AddDomainEvent(new UserRegisteredDomainEvent(
+            id,
+            user.FirstName,
+            user.LastName,
+            user.Email,
+            userRole,
+            user.CreatedAt
+        ));
+
+        return user;
     }
+
+    public void Update(
+       string firstName,
+       string lastName,
+       string email,
+       string password,
+       string passwordSalt,
+       UserRole userRole,
+       DateTime updatedAt)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        Email = email;
+        Password = password;
+        PasswordSalt = passwordSalt;
+        UserRole = userRole;
+        UpdatedAt = updatedAt;
+
+        AddDomainEvent(new UserChangedDomainEvent(
+            UserId.Create(Id.Value),
+            FirstName,
+            LastName,
+            Email,
+            UserRole,
+            UpdatedAt.Value
+        ));
+    }
+
+    public void MarkToDelete(DateTime deletedAt)
+    {
+        AddDomainEvent(new DeletedUserDomainEvent(
+            UserId.Create(Id.Value),
+            deletedAt
+        ));
+    }
+
 #pragma warning disable CS8618
     private User()
     {

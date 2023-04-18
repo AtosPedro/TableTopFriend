@@ -1,6 +1,6 @@
 using DDDTableTopFriend.Application.Campaigns.Common;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
-using DDDTableTopFriend.Domain.AggregateCampaign.Events;
+using DDDTableTopFriend.Application.Common.Interfaces.Services;
 using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Errors;
 using ErrorOr;
@@ -12,9 +12,13 @@ namespace DDDTableTopFriend.Application.Campaigns.Commands.Delete;
 public class DeleteCampaignCommandHandler : IRequestHandler<DeleteCampaignCommand, ErrorOr<CampaignResult>>
 {
     private readonly ICampaignRepository _campaignRepository;
-    public DeleteCampaignCommandHandler(ICampaignRepository campaignRepository)
+    private readonly IDateTimeProvider _dateTimeProvider;
+    public DeleteCampaignCommandHandler(
+        ICampaignRepository campaignRepository,
+        IDateTimeProvider dateTimeProvider)
     {
         _campaignRepository = campaignRepository;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     public async Task<ErrorOr<CampaignResult>> Handle(
@@ -28,7 +32,7 @@ public class DeleteCampaignCommandHandler : IRequestHandler<DeleteCampaignComman
         if(campaign is null)
             return Errors.Campaign.NotRegistered;
 
-        campaign.AddDomainEvent(new CampaignDeletedDomainEvent(CampaignId.Create(request.Id)));
+        campaign.MarkToDelete(_dateTimeProvider.UtcNow);
         await _campaignRepository.Remove(campaign);
         return request.Adapt<CampaignResult>();
     }

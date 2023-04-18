@@ -16,6 +16,7 @@ public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignComman
 {
     private readonly ICampaignRepository _campaignRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
+
     public CreateCampaignCommandHandler(
         ICampaignRepository campaignRepository,
         IDateTimeProvider dateTimeProvider)
@@ -41,9 +42,7 @@ public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignComman
             request.Name,
             request.Description,
             request.CharacterIds.ConvertAll(x => CharacterId.Create(x)),
-            request.SessionIds.ConvertAll(x => SessionId.Create(x)),
-            _dateTimeProvider.UtcNow,
-            null
+            _dateTimeProvider.UtcNow
         );
 
         await _campaignRepository.Add(campaign, cancellationToken);

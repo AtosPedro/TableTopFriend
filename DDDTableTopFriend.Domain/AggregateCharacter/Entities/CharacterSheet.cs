@@ -11,7 +11,7 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
     public string Description { get; private set;} = null!;
     public IReadOnlyList<StatusId> StatusIds => _statusIds.AsReadOnly();
     public IReadOnlyList<SkillId> SkillIds => _skillIds.AsReadOnly();
-    public DateTime? CreatedAt { get; private set;}
+    public DateTime CreatedAt { get; private set;}
     public DateTime? UpdatedAt { get; private set;}
 
     private readonly List<StatusId> _statusIds = new();
@@ -25,13 +25,11 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
         string description,
         List<StatusId> statusIds,
         List<SkillId> skillIds,
-        DateTime? createdAt,
-        DateTime? updatedAt) : base(id)
+        DateTime createdAt) : base(id)
     {
         Name = name;
         Description = description;
         CreatedAt = createdAt;
-        UpdatedAt = updatedAt;
         _statusIds = statusIds;
         _skillIds = skillIds;
     }
@@ -41,8 +39,7 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
         string description,
         List<StatusId> statusIds,
         List<SkillId> skillIds,
-        DateTime? createdAt,
-        DateTime? updatedAt)
+        DateTime createdAt)
     {
         return new(
             CharacterSheetId.CreateUnique(),
@@ -50,8 +47,7 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
             description,
             statusIds,
             skillIds,
-            createdAt,
-            updatedAt);
+            createdAt);
     }
 
 #pragma warning disable CS8618

@@ -27,14 +27,12 @@ public class CampaignResultMapConfigs : IRegister
         config.NewConfig<CreateCampaignCommand, Campaign>()
             .Map(dest => dest.UserId, src => UserId.Create(src.UserId))
             .Map(dest => dest.CharacterIds, src => src.CharacterIds.ConvertAll(x => CharacterId.Create(x)))
-            .Map(dest => dest.SessionIds, src => src.SessionIds.ConvertAll(x => SessionId.Create(x)))
             .MapToConstructor(true);
 
         config.NewConfig<UpdateCampaignCommand, Campaign>()
             .Map(dest => dest.Id, src => CampaignId.Create(src.Id))
             .Map(dest => dest.UserId, src => UserId.Create(src.UserId))
             .Map(dest => dest.CharacterIds, src => src.CharacterIds.ConvertAll(x => CharacterId.Create(x)))
-            .Map(dest => dest.SessionIds, src => src.SessionIds.ConvertAll(x => SessionId.Create(x)))
             .MapToConstructor(true);
 
         config.NewConfig<IEnumerable<Guid>, IEnumerable<CharacterId>>()

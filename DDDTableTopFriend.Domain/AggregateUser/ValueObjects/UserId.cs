@@ -1,4 +1,3 @@
-using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.Common.ValueObjects;
 
 namespace DDDTableTopFriend.Domain.AggregateUser.ValueObjects;

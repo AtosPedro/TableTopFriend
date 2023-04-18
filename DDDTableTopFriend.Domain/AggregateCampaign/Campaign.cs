@@ -15,7 +15,7 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
     public UserId UserId { get; private set; } = null!;
     public IReadOnlyList<CharacterId> CharacterIds => _characterIds.AsReadOnly();
     public IReadOnlyList<SessionId> SessionIds => _sessionIds.AsReadOnly();
-    public DateTime? CreatedAt { get; private set; }
+    public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
 
     private readonly List<CharacterId> _characterIds = new();
@@ -30,16 +30,14 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         string description,
         List<CharacterId> characterIds,
         List<SessionId> sessionIds,
-        DateTime? createdAt,
-        DateTime? updatedAt) : base(id)
+        DateTime createdAt) : base(id)
     {
         UserId = userId;
         Name = name;
         Description = description;
+        CreatedAt = createdAt;
         _characterIds = characterIds;
         _sessionIds = sessionIds;
-        CreatedAt = createdAt;
-        UpdatedAt = updatedAt;
     }
 
     public static Campaign Create(
@@ -47,59 +45,45 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         string name,
         string description,
         List<CharacterId> characterIds,
-        List<SessionId> sessionIds,
-        DateTime? createdAt,
-        DateTime? updatedAt)
+        DateTime createdAt)
     {
+        var id = CampaignId.CreateUnique();
         Campaign campaign = new(
-            CampaignId.CreateUnique(),
+            id,
             userId,
             name,
             description,
             characterIds ?? new List<CharacterId>(),
-            sessionIds ?? new List<SessionId>(),
-            createdAt ?? DateTime.UtcNow,
-            updatedAt
+            new List<SessionId>(),
+            createdAt
         );
 
         campaign.AddDomainEvent(
             new CampaignCreatedDomainEvent(
-                CampaignId.Create(campaign.Id.Value),
+                id,
                 campaign.UserId,
                 campaign.Name,
                 campaign.Description,
                 campaign.CharacterIds,
-                campaign.SessionIds,
-                campaign.CreatedAt.Value
+                campaign.CreatedAt
             )
         );
 
         return campaign;
     }
 
-    public Campaign Update(
+    public void Update(
         string name,
         string description,
         List<CharacterId> characterIds,
-        List<SessionId> sessionIds)
+        DateTime updatedAt)
     {
-        Name = name;
-        Description = description;
-        UpdatedAt = DateTime.UtcNow;
+        Name = name ?? Name;
+        Description = description ?? Description;
+        UpdatedAt = updatedAt;
 
-        foreach (var id in characterIds)
-        {
-            bool exists = _characterIds.Contains(id);
-            if (!exists)
-                _characterIds.Add(id);
-        }
-
-        foreach (var id in sessionIds)
-        {
-            bool exists = _sessionIds.Contains(id);
-            if (!exists)
-                _sessionIds.Add(id);
-        }
+        _characterIds.AddRange(characterIds.Where(c => !_characterIds.Contains(c)));
+        _characterIds.RemoveAll(cid => _characterIds.Except(characterIds).Contains(cid));
 
         AddDomainEvent(new CampaignChangedDomainEvent(
             CampaignId.Create(Id.Value),
@@ -108,24 +92,51 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
             Description,
             CharacterIds,
             SessionIds,
-            CreatedAt.Value,
             UpdatedAt.Value
         ));
-
-        return this;
     }
 
-    public void AddCharacterId(CharacterId characterId)
+    public void MarkToDelete(DateTime deletedAt){
+        AddDomainEvent(new CampaignDeletedDomainEvent(
+            CampaignId.Create(Id.Value),
+            deletedAt)
+        );
+    }
+
+    public void AddCharacterId(
+        CharacterId characterId,
+        DateTime updatedAt)
     {
         bool exists = _characterIds.Contains(characterId);
         if (!exists)
         {
             _characterIds.Add(characterId);
             AddDomainEvent(new PlayerJoinedCampaignDomainEvent(
+                UserId,
                 CampaignId.Create(Id.Value),
                 characterId
             ));
         }
+
+        UpdatedAt = updatedAt;
+    }
+
+    public void AddSessionId(
+        SessionId sessionId,
+        DateTime updatedAt)
+    {
+        bool exists = _sessionIds.Contains(sessionId);
+        if (!exists)
+        {
+            _sessionIds.Add(sessionId);
+            AddDomainEvent(new SessionScheduledDomainEvent(
+                UserId,
+                CampaignId.Create(Id.Value),
+                sessionId
+            ));
+        }
+
+        UpdatedAt = updatedAt;
     }
 
 #pragma warning disable CS8618

@@ -1,5 +1,6 @@
 using DDDTableTopFriend.Application.Campaigns.Common;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
+using DDDTableTopFriend.Application.Common.Interfaces.Services;
 using DDDTableTopFriend.Domain.AggregateCampaign.Events;
 using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
@@ -14,12 +15,15 @@ public class JoinCampaignCommandHandler : IRequestHandler<JoinCampaignCommand, E
 {
     private readonly ICampaignRepository _campaignRepository;
     private readonly ICharacterRepository _characterRepository;
+    private readonly IDateTimeProvider _dateTimeProvider;
     public JoinCampaignCommandHandler(
         ICampaignRepository campaignRepository,
-        ICharacterRepository characterRepository)
+        ICharacterRepository characterRepository,
+        IDateTimeProvider dateTimeProvider)
     {
         _campaignRepository = campaignRepository;
         _characterRepository = characterRepository;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     public async Task<ErrorOr<CampaignJoinedResult>> Handle(
@@ -40,7 +44,10 @@ public class JoinCampaignCommandHandler : IRequestHandler<JoinCampaignCommand, E
         if (character is null)
             return Errors.Character.NotRegistered;
 
-        campaign.AddCharacterId(CharacterId.Create(request.Id));
+        campaign.AddCharacterId(
+            CharacterId.Create(request.Id),
+            _dateTimeProvider.UtcNow
+        );
 
         await _campaignRepository.Update(campaign);
 

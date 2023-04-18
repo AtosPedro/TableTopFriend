@@ -12,7 +12,7 @@ public class Skill : AggregateRoot<SkillId,Guid>
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
     public float Cost { get; private set; }
-    public DateTime? CreatedAt { get; private set; }
+    public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
 
     public Skill(SkillId id) : base(id) { }
@@ -23,15 +23,13 @@ public class Skill : AggregateRoot<SkillId,Guid>
         string name,
         string description,
         float cost,
-        DateTime? createdAt,
-        DateTime? updatedAt) : base(id)
+        DateTime createdAt) : base(id)
     {
         AudioEffectId = audioEffectId;
         Name = name;
         Description = description;
         Cost = cost;
         CreatedAt = createdAt;
-        UpdatedAt = updatedAt;
     }
 
     public static Skill Create(
@@ -39,7 +37,7 @@ public class Skill : AggregateRoot<SkillId,Guid>
         string name,
         string description,
         float cost,
-        DateTime? createdAt)
+        DateTime createdAt)
     {
         return new(
             SkillId.CreateUnique(),
@@ -47,8 +45,7 @@ public class Skill : AggregateRoot<SkillId,Guid>
             name,
             description,
             cost,
-            createdAt,
-            null
+            createdAt
         );
     }
 

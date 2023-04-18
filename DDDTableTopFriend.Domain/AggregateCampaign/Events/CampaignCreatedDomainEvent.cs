@@ -12,6 +12,5 @@ public record CampaignCreatedDomainEvent(
     string Name,
     string Description,
     IReadOnlyList<CharacterId> CharacterIds,
-    IReadOnlyList<SessionId> SessionIds,
     DateTime CreatedAt
 ) : IDomainEvent;

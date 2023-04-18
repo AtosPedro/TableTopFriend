@@ -17,19 +17,24 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
     private readonly IUserRepository _userRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IHasher _hasher;
+    private readonly IDateTimeProvider _dateTimeProvider;
     public RegisterCommandHandler(
         IUserRepository userRepository,
         IJwtTokenGenerator jwtTokenGenerator,
-        IHasher hasher)
+        IHasher hasher,
+        IDateTimeProvider dateTimeProvider)
     {
         _userRepository = userRepository;
         _jwtTokenGenerator = jwtTokenGenerator;
         _hasher = hasher;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetUserByEmail(request.Email, cancellationToken);
+        var user = await _userRepository.GetUserByEmail(
+            request.Email,
+            cancellationToken);
 
         if (user is not null)
             return Errors.Authentication.UserAlreadyRegistered;
@@ -46,21 +51,18 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
             request.Email,
             passwordHashed,
             salt,
-            request.Role);
+            request.Role,
+            _dateTimeProvider.UtcNow);
 
-        user.AddDomainEvent(
-            new UserRegisteredDomainEvent(
-                UserId.Create(user.Id.Value),
-                user.FirstName,
-                user.LastName,
-                user.Email,
-                user.UserRole,
-                user.CreatedAt
-        ));
+        await _userRepository.Add(
+            user,
+            cancellationToken);
 
-        await _userRepository.Add(user, cancellationToken);
+        string token = _jwtTokenGenerator.GenerateToken(
+            user.Id.Value,
+            user.Email,
+            user.LastName);
 
-        var token = _jwtTokenGenerator.GenerateToken(user.Id.Value, user.Email, user.LastName);
         return (user, token).Adapt<AuthenticationResult>();
     }
 }

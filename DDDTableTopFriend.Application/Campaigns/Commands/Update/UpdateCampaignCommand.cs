@@ -9,6 +9,5 @@ public record UpdateCampaignCommand(
     Guid UserId,
     string Name,
     string Description,
-    List<Guid> CharacterIds,
-    List<Guid> SessionIds
+    List<Guid> CharacterIds
 ) : IRequest<ErrorOr<CampaignResult>>;

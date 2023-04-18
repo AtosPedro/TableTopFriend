@@ -1,7 +1,6 @@
 using DDDTableTopFriend.Application.Campaigns.Common;
 using DDDTableTopFriend.Domain.Common.Errors;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
-using DDDTableTopFriend.Domain.AggregateCampaign;
 using ErrorOr;
 using MediatR;
 using Mapster;

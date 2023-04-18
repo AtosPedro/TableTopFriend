@@ -9,7 +9,7 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
     public string Description { get; private set; } = null!;
     public string AudioLink { get; private set; } = null!;
     public byte[] AudioClip { get; private set; } = null!;
-    public DateTime? CreatedAt { get; private set; }
+    public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
 
     public AudioEffect(AudioEffectId id) : base(id) { }
@@ -20,15 +20,13 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
         string description,
         string audioLink,
         byte[] audioClip,
-        DateTime? createdAt = null,
-        DateTime? updatedAt = null) : base(id)
+        DateTime createdAt) : base(id)
     {
         Name = name;
         Description = description;
         AudioLink = audioLink;
         AudioClip = audioClip;
         CreatedAt = createdAt;
-        UpdatedAt = updatedAt;
     }
 
     public static AudioEffect Create(
@@ -44,9 +42,22 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
             description,
             audioLink,
             audioClip,
-            createdAt,
-            null
+            createdAt
         );
+    }
+
+    public void Update(
+        string name,
+        string description,
+        string audioLink,
+        byte[] audioClip,
+        DateTime updatedAt)
+    {
+        Name = name;
+        Description = description;
+        AudioLink = audioLink;
+        AudioClip = audioClip;
+        UpdatedAt = updatedAt;
     }
 
 #pragma warning disable CS8618

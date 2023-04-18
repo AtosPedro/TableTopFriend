@@ -15,9 +15,13 @@ namespace DDDTableTopFriend.Application.Campaigns.Commands.Update;
 public class UpdateCampaignCommandHandler : IRequestHandler<UpdateCampaignCommand, ErrorOr<CampaignResult>>
 {
     private readonly ICampaignRepository _campaignRepository;
-    public UpdateCampaignCommandHandler(ICampaignRepository campaignRepository)
+    private readonly IDateTimeProvider _dateTimeProvider;
+    public UpdateCampaignCommandHandler(
+        ICampaignRepository campaignRepository,
+        IDateTimeProvider dateTimeProvider)
     {
         _campaignRepository = campaignRepository;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     public async Task<ErrorOr<CampaignResult>> Handle(
@@ -30,13 +34,14 @@ public class UpdateCampaignCommandHandler : IRequestHandler<UpdateCampaignComman
 
         if(campaign is null)
             return Errors.Campaign.NotRegistered;
+
         var characterList = request.CharacterIds.Adapt<List<CharacterId>>();
-        var sessionList = request.SessionIds.Adapt<List<SessionId>>();
+
         campaign.Update(
             request.Name,
             request.Description,
             characterList,
-            sessionList
+            _dateTimeProvider.UtcNow
         );
 
         await _campaignRepository.Update(campaign);

@@ -7,5 +7,6 @@ public record CampaignResult(
     string Description,
     List<Guid> CharacterIds,
     List<Guid> SessionIds,
-    DateTime CreatedAt
+    DateTime CreatedAt,
+    DateTime? UpdatedAt
 );

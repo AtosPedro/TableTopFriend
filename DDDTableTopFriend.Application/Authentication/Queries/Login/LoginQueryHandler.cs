@@ -16,18 +16,21 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
     private readonly IUserRepository _userRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IHasher _hasher;
+    private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IPublisher _publisher;
 
     public LoginQueryHandler(
         IUserRepository userRepository,
         IJwtTokenGenerator jwtTokenGenerator,
         IHasher hasher,
-        IPublisher publisher)
+        IPublisher publisher,
+        IDateTimeProvider dateTimeProvider)
     {
         _userRepository = userRepository;
         _jwtTokenGenerator = jwtTokenGenerator;
         _hasher = hasher;
         _publisher = publisher;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(
@@ -59,7 +62,8 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
             user.FirstName,
             user.LastName,
             user.Email,
-            DateTime.UtcNow
+            user.UserRole,
+            _dateTimeProvider.UtcNow
         ),
         cancellationToken);
 

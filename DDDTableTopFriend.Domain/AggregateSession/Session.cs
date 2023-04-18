@@ -14,7 +14,7 @@ public class Session : AggregateRoot<SessionId,Guid>
     public TimeSpan Duration { get; private set; }
     public IReadOnlyList<CharacterId> CharacterIds => _characterIds.AsReadOnly();
     public IReadOnlyList<AudioEffectId> AudioEffectIds => _audioEffectIds.AsReadOnly();
-    public DateTime? CreatedAt { get; private set; }
+    public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
 
     private readonly List<CharacterId> _characterIds = new();
@@ -30,7 +30,7 @@ public class Session : AggregateRoot<SessionId,Guid>
         TimeSpan duration,
         List<CharacterId> characterIds,
         List<AudioEffectId> audioEffectIds,
-        DateTime? createdAt,
+        DateTime createdAt,
         DateTime? updatedAt) : base(id)
     {
         CampaignId = campaignId;
@@ -50,7 +50,7 @@ public class Session : AggregateRoot<SessionId,Guid>
         TimeSpan duration,
         List<CharacterId> characterIds,
         List<AudioEffectId> audioEffectIds,
-        DateTime? createdAt)
+        DateTime createdAt)
     {
         return new(
             SessionId.CreateUnique(),
