@@ -1,5 +1,6 @@
-using DDDTableTopFriend.Domain.AggregateStatus;
+﻿using DDDTableTopFriend.Domain.AggregateStatus;
 using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
+using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,6 +25,10 @@ public class StatusConfiguration : IEntityTypeConfiguration<Status>
             .Property(us => us.Id)
             .ValueGeneratedNever()
             .HasConversion(us => us.Value, value => StatusId.Create(value));
+
+        statusBuilder
+            .Property(us => us.UserId)
+            .HasConversion(us => us.Value, value => UserId.Create(value));
 
         statusBuilder
             .Property(sk => sk.Name)

@@ -1,7 +1,8 @@
-using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
+﻿using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateSkill;
 using DDDTableTopFriend.Domain.AggregateSkill.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
+using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -25,6 +26,10 @@ public class SkillConfiguration : IEntityTypeConfiguration<Skill>
             .Property(us => us.Id)
             .ValueGeneratedNever()
             .HasConversion(us => us.Value, value => SkillId.Create(value));
+
+        skillBuilder
+            .Property(us => us.UserId)
+            .HasConversion(us => us.Value, value => UserId.Create(value));
 
         skillBuilder
             .Property(us => us.StatusId)

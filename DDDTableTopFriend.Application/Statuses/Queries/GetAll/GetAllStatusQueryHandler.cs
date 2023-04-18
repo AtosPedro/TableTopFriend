@@ -1,4 +1,4 @@
-using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
+﻿using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Application.Statuses.Common;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using ErrorOr;
@@ -23,10 +23,10 @@ public class GetAllStatusQueryHandler : IRequestHandler<GetAllStatusQuery, Error
             UserId.Create(request.UserId),
             cancellationToken);
 
-        var campaignsResult = new List<StatusResult>();
+        var statusResult = new List<StatusResult>();
         foreach (var campaign in statuses)
-            campaignsResult.Add(campaign.Adapt<StatusResult>());
+            statusResult.Add(campaign.Adapt<StatusResult>());
 
-        return campaignsResult;
+        return statusResult;
     }
 }

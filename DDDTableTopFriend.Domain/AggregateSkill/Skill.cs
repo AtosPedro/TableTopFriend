@@ -1,12 +1,14 @@
-using DDDTableTopFriend.Domain.Common.Models;
+﻿using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.AggregateSkill.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
+using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 
 namespace DDDTableTopFriend.Domain.AggregateSkill;
 
-public class Skill : AggregateRoot<SkillId,Guid>
+public class Skill : AggregateRoot<SkillId, Guid>
 {
+    public UserId UserId { get; private set; } = null!;
     public StatusId StatusId { get; private set; } = null!;
     public AudioEffectId AudioEffectId { get; private set; } = null!;
     public string Name { get; private set; } = null!;
@@ -19,12 +21,14 @@ public class Skill : AggregateRoot<SkillId,Guid>
 
     private Skill(
         SkillId id,
+        UserId userId,
         AudioEffectId audioEffectId,
         string name,
         string description,
         float cost,
         DateTime createdAt) : base(id)
     {
+        UserId = userId;
         AudioEffectId = audioEffectId;
         Name = name;
         Description = description;
@@ -33,6 +37,7 @@ public class Skill : AggregateRoot<SkillId,Guid>
     }
 
     public static Skill Create(
+        UserId userId,
         AudioEffectId audioEffectId,
         string name,
         string description,
@@ -41,6 +46,7 @@ public class Skill : AggregateRoot<SkillId,Guid>
     {
         return new(
             SkillId.CreateUnique(),
+            userId,
             audioEffectId,
             name,
             description,

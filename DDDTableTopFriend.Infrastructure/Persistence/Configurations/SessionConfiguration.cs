@@ -1,6 +1,7 @@
-using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
+﻿using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateSession;
 using DDDTableTopFriend.Domain.AggregateSession.ValueObjects;
+using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -32,6 +33,11 @@ public class SessionConfiguration : IEntityTypeConfiguration<Session>
             .Property(se => se.CampaignId)
             .ValueGeneratedNever()
             .HasConversion(campaignId => campaignId.Value, value => CampaignId.Create(value));
+
+        sessionBuilder
+            .Property(se => se.UserId)
+            .ValueGeneratedNever()
+            .HasConversion(userId => userId.Value, value => UserId.Create(value));
     }
 
     private static void ConfigureSessionCharacterIdsTable(EntityTypeBuilder<Session> sessionBuilder)
