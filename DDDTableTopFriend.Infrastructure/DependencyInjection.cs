@@ -16,6 +16,8 @@ using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
 using DDDTableTopFriend.Infrastructure.Persistence.Repositories;
 using System.Reflection;
 using MediatR;
+using StackExchange.Redis;
+using DDDTableTopFriend.Infrastructure.Services.Caching;
 
 namespace DDDTableTopFriend.Infrastructure;
 
@@ -29,6 +31,7 @@ public static class DependencyInjection
         services.AddPersistence(configuration);
         services.AddHasherService(configuration);
         services.AddMailService(configuration);
+        services.AddCaching(configuration);
         services.AddMediatR(typeof(DependencyInjection).GetTypeInfo().Assembly);
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         return services;
@@ -98,6 +101,20 @@ public static class DependencyInjection
         services.AddSingleton<IUserRepository, UserRepository>();
         services.AddSingleton<ICampaignRepository, CampaignRepository>();
         services.AddSingleton<ICharacterRepository, CharacterRepository>();
+        services.AddSingleton<IStatusRepository, StatusRepository>();
+        return services;
+    }
+
+    public static IServiceCollection AddCaching(
+        this IServiceCollection services,
+        ConfigurationManager configuration)
+    {
+        var cachingSettings = new CachingSettings();
+        configuration.Bind(CachingSettings.SectionName, cachingSettings);
+        services.AddSingleton(Options.Create(cachingSettings));
+
+        services.AddSingleton<IConnectionMultiplexer>(x => ConnectionMultiplexer.Connect(cachingSettings.ConnectionString));
+        services.AddSingleton<ICachingService, RedisCachingService>();
         return services;
     }
 }

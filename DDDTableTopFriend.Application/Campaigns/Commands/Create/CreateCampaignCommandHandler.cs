@@ -15,13 +15,15 @@ public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignComman
 {
     private readonly ICampaignRepository _campaignRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly ICachingService _cachingService;
 
     public CreateCampaignCommandHandler(
         ICampaignRepository campaignRepository,
-        IDateTimeProvider dateTimeProvider)
+        IDateTimeProvider dateTimeProvider, ICachingService cachingService)
     {
         _campaignRepository = campaignRepository;
         _dateTimeProvider = dateTimeProvider;
+        _cachingService = cachingService;
     }
 
     public async Task<ErrorOr<CampaignResult>> Handle(
@@ -45,6 +47,7 @@ public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignComman
         );
 
         await _campaignRepository.Add(campaign, cancellationToken);
+        await _cachingService.SetCacheValueAsync(campaign.Id.Value.ToString(), campaign);
         return campaign.Adapt<CampaignResult>();
     }
 }

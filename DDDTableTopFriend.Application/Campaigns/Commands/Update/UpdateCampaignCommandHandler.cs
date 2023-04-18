@@ -1,10 +1,8 @@
 using DDDTableTopFriend.Application.Campaigns.Common;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Application.Common.Interfaces.Services;
-using DDDTableTopFriend.Domain.AggregateCampaign;
 using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
-using DDDTableTopFriend.Domain.AggregateSession.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Errors;
 using ErrorOr;
 using Mapster;
@@ -16,12 +14,14 @@ public class UpdateCampaignCommandHandler : IRequestHandler<UpdateCampaignComman
 {
     private readonly ICampaignRepository _campaignRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
+        private readonly ICachingService _cachingService;
     public UpdateCampaignCommandHandler(
         ICampaignRepository campaignRepository,
-        IDateTimeProvider dateTimeProvider)
+        IDateTimeProvider dateTimeProvider, ICachingService cachingService)
     {
         _campaignRepository = campaignRepository;
         _dateTimeProvider = dateTimeProvider;
+        _cachingService = cachingService;
     }
 
     public async Task<ErrorOr<CampaignResult>> Handle(
@@ -45,6 +45,7 @@ public class UpdateCampaignCommandHandler : IRequestHandler<UpdateCampaignComman
         );
 
         await _campaignRepository.Update(campaign);
+        await _cachingService.SetCacheValueAsync(campaign.Id.Value.ToString(), campaign);
         return campaign.Adapt<CampaignResult>();
     }
 }
