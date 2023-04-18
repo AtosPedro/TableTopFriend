@@ -16,8 +16,9 @@ public sealed class Character
 ```json
 {
     "id":{ "value": "00000000-0000-0000-0000-00000000000" },
+    "userId": { "value": "00000000-0000-0000-0000-00000000000" },
     "description": "character's 1 history starts ...",
-    "type": "player",
+    "type": 1,
     "characterSheet": {
         "id":{ "value": "00000000-0000-0000-0000-00000000000" },
         "name": "sheet 1",

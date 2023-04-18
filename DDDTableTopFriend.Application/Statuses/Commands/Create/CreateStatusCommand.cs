@@ -1,0 +1,11 @@
+using DDDTableTopFriend.Application.Statuses.Common;
+using ErrorOr;
+using MediatR;
+
+namespace DDDTableTopFriend.Application.Statuses.Commands.Create;
+
+public record CreateStatusCommand(
+    string Name,
+    string Description,
+    float Quantity
+) : IRequest<ErrorOr<StatusResult>>;

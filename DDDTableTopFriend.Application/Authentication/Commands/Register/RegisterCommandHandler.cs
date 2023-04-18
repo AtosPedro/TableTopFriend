@@ -7,8 +7,6 @@ using DDDTableTopFriend.Domain.AggregateUser;
 using ErrorOr;
 using MediatR;
 using Mapster;
-using DDDTableTopFriend.Domain.AggregateUser.Events;
-using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 
 namespace DDDTableTopFriend.Application.Authentication.Commands.Register;
 

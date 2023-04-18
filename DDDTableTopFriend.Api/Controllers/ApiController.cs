@@ -10,10 +10,10 @@ namespace DDDTableTopFriend.Api.Controllers;
 [Authorize]
 public class ApiController : ControllerBase
 {
-    protected readonly ISender _mediator;
-    public ApiController(ISender mediator)
+    protected readonly ISender _sender;
+    public ApiController(ISender sender)
     {
-        _mediator = mediator;
+        _sender = sender;
     }
 
     protected IActionResult Problem(List<Error> errors)

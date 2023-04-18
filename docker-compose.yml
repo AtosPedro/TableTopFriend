@@ -10,3 +10,8 @@ services:
       HOMEBREW_NO_ENV_FILTERING: "1"
     ports:
       - "1433:1433"
+
+  tableTopFriend.caching:
+    image: redis
+    ports:
+      - 6379:6379

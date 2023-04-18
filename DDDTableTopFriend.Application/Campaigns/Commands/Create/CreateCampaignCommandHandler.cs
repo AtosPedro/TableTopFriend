@@ -2,9 +2,8 @@ using DDDTableTopFriend.Application.Campaigns.Common;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Application.Common.Interfaces.Services;
 using DDDTableTopFriend.Domain.AggregateCampaign;
-using DDDTableTopFriend.Domain.AggregateCampaign.Events;
+using DDDTableTopFriend.Domain.Common.Errors;
 using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
-using DDDTableTopFriend.Domain.AggregateSession.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using ErrorOr;
 using Mapster;
@@ -35,7 +34,7 @@ public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignComman
             cancellationToken);
 
         if (campaign is not null)
-            return Domain.Common.Errors.Errors.Campaign.DuplicateName;
+            return Errors.Campaign.DuplicateName;
 
         campaign = Campaign.Create(
             UserId.Create(request.UserId),

@@ -18,7 +18,7 @@ public class AuthenticationController : ApiController
     public async Task<IActionResult> Register(RegisterRequest registerRequest)
     {
         var command = registerRequest.Adapt<RegisterCommand>();
-        var authenticationResult = await _mediator.Send(command);
+        var authenticationResult = await _sender.Send(command);
 
         return authenticationResult.Match(
             authResult => Ok(authResult),
@@ -30,7 +30,7 @@ public class AuthenticationController : ApiController
     public async Task<IActionResult> Login(LoginRequest loginRequest)
     {
         var query = loginRequest.Adapt<LoginQuery>();
-        var authenticationResult = await _mediator.Send(query);
+        var authenticationResult = await _sender.Send(query);
 
         return authenticationResult.Match(
             authResult => Ok(authResult),

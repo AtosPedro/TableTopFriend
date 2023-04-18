@@ -12,6 +12,7 @@ public sealed class AudioEffect
 ```json
 {
     "id": { "value": "00000000-0000-0000-0000-00000000000" },
+    "userId": { "value": "00000000-0000-0000-0000-00000000000" },
     "name" : "fireball sound",
     "description": "fireball burning and launching sound",
     "audioLink" : "https://www.youtube.com/watch?v=FJGdoPmspiU",

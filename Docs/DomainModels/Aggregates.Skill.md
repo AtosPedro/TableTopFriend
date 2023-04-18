@@ -12,6 +12,7 @@ public sealed class Skill
 ```json
 {
     "id": { "value": "00000000-0000-0000-0000-00000000000" },
+    "userId": { "value": "00000000-0000-0000-0000-00000000000" },
     "name": "fire ball",
     "description": "launches a fireball through the hands of the caster.",
     "cost": 10,

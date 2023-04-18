@@ -15,6 +15,7 @@ public sealed class Campaign
 ```json
 {
     "id": { "value": "00000000-0000-0000-0000-00000000000" },
+    "userId": { "value": "00000000-0000-0000-0000-00000000000" },
     "name": "Campaign 1",
     "description": "Campaign 1 description",
     "charactersIds":[
