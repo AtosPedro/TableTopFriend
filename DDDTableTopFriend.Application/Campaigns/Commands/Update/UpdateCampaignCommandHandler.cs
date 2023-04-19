@@ -14,7 +14,7 @@ public class UpdateCampaignCommandHandler : IRequestHandler<UpdateCampaignComman
 {
     private readonly ICampaignRepository _campaignRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
-        private readonly ICachingService _cachingService;
+    private readonly ICachingService _cachingService;
     public UpdateCampaignCommandHandler(
         ICampaignRepository campaignRepository,
         IDateTimeProvider dateTimeProvider, ICachingService cachingService)
@@ -45,7 +45,8 @@ public class UpdateCampaignCommandHandler : IRequestHandler<UpdateCampaignComman
         );
 
         await _campaignRepository.Update(campaign);
-        await _cachingService.SetCacheValueAsync(campaign.Id.Value.ToString(), campaign);
-        return campaign.Adapt<CampaignResult>();
+        var result = campaign.Adapt<CampaignResult>();
+        await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
+        return result;
     }
 }

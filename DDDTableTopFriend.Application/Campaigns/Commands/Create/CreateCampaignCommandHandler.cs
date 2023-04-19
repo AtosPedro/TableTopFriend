@@ -47,7 +47,8 @@ public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignComman
         );
 
         await _campaignRepository.Add(campaign, cancellationToken);
-        await _cachingService.SetCacheValueAsync(campaign.Id.Value.ToString(), campaign);
-        return campaign.Adapt<CampaignResult>();
+        var result = campaign.Adapt<CampaignResult>();
+        await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
+        return result;
     }
 }

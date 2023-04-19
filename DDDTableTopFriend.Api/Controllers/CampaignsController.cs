@@ -14,7 +14,7 @@ namespace DDDTableTopFriend.Api.Controllers;
 [Route("v1/api/campaigns")]
 public class CampaignsController : ApiController
 {
-    public CampaignsController(ISender sender) : base(sender){}
+    public CampaignsController(ISender sender) : base(sender) { }
 
     [HttpGet("list/{userId}")]
     public async Task<IActionResult> GetCampaigns(Guid userId)
@@ -44,7 +44,7 @@ public class CampaignsController : ApiController
         var command = request.Adapt<CreateCampaignCommand>();
         var result = await _sender.Send(command);
         return result.Match(
-            campaignResult => CreatedAtAction(nameof(GetCampaign), new {id = campaignResult.Id}, campaignResult),
+            campaignResult => CreatedAtAction(nameof(GetCampaign), new { id = campaignResult.Id }, campaignResult),
             errors => Problem(errors)
         );
     }

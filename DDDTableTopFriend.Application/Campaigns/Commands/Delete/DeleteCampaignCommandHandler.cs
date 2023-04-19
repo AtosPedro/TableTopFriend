@@ -13,12 +13,15 @@ public class DeleteCampaignCommandHandler : IRequestHandler<DeleteCampaignComman
 {
     private readonly ICampaignRepository _campaignRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly ICachingService _cachingService;
     public DeleteCampaignCommandHandler(
         ICampaignRepository campaignRepository,
-        IDateTimeProvider dateTimeProvider)
+        IDateTimeProvider dateTimeProvider,
+        ICachingService cachingService)
     {
         _campaignRepository = campaignRepository;
         _dateTimeProvider = dateTimeProvider;
+        _cachingService = cachingService;
     }
 
     public async Task<ErrorOr<CampaignResult>> Handle(
@@ -34,6 +37,9 @@ public class DeleteCampaignCommandHandler : IRequestHandler<DeleteCampaignComman
 
         campaign.MarkToDelete(_dateTimeProvider.UtcNow);
         await _campaignRepository.Remove(campaign);
+
+        await _cachingService.RemoveCacheValueAsync<CampaignResult>(campaign.Id.Value.ToString());
+        await _cachingService.RemoveCacheValueAsync<CampaignJoinedResult>(campaign.Id.Value.ToString());
         return request.Adapt<CampaignResult>();
     }
 }

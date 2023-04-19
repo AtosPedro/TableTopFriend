@@ -49,7 +49,7 @@ public class StatusesController : ApiController
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateCampaign(UpdateStatusRequest request)
+    public async Task<IActionResult> UpdateStatus(UpdateStatusRequest request)
     {
         var command = request.Adapt<UpdateStatusCommand>();
         var result = await _sender.Send(command);

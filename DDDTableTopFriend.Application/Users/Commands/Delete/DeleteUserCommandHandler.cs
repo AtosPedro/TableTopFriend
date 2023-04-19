@@ -1,5 +1,6 @@
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Application.Common.Interfaces.Services;
+using DDDTableTopFriend.Application.Users.Common;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Errors;
 using ErrorOr;
@@ -11,12 +12,15 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Error
 {
     private readonly IUserRepository _userRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly ICachingService _cachingService;
     public DeleteUserCommandHandler(
         IUserRepository userRepository,
-        IDateTimeProvider dateTimeProvider)
+        IDateTimeProvider dateTimeProvider,
+        ICachingService cachingService)
     {
         _userRepository = userRepository;
         _dateTimeProvider = dateTimeProvider;
+        _cachingService = cachingService;
     }
 
     public async Task<ErrorOr<bool>> Handle(
@@ -32,6 +36,7 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Error
 
         user.MarkToDelete(_dateTimeProvider.UtcNow);
         var result = await _userRepository.Remove(user);
+        await _cachingService.RemoveCacheValueAsync<UserResult>(result.Id.Value.ToString());
         return result is not null;
     }
 }

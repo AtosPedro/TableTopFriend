@@ -7,8 +7,8 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
 {
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
-    public string AudioLink { get; private set; } = null!;
-    public byte[] AudioClip { get; private set; } = null!;
+    public string? AudioLink { get; private set; } = null!;
+    public byte[]? AudioClip { get; private set; } = null!;
     public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
 
@@ -18,8 +18,8 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
         AudioEffectId id,
         string name,
         string description,
-        string audioLink,
-        byte[] audioClip,
+        string? audioLink,
+        byte[]? audioClip,
         DateTime createdAt) : base(id)
     {
         Name = name;
@@ -32,11 +32,11 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
     public static AudioEffect Create(
         string name,
         string description,
-        string audioLink,
-        byte[] audioClip,
+        string? audioLink,
+        byte[]? audioClip,
         DateTime createdAt)
     {
-        return new(
+        AudioEffect audioEffect =  new(
             AudioEffectId.CreateUnique(),
             name,
             description,
@@ -44,13 +44,14 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
             audioClip,
             createdAt
         );
+        return audioEffect;
     }
 
     public void Update(
         string name,
         string description,
-        string audioLink,
-        byte[] audioClip,
+        string? audioLink,
+        byte[]? audioClip,
         DateTime updatedAt)
     {
         Name = name;

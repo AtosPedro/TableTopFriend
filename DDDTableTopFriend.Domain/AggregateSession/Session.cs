@@ -37,6 +37,7 @@ public class Session : AggregateRoot<SessionId, Guid>
         DateTime createdAt) : base(id)
     {
         CampaignId = campaignId;
+        UserId = userId;
         Name = name;
         DateTime = dateTime;
         Duration = duration;

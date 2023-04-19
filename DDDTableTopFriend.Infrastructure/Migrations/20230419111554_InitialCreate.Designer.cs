@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DDDTableTopFriend.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230412153908_InitialCreate")]
+    [Migration("20230419111554_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -31,15 +31,13 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<byte[]>("AudioClip")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("AudioLink")
-                        .IsRequired()
                         .HasMaxLength(600)
                         .HasColumnType("nvarchar(600)");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -65,7 +63,7 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -94,7 +92,7 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -113,6 +111,9 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.ToTable("Characters", (string)null);
@@ -126,7 +127,7 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.Property<Guid>("CampaignId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateTime")
@@ -141,6 +142,9 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -158,7 +162,7 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.Property<float>("Cost")
                         .HasColumnType("real");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -177,6 +181,9 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.ToTable("Skills", (string)null);
@@ -187,7 +194,7 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -205,6 +212,9 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -243,6 +253,9 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<byte[]>("ProfileImage")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -348,7 +361,7 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                             b1.Property<Guid>("CharacterId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<DateTime?>("CreatedAt")
+                            b1.Property<DateTime>("CreatedAt")
                                 .HasColumnType("datetime2");
 
                             b1.Property<string>("Description")

@@ -12,6 +12,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public string Email { get; private set; } = null!;
     public string Password { get; private set; } = null!;
     public string PasswordSalt { get; private set; } = null!;
+    public byte[]? ProfileImage { get; private set; }
     public UserRole UserRole { get; private set; }
     public DateTime? CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }

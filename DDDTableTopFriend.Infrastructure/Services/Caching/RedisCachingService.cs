@@ -1,6 +1,7 @@
-using System.Text.Json;
+using System.Linq.Expressions;
 using DDDTableTopFriend.Application.Common.Interfaces.Services;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using StackExchange.Redis;
 
 namespace DDDTableTopFriend.Infrastructure.Services.Caching;
@@ -11,6 +12,7 @@ public class RedisCachingService : ICachingService
     private readonly IConnectionMultiplexer _connectionMultiplexer;
     private readonly IDatabase _database;
     private readonly IServer _server;
+    private readonly JsonSerializerSettings _jsonSerializerSettings;
     public RedisCachingService(
         IOptions<CachingSettings> cachingSettings,
         IConnectionMultiplexer connectionMultiplexer)
@@ -19,6 +21,11 @@ public class RedisCachingService : ICachingService
         _cachingSettings = cachingSettings.Value;
         _database = _connectionMultiplexer.GetDatabase();
         _server = _connectionMultiplexer.GetServer(_cachingSettings.ConnectionString);
+
+        _jsonSerializerSettings = new()
+        {
+            MissingMemberHandling = MissingMemberHandling.Ignore
+        };
     }
 
         public async Task<T?> GetCacheValueAsync<T>(string key) where T: class
@@ -29,16 +36,16 @@ public class RedisCachingService : ICachingService
             if (!redisObj.HasValue)
                 return null;
 
-            return JsonSerializer.Deserialize<T>(redisObj);
+            return JsonConvert.DeserializeObject<T>(redisObj!, _jsonSerializerSettings);
         }
 
-        public async Task<IEnumerable<T>> GetManyCacheValueAsync<T>() where T: class
+        public async Task<List<T>> GetManyCacheValueAsync<T>() where T: class
         {
             var cod = $"cod-{typeof(T).Name}-*";
             var redisObj = _server.KeysAsync(-1, cod);
 
             if (redisObj == null)
-                return null;
+                return new List<T>();
 
             var cachedItems = new List<T>();
             await foreach (var key in redisObj)
@@ -49,17 +56,42 @@ public class RedisCachingService : ICachingService
                     .Replace($"cod-{typeof(T).Name}-", "");
 
                 var item = await GetCacheValueAsync<T>(formattedKey);
-                cachedItems.Add(item);
+                if (item is not null)
+                    cachedItems.Add(item);
             }
 
             return cachedItems;
+        }
+
+        public async Task<List<T>> GetManyCacheValueAsync<T>(Expression<Func<T, bool>> predicate) where T: class
+        {
+            var cod = $"cod-{typeof(T).Name}-*";
+            var redisObj = _server.KeysAsync(-1, cod);
+
+            if (redisObj == null)
+                return new List<T>();
+
+            var cachedItems = new List<T>();
+            await foreach (var key in redisObj)
+            {
+                string formattedKey = key.ToString()
+                    .Replace("{", "")
+                    .Replace("}", "")
+                    .Replace($"cod-{typeof(T).Name}-", "");
+
+                var item = await GetCacheValueAsync<T>(formattedKey);
+                if (item is not null)
+                    cachedItems.Add(item);
+            }
+
+            return cachedItems.Where(predicate.Compile()).ToList();
         }
 
         public async Task<bool> SetCacheValueAsync<T>(string key, T value)
         {
             var cod = $"cod-{typeof(T).Name}-{key}";
 
-            string valueStr = JsonSerializer.Serialize(value);
+            string valueStr = JsonConvert.SerializeObject(value);
 
             if (String.IsNullOrEmpty(valueStr))
                 return false;

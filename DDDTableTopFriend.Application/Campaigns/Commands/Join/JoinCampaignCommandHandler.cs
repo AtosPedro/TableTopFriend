@@ -16,14 +16,17 @@ public class JoinCampaignCommandHandler : IRequestHandler<JoinCampaignCommand, E
     private readonly ICampaignRepository _campaignRepository;
     private readonly ICharacterRepository _characterRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly ICachingService _cachingService;
     public JoinCampaignCommandHandler(
         ICampaignRepository campaignRepository,
         ICharacterRepository characterRepository,
-        IDateTimeProvider dateTimeProvider)
+        IDateTimeProvider dateTimeProvider,
+        ICachingService cachingService)
     {
         _campaignRepository = campaignRepository;
         _characterRepository = characterRepository;
         _dateTimeProvider = dateTimeProvider;
+        _cachingService = cachingService;
     }
 
     public async Task<ErrorOr<CampaignJoinedResult>> Handle(
@@ -50,7 +53,8 @@ public class JoinCampaignCommandHandler : IRequestHandler<JoinCampaignCommand, E
         );
 
         await _campaignRepository.Update(campaign);
-
-        return campaign.Adapt<CampaignJoinedResult>();
+        var result = campaign.Adapt<CampaignJoinedResult>();
+        await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
+        return result;
     }
 }

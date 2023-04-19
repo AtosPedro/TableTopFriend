@@ -81,7 +81,7 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         Name = name ?? Name;
         Description = description ?? Description;
         UpdatedAt = updatedAt;
-
+        characterIds ??= new List<CharacterId>();
         _characterIds.AddRange(characterIds.Where(c => !_characterIds.Contains(c)));
         _characterIds.RemoveAll(cid => _characterIds.Except(characterIds).Contains(cid));
 

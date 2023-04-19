@@ -8,9 +8,7 @@ namespace DDDTableTopFriend.Api.Controllers;
 [Route("v1/api/users")]
 public class UsersController : ApiController
 {
-    public UsersController(ISender sender) : base(sender)
-    {
-    }
+    public UsersController(ISender sender) : base(sender) { }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUser(Guid id)
