@@ -1,3 +1,10 @@
+using DDDTableTopFriend.Application.Campaigns.Commands.Delete;
+using DDDTableTopFriend.Application.Sessions.Commands.Schedule;
+using DDDTableTopFriend.Application.Sessions.Commands.Update;
+using DDDTableTopFriend.Application.Sessions.Queries.Get;
+using DDDTableTopFriend.Application.Sessions.Queries.GetAll;
+using DDDTableTopFriend.Contracts.Skill;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,7 +43,7 @@ public class SessionsController : ApiController
         var command = request.Adapt<ScheduleSessionCommand>();
         var result = await _sender.Send(command);
         return result.Match(
-            skillResult => CreatedAtAction(nameof(GetSkill), new { id = skillResult.Id }, skillResult),
+            skillResult => CreatedAtAction(nameof(GetSession), new { id = skillResult.Id }, skillResult),
             errors => Problem(errors)
         );
     }

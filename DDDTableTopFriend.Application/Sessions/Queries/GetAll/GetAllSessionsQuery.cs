@@ -4,6 +4,6 @@ using MediatR;
 
 namespace DDDTableTopFriend.Application.Sessions.Queries.GetAll;
 
-public record GetAllSessionQuery(
-
+public record GetAllSessionsQuery(
+    Guid UserId
 ) : IRequest<ErrorOr<IReadOnlyList<SessionResult>>>;

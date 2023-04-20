@@ -5,5 +5,5 @@ using MediatR;
 namespace DDDTableTopFriend.Application.Sessions.Queries.Get;
 
 public record GetSessionQuery(
-
+    Guid Id
 ) : IRequest<ErrorOr<SessionResult>>;

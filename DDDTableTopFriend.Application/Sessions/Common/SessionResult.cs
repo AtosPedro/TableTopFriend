@@ -1,3 +1,5 @@
 namespace DDDTableTopFriend.Application.Sessions.Common;
 
-public record SessionResult();
+public record SessionResult(
+    Guid Id
+);

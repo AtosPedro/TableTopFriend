@@ -4,10 +4,10 @@ using MediatR;
 
 namespace DDDTableTopFriend.Application.Sessions.Queries.GetAll;
 
-public class GetAllSessionQueryHandler : IRequestHandler<GetAllSessionQuery, ErrorOr<IReadOnlyList<SessionResult>>>
+public class GetAllSessionsQueryHandler : IRequestHandler<GetAllSessionsQuery, ErrorOr<IReadOnlyList<SessionResult>>>
 {
     public Task<ErrorOr<IReadOnlyList<SessionResult>>> Handle(
-        GetAllSessionQuery request,
+        GetAllSessionsQuery request,
         CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
