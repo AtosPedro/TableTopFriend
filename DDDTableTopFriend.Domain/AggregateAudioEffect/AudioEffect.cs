@@ -1,10 +1,12 @@
 using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
+using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Models;
 
 namespace DDDTableTopFriend.Domain.AggregateAudioEffect;
 
 public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
 {
+    public UserId UserId { get; private set; } = null!;
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
     public string? AudioLink { get; private set; } = null!;
@@ -16,6 +18,7 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
 
     private AudioEffect(
         AudioEffectId id,
+        UserId userId,
         string name,
         string description,
         string? audioLink,
@@ -27,9 +30,11 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
         AudioLink = audioLink;
         AudioClip = audioClip;
         CreatedAt = createdAt;
+        UserId = userId;
     }
 
     public static AudioEffect Create(
+        UserId userId,
         string name,
         string description,
         string? audioLink,
@@ -38,6 +43,7 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
     {
         AudioEffect audioEffect =  new(
             AudioEffectId.CreateUnique(),
+            userId,
             name,
             description,
             audioLink,

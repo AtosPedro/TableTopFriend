@@ -28,8 +28,15 @@ public class MailService : IMailService
         email.Body = new TextPart(TextFormat.Html) { Text = body };
 
         using var smtp = new SmtpClient();
-        await smtp.ConnectAsync(_mailServiceSettings.Host, _mailServiceSettings.Port, SecureSocketOptions.StartTls);
-        await smtp.AuthenticateAsync(_mailServiceSettings.Username, _mailServiceSettings.Password);
+        await smtp.ConnectAsync(
+            _mailServiceSettings.Host,
+            _mailServiceSettings.Port,
+            SecureSocketOptions.StartTls);
+
+        await smtp.AuthenticateAsync(
+            _mailServiceSettings.Username,
+            _mailServiceSettings.Password);
+
         var response = await smtp.SendAsync(email);
         await smtp.DisconnectAsync(true);
 

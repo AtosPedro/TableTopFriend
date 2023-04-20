@@ -1,5 +1,6 @@
 using DDDTableTopFriend.Domain.AggregateAudioEffect;
 using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
+using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,6 +25,10 @@ public class AudioEffectConfiguration : IEntityTypeConfiguration<AudioEffect>
             .Property(audioEffect => audioEffect.Id)
             .ValueGeneratedNever()
             .HasConversion(id => id.Value, value => AudioEffectId.Create(value));
+
+        audioEffectBuilder
+            .Property(audioEffect => audioEffect.UserId)
+            .HasConversion(id => id.Value, value => UserId.Create(value));
 
         audioEffectBuilder
             .Property(audioEffect => audioEffect.Name)
