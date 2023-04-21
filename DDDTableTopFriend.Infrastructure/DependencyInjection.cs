@@ -98,10 +98,13 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>();
         services.AddSingleton<IApplicationDbContext, ApplicationDbContext>();
         services.AddSingleton<IUnitOfWork, UnitOfWork>();
-        services.AddSingleton<IUserRepository, UserRepository>();
+        services.AddSingleton<IAudioEffectRepository, AudioEffectRepository>();
         services.AddSingleton<ICampaignRepository, CampaignRepository>();
         services.AddSingleton<ICharacterRepository, CharacterRepository>();
+        services.AddSingleton<ISessionRepository, SessionRepository>();
+        services.AddSingleton<ISkillRepository, SkillRepository>();
         services.AddSingleton<IStatusRepository, StatusRepository>();
+        services.AddSingleton<IUserRepository, UserRepository>();
         return services;
     }
 
