@@ -15,13 +15,14 @@ public class SessionsController : ApiController
 {
     public SessionsController(ISender sender) : base(sender) { }
 
+
     [HttpGet("list/{userId}")]
     public async Task<IActionResult> GetSessions(Guid userId)
     {
         var query = new GetAllSessionsQuery(userId);
         var result = await _sender.Send(query);
         return result.Match(
-            userResult => Ok(userResult),
+            sessionResults => Ok(sessionResults),
             errors => Problem(errors)
         );
     }
@@ -32,7 +33,7 @@ public class SessionsController : ApiController
         var query = new GetSessionQuery(id);
         var result = await _sender.Send(query);
         return result.Match(
-            userResult => Ok(userResult),
+            sessionResult => Ok(sessionResult),
             errors => Problem(errors)
         );
     }
@@ -43,7 +44,7 @@ public class SessionsController : ApiController
         var command = request.Adapt<ScheduleSessionCommand>();
         var result = await _sender.Send(command);
         return result.Match(
-            skillResult => CreatedAtAction(nameof(GetSession), new { id = skillResult.Id }, skillResult),
+            sessionResult => CreatedAtAction(nameof(GetSession), new { id = sessionResult.Id }, sessionResult),
             errors => Problem(errors)
         );
     }
@@ -54,7 +55,7 @@ public class SessionsController : ApiController
         var command = request.Adapt<UpdateSessionCommand>();
         var result = await _sender.Send(command);
         return result.Match(
-            statusResult => Ok(statusResult),
+            sessionResult => Ok(sessionResult),
             errors => Problem(errors)
         );
     }
@@ -65,7 +66,7 @@ public class SessionsController : ApiController
         var command = new DeleteSessionCommand(id);
         var result = await _sender.Send(command);
         return result.Match(
-            userResult => Ok(userResult),
+            _ => NoContent(),
             errors => Problem(errors)
         );
     }

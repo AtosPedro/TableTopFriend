@@ -15,13 +15,14 @@ public class StatusesController : ApiController
 {
     public StatusesController(ISender sender) : base(sender) { }
 
+
     [HttpGet("list/{userId}")]
     public async Task<IActionResult> GetStatuses(Guid userId)
     {
         var query = new GetAllStatusQuery(userId);
         var result = await _sender.Send(query);
         return result.Match(
-            userResult => Ok(userResult),
+            statusResult => Ok(statusResult),
             errors => Problem(errors)
         );
     }
@@ -32,7 +33,7 @@ public class StatusesController : ApiController
         var query = new GetStatusQuery(id);
         var result = await _sender.Send(query);
         return result.Match(
-            userResult => Ok(userResult),
+            statusResult => Ok(statusResult),
             errors => Problem(errors)
         );
     }
@@ -65,7 +66,7 @@ public class StatusesController : ApiController
         var command = new DeleteStatusCommand(id);
         var result = await _sender.Send(command);
         return result.Match(
-            userResult => Ok(userResult),
+            _ => NoContent(),
             errors => Problem(errors)
         );
     }

@@ -5,6 +5,6 @@ public record UpdateAudioEffectRequest(
     Guid UserId,
     string Name,
     string Description,
-    List<Guid> characterIds,
-    List<Guid> sessionIds
+    string? AudioLink,
+    byte[] AudioClip
 );

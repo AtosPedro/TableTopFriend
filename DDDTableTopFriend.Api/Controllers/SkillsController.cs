@@ -15,13 +15,14 @@ public class SkillsController : ApiController
 {
     public SkillsController(ISender sender) : base(sender) { }
 
+
     [HttpGet("list/{userId}")]
     public async Task<IActionResult> GetSkills(Guid userId)
     {
         var query = new GetAllSkillsQuery(userId);
         var result = await _sender.Send(query);
         return result.Match(
-            userResult => Ok(userResult),
+            skillResults => Ok(skillResults),
             errors => Problem(errors)
         );
     }
@@ -32,7 +33,7 @@ public class SkillsController : ApiController
         var query = new GetSkillQuery(id);
         var result = await _sender.Send(query);
         return result.Match(
-            userResult => Ok(userResult),
+            skillResult => Ok(skillResult),
             errors => Problem(errors)
         );
     }
@@ -54,7 +55,7 @@ public class SkillsController : ApiController
         var command = request.Adapt<UpdateSkillCommand>();
         var result = await _sender.Send(command);
         return result.Match(
-            statusResult => Ok(statusResult),
+            skillResult => Ok(skillResult),
             errors => Problem(errors)
         );
     }
@@ -65,7 +66,7 @@ public class SkillsController : ApiController
         var command = new DeleteSkillCommand(id);
         var result = await _sender.Send(command);
         return result.Match(
-            userResult => Ok(userResult),
+            _ => NoContent(),
             errors => Problem(errors)
         );
     }

@@ -27,7 +27,7 @@ public class UsersController : ApiController
         var command = new DeleteUserCommand(id);
         var result = await _sender.Send(command);
         return result.Match(
-            userResult => Ok(userResult),
+            _ => NoContent(),
             errors => Problem(errors)
         );
     }
