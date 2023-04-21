@@ -6,5 +6,8 @@ public class DeleteAudioEffectCommandValidator : AbstractValidator<DeleteAudioEf
 {
     public DeleteAudioEffectCommandValidator()
     {
+        RuleFor(c => c.Id)
+            .NotEmpty()
+            .NotNull();
     }
 }

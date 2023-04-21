@@ -6,5 +6,8 @@ public class GetAllSessionsQueryValidator : AbstractValidator<GetAllSessionsQuer
 {
     public GetAllSessionsQueryValidator()
     {
+        RuleFor(c => c.UserId)
+            .NotEmpty()
+            .NotNull();
     }
 }

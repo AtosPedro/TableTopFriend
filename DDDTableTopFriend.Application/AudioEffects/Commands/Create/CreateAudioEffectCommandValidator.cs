@@ -6,5 +6,16 @@ public class CreateAudioEffectCommandValidator : AbstractValidator<CreateAudioEf
 {
     public CreateAudioEffectCommandValidator()
     {
+        RuleFor(c => c.UserId)
+            .NotEmpty()
+            .NotNull();
+
+        RuleFor(c => c.Name)
+            .NotEmpty()
+            .NotNull();
+
+        RuleFor(c => c.Description)
+            .NotEmpty()
+            .NotNull();
     }
 }

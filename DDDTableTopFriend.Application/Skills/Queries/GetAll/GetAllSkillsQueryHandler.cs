@@ -1,7 +1,9 @@
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Application.Common.Interfaces.Services;
 using DDDTableTopFriend.Application.Skills.Common;
+using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using ErrorOr;
+using Mapster;
 using MediatR;
 
 namespace DDDTableTopFriend.Application.Skills.Queries.GetAll;
@@ -19,10 +21,26 @@ public class GetAllSkillsQueryHandler : IRequestHandler<GetAllSkillsQuery, Error
         _cachingService = cachingService;
     }
 
-    public Task<ErrorOr<IReadOnlyList<SkillResult>>> Handle(
+    public async Task<ErrorOr<IReadOnlyList<SkillResult>>> Handle(
         GetAllSkillsQuery request,
         CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var cachedSkills = await _cachingService.GetManyCacheValueAsync<SkillResult>(w => w.UserId == request.UserId);
+        if (cachedSkills.Any())
+            return cachedSkills;
+
+        var skills = await _skillRepository.GetAll(
+            UserId.Create(request.UserId),
+            cancellationToken);
+
+        var skillResults = new List<SkillResult>();
+        foreach (var skill in skills)
+        {
+            var result = skill.Adapt<SkillResult>();
+            skillResults.Add(result);
+            await _cachingService.SetCacheValueAsync<SkillResult>(result.Id.ToString(), result);
+        }
+
+        return skillResults;
     }
 }

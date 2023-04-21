@@ -6,5 +6,8 @@ public class GetAllAudioEffectsQueryValidator : AbstractValidator<GetAllAudioEff
 {
     public GetAllAudioEffectsQueryValidator()
     {
+        RuleFor(c => c.UserId)
+            .NotEmpty()
+            .NotNull();
     }
 }

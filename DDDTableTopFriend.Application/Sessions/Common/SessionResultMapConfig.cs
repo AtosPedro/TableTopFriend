@@ -1,3 +1,5 @@
+using DDDTableTopFriend.Domain.AggregateSession;
+using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using Mapster;
 
 namespace DDDTableTopFriend.Application.Sessions.Common;
@@ -6,6 +8,9 @@ public class SessionResultMapConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        throw new NotImplementedException();
+        config.NewConfig<Session,SessionResult>()
+            .Map(dest => dest.Id, src => src.GetId().Value)
+            .Map(dest => dest.UserId, src => src.UserId.Value)
+            .Map(dest => dest.CampaignId, src => src.CampaignId.Value);
     }
 }

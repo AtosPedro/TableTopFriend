@@ -6,7 +6,7 @@ public class GetSkillQueryValidator : AbstractValidator<GetSkillQuery>
 {
     public GetSkillQueryValidator()
     {
-        RuleFor(c=>c.SkillId)
+        RuleFor(c => c.SkillId)
             .NotNull()
             .NotEmpty();
     }

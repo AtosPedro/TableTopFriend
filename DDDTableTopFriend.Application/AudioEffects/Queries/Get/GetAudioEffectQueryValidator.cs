@@ -6,5 +6,8 @@ public class GetAudioEffectQueryValidator : AbstractValidator<GetAudioEffectQuer
 {
     public GetAudioEffectQueryValidator()
     {
+        RuleFor(c => c.Id)
+            .NotEmpty()
+            .NotNull();
     }
 }
