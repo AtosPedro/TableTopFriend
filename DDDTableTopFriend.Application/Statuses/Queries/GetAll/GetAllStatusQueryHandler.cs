@@ -12,9 +12,12 @@ public class GetAllStatusQueryHandler : IRequestHandler<GetAllStatusQuery, Error
 {
     private readonly IStatusRepository _statusRepository;
     private readonly ICachingService _cachingService;
-    public GetAllStatusQueryHandler(IStatusRepository statusRepository)
+    public GetAllStatusQueryHandler(
+        IStatusRepository statusRepository,
+        ICachingService cachingService)
     {
         _statusRepository = statusRepository;
+        _cachingService = cachingService;
     }
 
     public async Task<ErrorOr<IReadOnlyList<StatusResult>>> Handle(
