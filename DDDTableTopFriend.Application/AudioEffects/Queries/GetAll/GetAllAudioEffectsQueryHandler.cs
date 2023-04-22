@@ -10,7 +10,6 @@ namespace DDDTableTopFriend.Application.AudioEffects.Queries.GetAll;
 
 public class GetAllAudioEffectsQueryHandler : IRequestHandler<GetAllAudioEffectsQuery, ErrorOr<IReadOnlyList<AudioEffectResult>>>
 {
-
     private readonly IAudioEffectRepository _audioEffectRepository;
     private readonly ICachingService _cachingService;
     public GetAllAudioEffectsQueryHandler(

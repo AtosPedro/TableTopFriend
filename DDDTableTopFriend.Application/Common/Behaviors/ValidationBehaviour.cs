@@ -20,7 +20,7 @@ public class ValidationBehavior<TRequest, TResponse> :
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        if(_validator is null)
+        if (_validator is null)
             return await next();
 
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
@@ -32,10 +32,10 @@ public class ValidationBehavior<TRequest, TResponse> :
 
         var errors = validationResult
             .Errors
-            .ConvertAll(validationFailure =>Error.Validation(
+            .ConvertAll(validationFailure => Error.Validation(
                 validationFailure.PropertyName,
                 validationFailure.ErrorMessage));
 
-        return (dynamic) errors;
+        return (dynamic)errors;
     }
 }

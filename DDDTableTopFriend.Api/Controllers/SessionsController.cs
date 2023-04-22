@@ -15,7 +15,6 @@ public class SessionsController : ApiController
 {
     public SessionsController(ISender sender) : base(sender) { }
 
-
     [HttpGet("list/{campaignId}/{userId}")]
     public async Task<IActionResult> GetSessions(Guid campaignId, Guid userId)
     {

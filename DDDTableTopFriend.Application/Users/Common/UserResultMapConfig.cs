@@ -11,4 +11,3 @@ public class UserResultMapConfig : IRegister
             .Map(dest => dest.Id, src => src.GetId().Value);
     }
 }
-

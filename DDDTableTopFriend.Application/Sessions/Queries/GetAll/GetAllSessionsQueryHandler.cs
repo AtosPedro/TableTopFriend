@@ -30,7 +30,7 @@ public class GetAllSessionsQueryHandler : IRequestHandler<GetAllSessionsQuery, E
             c => c.UserId == request.UserId &&
             c.CampaignId == request.CampaignId);
 
-        if (cachedSessions is not null && cachedSessions.Count() > 0)
+        if (cachedSessions?.Count > 0)
             return cachedSessions.AsReadOnly();
 
         var sessions = await _sessionRepository.GetAll(

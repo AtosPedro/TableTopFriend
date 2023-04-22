@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
-using DDDTableTopFriend.Infrastructure.Services.Security;
 using DDDTableTopFriend.Infrastructure.Persistence.Context;
 using DDDTableTopFriend.Infrastructure.Services.Mail;
 using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
@@ -29,7 +28,6 @@ public static class DependencyInjection
     {
         services.AddAuth(configuration);
         services.AddPersistence(configuration);
-        services.AddHasherService(configuration);
         services.AddMailService(configuration);
         services.AddCaching(configuration);
         services.AddMediatR(typeof(DependencyInjection).GetTypeInfo().Assembly);
@@ -75,18 +73,6 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddHasherService(
-        this IServiceCollection services,
-        ConfigurationManager configuration)
-    {
-        var hasherSettings = new HasherSettings();
-        configuration.Bind(HasherSettings.SectionName, hasherSettings);
-        services.AddSingleton(Options.Create(hasherSettings));
-
-        services.AddSingleton<IHasher, Hasher>();
-        return services;
-    }
-
     public static IServiceCollection AddPersistence(
         this IServiceCollection services,
         ConfigurationManager configuration)
@@ -116,7 +102,7 @@ public static class DependencyInjection
         configuration.Bind(CachingSettings.SectionName, cachingSettings);
         services.AddSingleton(Options.Create(cachingSettings));
 
-        services.AddSingleton<IConnectionMultiplexer>(x => ConnectionMultiplexer.Connect(cachingSettings.ConnectionString));
+        services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(cachingSettings.ConnectionString));
         services.AddSingleton<ICachingService, RedisCachingService>();
         return services;
     }

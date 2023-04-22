@@ -10,9 +10,9 @@ namespace DDDTableTopFriend.Domain.AggregateCampaign;
 
 public sealed class Campaign : AggregateRoot<CampaignId, Guid>
 {
+    public UserId UserId { get; private set; } = null!;
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
-    public UserId UserId { get; private set; } = null!;
     public IReadOnlyList<CharacterId> CharacterIds => _characterIds.AsReadOnly();
     public IReadOnlyList<SessionId> SessionIds => _sessionIds.AsReadOnly();
     public DateTime CreatedAt { get; private set; }
@@ -139,7 +139,6 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         UpdatedAt = updatedAt;
     }
 
-    
     public void RemoveSessionId(
         SessionId sessionId,
         DateTime updatedAt)

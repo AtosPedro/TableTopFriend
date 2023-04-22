@@ -92,7 +92,6 @@ public class Session : AggregateRoot<SessionId, Guid>
 
     public void MarkToDelete(DateTime utcNow)
     {
-        
     }
 
 #pragma warning disable CS8618

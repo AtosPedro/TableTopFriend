@@ -23,6 +23,6 @@ public class AudioEffectRepository : Repository<AudioEffect, AudioEffectId, Guid
         AudioEffectId id,
         CancellationToken cancellationToken)
     {
-        return await GetById(id, cancellationToken);
+        return await base.GetById(id, cancellationToken);
     }
 }

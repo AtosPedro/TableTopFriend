@@ -13,14 +13,17 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Error
     private readonly IUserRepository _userRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly ICachingService _cachingService;
+    private readonly IUnitOfWork _unitOfWork;
     public DeleteUserCommandHandler(
         IUserRepository userRepository,
         IDateTimeProvider dateTimeProvider,
-        ICachingService cachingService)
+        ICachingService cachingService,
+        IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _dateTimeProvider = dateTimeProvider;
         _cachingService = cachingService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<bool>> Handle(
@@ -35,8 +38,14 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Error
             return Errors.Authentication.UserNotRegistered;
 
         user.MarkToDelete(_dateTimeProvider.UtcNow);
-        var result = await _userRepository.Remove(user);
-        await _cachingService.RemoveCacheValueAsync<UserResult>(result.Id.Value.ToString());
-        return result is not null;
+
+        return await _unitOfWork.Execute(async _ =>
+        {
+            var result = await _userRepository.Remove(user);
+            await _cachingService.RemoveCacheValueAsync<UserResult>(result.Id.Value.ToString());
+            return result is not null;
+        },
+        user.DomainEvents,
+        cancellationToken);
     }
 }

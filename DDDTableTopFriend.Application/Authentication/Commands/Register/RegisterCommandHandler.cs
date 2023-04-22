@@ -14,21 +14,23 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
 {
     private readonly IUserRepository _userRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
-    private readonly IHasher _hasher;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IUnitOfWork _unitOfWork;
     public RegisterCommandHandler(
         IUserRepository userRepository,
         IJwtTokenGenerator jwtTokenGenerator,
-        IHasher hasher,
-        IDateTimeProvider dateTimeProvider)
+        IDateTimeProvider dateTimeProvider,
+        IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _jwtTokenGenerator = jwtTokenGenerator;
-        _hasher = hasher;
         _dateTimeProvider = dateTimeProvider;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<AuthenticationResult>> Handle(
+        RegisterCommand request,
+        CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetUserByEmail(
             request.Email,
@@ -37,30 +39,24 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
         if (user is not null)
             return Errors.Authentication.UserAlreadyRegistered;
 
-        string salt = _hasher.GenerateSalt();
-        string passwordHashed = _hasher.ComputeHash(
-            request.Password,
-            salt,
-            _hasher.GetIterations());
-
         user = User.Create(
             request.FirstName,
             request.LastName,
             request.Email,
-            passwordHashed,
-            salt,
+            request.Password,
             request.Role,
             _dateTimeProvider.UtcNow);
 
-        await _userRepository.Add(
-            user,
-            cancellationToken);
-
-        string token = _jwtTokenGenerator.GenerateToken(
-            user.Id.Value,
-            user.Email,
-            user.LastName);
-
-        return (user, token).Adapt<AuthenticationResult>();
+        return await _unitOfWork.Execute(async cancellationToken =>
+        {
+            await _userRepository.Add(user, cancellationToken);
+            string token = _jwtTokenGenerator.GenerateToken(
+                user.Id.Value,
+                user.FirstName,
+                user.LastName);
+            return (user, token).Adapt<AuthenticationResult>();
+        },
+        user.DomainEvents,
+        cancellationToken);
     }
 }

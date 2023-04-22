@@ -14,14 +14,17 @@ public class UpdateSessionCommandHandler : IRequestHandler<UpdateSessionCommand,
     private readonly ISessionRepository _sessionRepository;
     private readonly ICachingService _cachingService;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IUnitOfWork _unitOfWork;
     public UpdateSessionCommandHandler(
         ISessionRepository sessionRepository,
         ICachingService cachingService,
-        IDateTimeProvider dateTimeProvider)
+        IDateTimeProvider dateTimeProvider,
+        IUnitOfWork unitOfWork)
     {
         _sessionRepository = sessionRepository;
         _cachingService = cachingService;
         _dateTimeProvider = dateTimeProvider;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<SessionResult>> Handle(
@@ -42,11 +45,16 @@ public class UpdateSessionCommandHandler : IRequestHandler<UpdateSessionCommand,
             _dateTimeProvider.UtcNow
         );
 
-        await _sessionRepository.Update(session);
-        var result = session.Adapt<SessionResult>();
-        await _cachingService.SetCacheValueAsync<SessionResult>(
-            request.Id.ToString(),
-            result);
-        return result;
+        return await _unitOfWork.Execute(async _ =>
+        {
+            await _sessionRepository.Update(session);
+            var result = session.Adapt<SessionResult>();
+            await _cachingService.SetCacheValueAsync(
+                request.Id.ToString(),
+                result);
+            return result;
+        },
+        session.DomainEvents,
+        cancellationToken);
     }
 }

@@ -14,13 +14,19 @@ public class CreateStatusCommandHandler : IRequestHandler<CreateStatusCommand, E
 {
     private readonly IStatusRepository _statusRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly ICachingService _cachingService;
 
     public CreateStatusCommandHandler(
         IStatusRepository statusRepository,
-        IDateTimeProvider dateTimeProvider)
+        IDateTimeProvider dateTimeProvider,
+        IUnitOfWork unitOfWork,
+        ICachingService cachingService)
     {
         _statusRepository = statusRepository;
         _dateTimeProvider = dateTimeProvider;
+        _unitOfWork = unitOfWork;
+        _cachingService = cachingService;
     }
 
     public async Task<ErrorOr<StatusResult>> Handle(
@@ -43,7 +49,14 @@ public class CreateStatusCommandHandler : IRequestHandler<CreateStatusCommand, E
             _dateTimeProvider.UtcNow
         );
 
-        await _statusRepository.Add(status, cancellationToken);
-        return status.Adapt<StatusResult>();
+        return await _unitOfWork.Execute(async cancellationToken =>
+        {
+            await _statusRepository.Add(status, cancellationToken);
+            var result = status.Adapt<StatusResult>();
+            await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
+            return result;
+        },
+        status.DomainEvents,
+        cancellationToken);
     }
 }

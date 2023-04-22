@@ -1,4 +1,3 @@
-using DDDTableTopFriend.Application.Statuses.Common;
 using ErrorOr;
 using MediatR;
 

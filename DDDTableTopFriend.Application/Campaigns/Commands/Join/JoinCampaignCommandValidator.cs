@@ -9,7 +9,7 @@ public class JoinCampaignCommandValidator : AbstractValidator<JoinCampaignComman
         RuleFor(x => x.Id)
             .NotEmpty()
             .NotNull();
-        
+
         RuleFor(x => x.CharacterId)
             .NotEmpty()
             .NotNull();

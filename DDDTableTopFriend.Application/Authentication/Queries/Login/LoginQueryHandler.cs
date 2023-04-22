@@ -15,20 +15,17 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
 {
     private readonly IUserRepository _userRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
-    private readonly IHasher _hasher;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IPublisher _publisher;
 
     public LoginQueryHandler(
         IUserRepository userRepository,
         IJwtTokenGenerator jwtTokenGenerator,
-        IHasher hasher,
         IPublisher publisher,
         IDateTimeProvider dateTimeProvider)
     {
         _userRepository = userRepository;
         _jwtTokenGenerator = jwtTokenGenerator;
-        _hasher = hasher;
         _publisher = publisher;
         _dateTimeProvider = dateTimeProvider;
     }
@@ -44,12 +41,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
         if (user is null)
             return Errors.Authentication.UserNotRegistered;
 
-        string passwordHashed = _hasher.ComputeHash(
-            request.Password,
-            user.PasswordSalt,
-            _hasher.GetIterations());
-
-        if (user.Password != passwordHashed)
+        if (!user.IsValidPassword(request.Password))
             return Errors.Authentication.IncorrectPassword;
 
         var token = _jwtTokenGenerator.GenerateToken(

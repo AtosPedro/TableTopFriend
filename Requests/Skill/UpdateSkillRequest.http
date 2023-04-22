@@ -1,13 +1,15 @@
 PUT {{host_https}}/{{api_v1_route}}/skills
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4ODBhNjFjOC03ZTQ4LTQzNjktYWQ4Yy0zMjk1NTIwZTczMmQiLCJqdGkiOiI0OGRhZWQyMS1iNWVjLTQ4OWEtYTE4Mi04MTYzMzM2MWJjYzQiLCJnaXZlbl9uYW1lIjoiQXRvcyIsImZhbWlseV9uYW1lIjoiUGVkcm8iLCJleHAiOjE2ODIxMDA2OTcsImlzcyI6IlRhYmxlVG9wIEZyaWVuZCIsImF1ZCI6IlRhYmxlVG9wIEZyaWVuZCJ9.3eL8sbiJYHj4gBA8CpW9zHuu7VhoAi0nTnJ0WD58PYk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwNWUzN2I5Ny0xZDM4LTRkNDItYWQ3ZC1mZmQ4ZjgwZjAxZjMiLCJqdGkiOiIwMmRhNDJiNi0wMzYzLTQ5YTUtYTc4Mi0wYWI4YTBkNjg5NGYiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwiZXhwIjoxNjgyMTg1NDQxLCJpc3MiOiJUYWJsZVRvcCBGcmllbmQiLCJhdWQiOiJUYWJsZVRvcCBGcmllbmQifQ.ZXB3GMeDvXfD9CfY7ssZ9Z9dZRF04VuLCyhWlqpkMFw
 
 {
-    "id":"",
-    "userId":"",
-    "statusId":"",
-    "audioEffectId":"",
-    "name":"",
-    "description":"",
-    "cost": 0,
+  "id": "a3109bfc-1e52-4b43-9f82-2e83c84363fc",
+  "userId": "05e37b97-1d38-4d42-ad7d-ffd8f80f01f3",
+  "statusId": "e61ba997-1561-4fe6-9194-289e44603019",
+  "audioEffectId": "7b3d43f5-b26f-42ea-a54e-e5bb5f0fd4fc",
+  "name": "fire ball Updated",
+  "description": "lauches a fire ball Updated",
+  "cost": 20,
+  "createdAt": "2023-04-22T17:35:48.289217",
+  "updatedAt": "0001-01-01T00:00:00"
 }

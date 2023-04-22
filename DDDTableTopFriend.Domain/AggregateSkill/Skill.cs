@@ -24,6 +24,7 @@ public class Skill : AggregateRoot<SkillId, Guid>
         SkillId id,
         UserId userId,
         AudioEffectId audioEffectId,
+        StatusId statusId,
         string name,
         string description,
         float cost,
@@ -35,11 +36,13 @@ public class Skill : AggregateRoot<SkillId, Guid>
         Description = description;
         Cost = cost;
         CreatedAt = createdAt;
+        StatusId = statusId;
     }
 
     public static Skill Create(
         UserId userId,
         AudioEffectId audioEffectId,
+        StatusId statusId,
         string name,
         string description,
         float cost,
@@ -49,6 +52,7 @@ public class Skill : AggregateRoot<SkillId, Guid>
             SkillId.CreateUnique(),
             userId,
             audioEffectId,
+            statusId,
             name,
             description,
             cost,

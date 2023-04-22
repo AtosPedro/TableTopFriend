@@ -1,11 +1,11 @@
 POST {{host_https}}/{{api_v1_route}}/skills
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4ODBhNjFjOC03ZTQ4LTQzNjktYWQ4Yy0zMjk1NTIwZTczMmQiLCJqdGkiOiIxZGZiYmQ3OC1iNjhhLTRjMjQtOWQ3Zi02N2FlYzBlYTQ5NTMiLCJnaXZlbl9uYW1lIjoiQXRvcyIsImZhbWlseV9uYW1lIjoiUGVkcm8iLCJleHAiOjE2ODIxMjI2NjksImlzcyI6IlRhYmxlVG9wIEZyaWVuZCIsImF1ZCI6IlRhYmxlVG9wIEZyaWVuZCJ9.OF2TpWqJq8Fry_pKv3WPjCfB3JdJcONJhZXUgc8hmNE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwNWUzN2I5Ny0xZDM4LTRkNDItYWQ3ZC1mZmQ4ZjgwZjAxZjMiLCJqdGkiOiI3NzVhMzVmNy04NDNiLTQ0MTctOWE4YS1hZjcxNGYyNDVjODgiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwiZXhwIjoxNjgyMTg0OTQwLCJpc3MiOiJUYWJsZVRvcCBGcmllbmQiLCJhdWQiOiJUYWJsZVRvcCBGcmllbmQifQ.Wtauc3CgkqXA-bC-MtTTYRMnZgYTUcTmV6z2nA8AjJ4
 
 {
-    "userId":"880a61c8-7e48-4369-ad8c-3295520e732d",
-    "statusId":"b9a0c029-6ed1-4b7f-b57c-0f5274bf15c5",
-    "audioEffectId": "",
+    "userId":"05e37b97-1d38-4d42-ad7d-ffd8f80f01f3",
+    "statusId":"e61ba997-1561-4fe6-9194-289e44603019",
+    "audioEffectId": "7b3d43f5-b26f-42ea-a54e-e5bb5f0fd4fc",
     "name":"fire ball",
     "description":"lauches a fire ball",
     "cost": 10

@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.Common.ValueObjects;
 using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
@@ -70,7 +71,6 @@ public abstract class Repository<T, TId, TIdType>
         CancellationToken cancellationToken)
     {
         await EntityDbSet.AddAsync(entity, cancellationToken);
-        await UnitOfWork.Commit(entity.DomainEvents, cancellationToken);
         return entity;
     }
 
@@ -82,7 +82,6 @@ public abstract class Repository<T, TId, TIdType>
     public virtual async Task<T> Update(T entity)
     {
         await Task.FromResult(EntityDbSet.Update(entity));
-        await UnitOfWork.Commit(entity.DomainEvents);
         return entity;
     }
 
@@ -94,7 +93,6 @@ public abstract class Repository<T, TId, TIdType>
     public virtual async Task<T> Remove(T entity)
     {
         await Task.FromResult(EntityDbSet.Remove(entity));
-        await UnitOfWork.Commit(entity.DomainEvents);
         return entity;
     }
 }

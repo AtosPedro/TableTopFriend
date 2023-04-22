@@ -2,9 +2,9 @@ POST {{host_https}}/{{api_v1_route}}/auth/register
 Content-Type: application/json
 
 {
-    "firstName":"Atos",
-    "lastName":"Pedro",
-    "email":"emailteste@gmail.com",
-    "password":"123",
+    "firstName":"John",
+    "lastName":"Doe",
+    "email":"johndoe@anonymous.com",
+    "password":"12345678",
     "role": 0
 }

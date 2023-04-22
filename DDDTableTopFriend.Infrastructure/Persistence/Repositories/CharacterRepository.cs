@@ -25,6 +25,6 @@ public class CharacterRepository : Repository<Character, CharacterId, Guid>, ICh
         CharacterId id,
         CancellationToken cancellationToken)
     {
-        return await GetById(id, cancellationToken);
+        return await base.GetById(id, cancellationToken);
     }
 }

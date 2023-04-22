@@ -9,7 +9,7 @@ public class ScheduleSessionCommandValidator : AbstractValidator<ScheduleSession
         RuleFor(c => c.CampaignId)
             .NotEmpty()
             .NotNull();
-        
+
         RuleFor(c => c.UserId)
             .NotEmpty()
             .NotNull();
@@ -17,7 +17,7 @@ public class ScheduleSessionCommandValidator : AbstractValidator<ScheduleSession
         RuleFor(c => c.Name)
             .NotEmpty()
             .NotNull();
-        
+
         RuleFor(c => c.DateTime)
             .NotEmpty()
             .NotNull();

@@ -15,7 +15,6 @@ public class SkillsController : ApiController
 {
     public SkillsController(ISender sender) : base(sender) { }
 
-
     [HttpGet("list/{userId}")]
     public async Task<IActionResult> GetSkills(Guid userId)
     {

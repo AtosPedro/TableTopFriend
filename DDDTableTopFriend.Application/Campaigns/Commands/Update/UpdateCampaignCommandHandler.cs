@@ -15,13 +15,17 @@ public class UpdateCampaignCommandHandler : IRequestHandler<UpdateCampaignComman
     private readonly ICampaignRepository _campaignRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly ICachingService _cachingService;
+    private readonly IUnitOfWork _unitOfWork;
     public UpdateCampaignCommandHandler(
         ICampaignRepository campaignRepository,
-        IDateTimeProvider dateTimeProvider, ICachingService cachingService)
+        IDateTimeProvider dateTimeProvider,
+        ICachingService cachingService,
+        IUnitOfWork unitOfWork)
     {
         _campaignRepository = campaignRepository;
         _dateTimeProvider = dateTimeProvider;
         _cachingService = cachingService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<CampaignResult>> Handle(
@@ -32,7 +36,7 @@ public class UpdateCampaignCommandHandler : IRequestHandler<UpdateCampaignComman
             CampaignId.Create(request.Id),
             cancellationToken);
 
-        if(campaign is null)
+        if (campaign is null)
             return Errors.Campaign.NotRegistered;
 
         var characterList = request.CharacterIds.Adapt<List<CharacterId>>();
@@ -44,9 +48,14 @@ public class UpdateCampaignCommandHandler : IRequestHandler<UpdateCampaignComman
             _dateTimeProvider.UtcNow
         );
 
-        await _campaignRepository.Update(campaign);
-        var result = campaign.Adapt<CampaignResult>();
-        await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
-        return result;
+        return await _unitOfWork.Execute(async _ =>
+        {
+            await _campaignRepository.Update(campaign);
+            var result = campaign.Adapt<CampaignResult>();
+            await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
+            return result;
+        },
+        campaign.DomainEvents,
+        cancellationToken);
     }
 }

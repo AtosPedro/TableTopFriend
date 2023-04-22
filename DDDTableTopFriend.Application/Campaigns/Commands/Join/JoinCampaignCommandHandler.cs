@@ -1,7 +1,6 @@
 using DDDTableTopFriend.Application.Campaigns.Common;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Application.Common.Interfaces.Services;
-using DDDTableTopFriend.Domain.AggregateCampaign.Events;
 using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Errors;
@@ -17,16 +16,19 @@ public class JoinCampaignCommandHandler : IRequestHandler<JoinCampaignCommand, E
     private readonly ICharacterRepository _characterRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly ICachingService _cachingService;
+    private readonly IUnitOfWork _unitOfWork;
     public JoinCampaignCommandHandler(
         ICampaignRepository campaignRepository,
         ICharacterRepository characterRepository,
         IDateTimeProvider dateTimeProvider,
-        ICachingService cachingService)
+        ICachingService cachingService,
+        IUnitOfWork unitOfWork)
     {
         _campaignRepository = campaignRepository;
         _characterRepository = characterRepository;
         _dateTimeProvider = dateTimeProvider;
         _cachingService = cachingService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<CampaignJoinedResult>> Handle(
@@ -52,9 +54,14 @@ public class JoinCampaignCommandHandler : IRequestHandler<JoinCampaignCommand, E
             _dateTimeProvider.UtcNow
         );
 
-        await _campaignRepository.Update(campaign);
-        var result = campaign.Adapt<CampaignJoinedResult>();
-        await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
-        return result;
+        return await _unitOfWork.Execute(async _ =>
+        {
+            await _campaignRepository.Update(campaign);
+            var result = campaign.Adapt<CampaignJoinedResult>();
+            await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
+            return result;
+        },
+        campaign.DomainEvents,
+        cancellationToken);
     }
 }

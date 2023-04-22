@@ -25,7 +25,7 @@ public class SkillRepository : Repository<Skill, SkillId, Guid>, ISkillRepositor
         SkillId id,
         CancellationToken cancellationToken)
     {
-        return await GetById(id, cancellationToken);
+        return await base.GetById(id, cancellationToken);
     }
 
     public async Task<Skill?> GetByName(UserId userId, string name, CancellationToken cancellationToken)

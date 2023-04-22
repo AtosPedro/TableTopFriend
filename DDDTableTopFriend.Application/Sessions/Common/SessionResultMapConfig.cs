@@ -15,6 +15,5 @@ public class SessionResultMapConfig : IRegister
             .Map(dest => dest.CharacterIds, src => src.CharacterIds.Select(x => x.Value))
             .Map(dest => dest.AudioEffectIds, src => src.AudioEffectIds.Select(x => x.Value))
             .MapToConstructor(true);
-
     }
 }

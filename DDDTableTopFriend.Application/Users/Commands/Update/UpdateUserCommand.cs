@@ -1,4 +1,5 @@
 using DDDTableTopFriend.Application.Users.Common;
+using DDDTableTopFriend.Domain.Common.Enums;
 using ErrorOr;
 using MediatR;
 
@@ -9,5 +10,6 @@ public record UpdateUserCommand(
     string FirstName,
     string LastName,
     string Email,
-    string Password
+    string Password,
+    UserRole Role
 ): IRequest<ErrorOr<UserResult>>;

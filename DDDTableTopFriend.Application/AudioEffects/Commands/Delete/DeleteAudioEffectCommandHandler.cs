@@ -12,16 +12,16 @@ public class DeleteAudioEffectCommandHandler : IRequestHandler<DeleteAudioEffect
 {
     private readonly IAudioEffectRepository _audioEffectRepository;
     private readonly ICachingService _cachingService;
-    private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IUnitOfWork _unitOfWork;
 
     public DeleteAudioEffectCommandHandler(
         IAudioEffectRepository audioEffectRepository,
         ICachingService cachingService,
-        IDateTimeProvider dateTimeProvider)
+        IUnitOfWork unitOfWork)
     {
         _audioEffectRepository = audioEffectRepository;
         _cachingService = cachingService;
-        _dateTimeProvider = dateTimeProvider;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<bool>> Handle(
@@ -31,12 +31,17 @@ public class DeleteAudioEffectCommandHandler : IRequestHandler<DeleteAudioEffect
         var audioEffect = await _audioEffectRepository.GetById(
             AudioEffectId.Create(request.Id),
             cancellationToken);
-        
+
         if (audioEffect is null)
             return Errors.AudioEffect.NotRegistered;
 
-        await _audioEffectRepository.Remove(audioEffect);
-        await _cachingService.RemoveCacheValueAsync<AudioEffectResult>(audioEffect.GetId().Value.ToString());
-        return audioEffect is not null;
+        return await _unitOfWork.Execute(async _ =>
+        {
+            await _audioEffectRepository.Remove(audioEffect);
+            await _cachingService.RemoveCacheValueAsync<AudioEffectResult>(audioEffect.GetId().Value.ToString());
+            return audioEffect is not null;
+        },
+        audioEffect.DomainEvents,
+        cancellationToken);
     }
 }

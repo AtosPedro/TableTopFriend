@@ -13,7 +13,8 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
 
         RuleFor(x => x.Password)
             .NotEmpty()
-            .NotNull();
+            .NotNull()
+            .MinimumLength(8);
 
         RuleFor(x => x.FirstName)
             .NotEmpty()

@@ -14,14 +14,17 @@ public class CreateAudioEffectCommandHandler : IRequestHandler<CreateAudioEffect
     private readonly IAudioEffectRepository _audioEffectRepository;
     private readonly ICachingService _cachingService;
     private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IUnitOfWork _unitOfWork;
     public CreateAudioEffectCommandHandler(
         IAudioEffectRepository audioEffectRepository,
         ICachingService cachingService,
-        IDateTimeProvider dateTimeProvider)
+        IDateTimeProvider dateTimeProvider,
+        IUnitOfWork unitOfWork)
     {
         _audioEffectRepository = audioEffectRepository;
         _cachingService = cachingService;
         _dateTimeProvider = dateTimeProvider;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<AudioEffectResult>> Handle(
@@ -37,9 +40,14 @@ public class CreateAudioEffectCommandHandler : IRequestHandler<CreateAudioEffect
             _dateTimeProvider.UtcNow
         );
 
-        await _audioEffectRepository.Add(audioEffect, cancellationToken);
-        var result = audioEffect.Adapt<AudioEffectResult>();
-        await _cachingService.SetCacheValueAsync<AudioEffectResult>(result.Id.ToString(),result);
-        return result;
+        return await _unitOfWork.Execute(async _ =>
+        {
+            await _audioEffectRepository.Add(audioEffect, cancellationToken);
+            var result = audioEffect.Adapt<AudioEffectResult>();
+            await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
+            return result;
+        },
+        audioEffect.DomainEvents,
+        cancellationToken);
     }
 }

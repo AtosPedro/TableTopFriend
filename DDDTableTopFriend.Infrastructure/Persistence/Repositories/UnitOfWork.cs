@@ -1,3 +1,4 @@
+using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
 using MediatR;
@@ -21,6 +22,24 @@ public class UnitOfWork : IUnitOfWork
         await _applicationDbContext.SaveChangesAsync(cancellationToken);
         foreach (var domainEvent in domainEvents)
             await _publisher.Publish(domainEvent, cancellationToken);
+    }
+
+    public async Task<T> Execute<T>(
+        Func<CancellationToken,Task<T>> getData,
+        IEnumerable<IDomainEvent> domainEvents,
+        CancellationToken cancellationToken = new CancellationToken())
+    {
+        try
+        {
+            var result = await getData(cancellationToken);
+            await Commit(domainEvents, cancellationToken);
+            return result;
+        }
+        catch
+        {
+            await Rollback();
+            throw;
+        }
     }
 
     public async Task Rollback()

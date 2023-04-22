@@ -2,6 +2,7 @@
 using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.Events;
+using DDDTableTopFriend.Domain.Common.Services;
 
 namespace DDDTableTopFriend.Domain.AggregateUser;
 
@@ -42,19 +43,24 @@ public sealed class User : AggregateRoot<UserId, Guid>
         string firstName,
         string lastName,
         string email,
-        string password,
-        string passwordSalt,
+        string plainPassword,
         UserRole userRole,
         DateTime createdAt)
     {
         var id = UserId.CreateUnique();
+        string salt = Hasher.GenerateSalt();
+        string hashedPassword = Hasher.ComputeHash(
+            plainPassword,
+            salt,
+            1000);
+
         var user = new User(
             id,
             firstName,
             lastName,
             email,
-            password,
-            passwordSalt,
+            hashedPassword,
+            salt,
             userRole,
             createdAt);
 
@@ -70,22 +76,43 @@ public sealed class User : AggregateRoot<UserId, Guid>
         return user;
     }
 
+    public bool IsValidPassword(string plainPassword)
+    {
+        string hashedPassword = Hasher.ComputeHash(
+            plainPassword,
+            PasswordSalt,
+            1000);
+
+        return Password == hashedPassword;
+    }
+
     public void Update(
        string firstName,
        string lastName,
        string email,
-       string password,
-       string passwordSalt,
+       string plainPassword,
        UserRole userRole,
        DateTime updatedAt)
     {
         FirstName = firstName;
         LastName = lastName;
         Email = email;
-        Password = password;
-        PasswordSalt = passwordSalt;
         UserRole = userRole;
         UpdatedAt = updatedAt;
+
+        string hashedPassword = Hasher.ComputeHash(
+                plainPassword,
+                PasswordSalt,
+                1000);
+
+        if (hashedPassword != Password)
+        {
+            PasswordSalt = Hasher.GenerateSalt();
+            Password = Hasher.ComputeHash(
+                plainPassword,
+                PasswordSalt,
+                1000);
+        }
 
         AddDomainEvent(new UserChangedDomainEvent(
             UserId.Create(Id.Value),

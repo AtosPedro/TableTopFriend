@@ -15,7 +15,6 @@ public class StatusesController : ApiController
 {
     public StatusesController(ISender sender) : base(sender) { }
 
-
     [HttpGet("list/{userId}")]
     public async Task<IActionResult> GetStatuses(Guid userId)
     {

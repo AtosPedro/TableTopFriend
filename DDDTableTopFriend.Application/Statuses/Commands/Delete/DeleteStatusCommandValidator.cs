@@ -6,7 +6,7 @@ public class DeleteStatusCommandValidator : AbstractValidator<DeleteStatusComman
 {
     public DeleteStatusCommandValidator()
     {
-        RuleFor(c=>c.StatusId)
+        RuleFor(c => c.StatusId)
             .NotEmpty()
             .NotNull();
     }

@@ -17,26 +17,34 @@ public class UpdateSkillCommandHandler : IRequestHandler<UpdateSkillCommand, Err
     private readonly IStatusRepository _statusRepository;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly ICachingService _cachingService;
+    private readonly IUnitOfWork _unitOfWork;
     public UpdateSkillCommandHandler(
         ISkillRepository skillRepository,
         IDateTimeProvider dateTimeProvider,
         ICachingService cachingService,
-        IStatusRepository statusRepository)
+        IStatusRepository statusRepository, IUnitOfWork unitOfWork)
     {
         _skillRepository = skillRepository;
         _dateTimeProvider = dateTimeProvider;
         _cachingService = cachingService;
         _statusRepository = statusRepository;
+        _unitOfWork = unitOfWork;
     }
     public async Task<ErrorOr<SkillResult>> Handle(
         UpdateSkillCommand request,
         CancellationToken cancellationToken)
     {
-        var skill = await _skillRepository.GetById(SkillId.Create(request.Id),cancellationToken);
+        var skill = await _skillRepository.GetById(
+            SkillId.Create(request.Id),
+            cancellationToken);
+
         if (skill is null)
             return Errors.Skill.NotRegistered;
 
-        var status = await _statusRepository.GetById(StatusId.Create(request.Id), cancellationToken);
+        var status = await _statusRepository.GetById(
+            StatusId.Create(request.StatusId),
+            cancellationToken);
+
         if (status is null)
             return Errors.Status.NotRegistered;
 
@@ -48,12 +56,16 @@ public class UpdateSkillCommandHandler : IRequestHandler<UpdateSkillCommand, Err
             _dateTimeProvider.UtcNow
         );
 
-        await _skillRepository.Update(skill);
-        var result = skill.Adapt<SkillResult>();
-        await _cachingService.SetCacheValueAsync(
-            result.Id.ToString(),
-            result);
-
-        return result;
+        return await _unitOfWork.Execute(async _ =>
+        {
+            await _skillRepository.Update(skill);
+            var result = skill.Adapt<SkillResult>();
+            await _cachingService.SetCacheValueAsync(
+                result.Id.ToString(),
+                result);
+            return result;
+        },
+        skill.DomainEvents,
+        cancellationToken);
     }
 }
