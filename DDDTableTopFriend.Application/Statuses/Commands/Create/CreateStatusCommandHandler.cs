@@ -2,6 +2,8 @@ using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Application.Common.Interfaces.Services;
 using DDDTableTopFriend.Application.Statuses.Common;
 using DDDTableTopFriend.Domain.AggregateStatus;
+using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
+using DDDTableTopFriend.Domain.Common.Errors;
 using ErrorOr;
 using Mapster;
 using MediatR;
@@ -25,7 +27,16 @@ public class CreateStatusCommandHandler : IRequestHandler<CreateStatusCommand, E
         CreateStatusCommand request,
         CancellationToken cancellationToken)
     {
-        var status = Status.Create(
+        var status = (await _statusRepository.Search(
+            c => c.Name == request.Name &&
+            c.UserId == UserId.Create(request.UserId),
+            cancellationToken)).FirstOrDefault();
+
+        if (status is not null)
+            return Errors.Status.AlreadyRegistered;
+
+        status = Status.Create(
+            UserId.Create(request.UserId),
             request.Name,
             request.Description,
             request.Quantity,

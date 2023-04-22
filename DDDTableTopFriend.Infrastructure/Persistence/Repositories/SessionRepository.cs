@@ -1,4 +1,5 @@
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
+using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateSession;
 using DDDTableTopFriend.Domain.AggregateSession.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
@@ -14,15 +15,16 @@ public class SessionRepository : Repository<Session, SessionId, Guid>, ISessionR
 
     public async Task<IEnumerable<Session>> GetAll(
         UserId userId,
+        CampaignId campaignId,
         CancellationToken cancellationToken)
     {
-        return await base.Search(w => w.UserId == userId, cancellationToken);
+        return await base.Search(w => w.UserId == userId && w.CampaignId == campaignId, cancellationToken);
     }
 
     public async Task<Session?> GetById(
         SessionId id,
         CancellationToken cancellationToken)
     {
-        return await GetById(id, cancellationToken);
+        return await base.GetById(id, cancellationToken);
     }
 }

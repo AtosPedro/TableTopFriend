@@ -25,6 +25,6 @@ public class StatusRepository : Repository<Status, StatusId, Guid>, IStatusRepos
         StatusId id,
         CancellationToken cancellationToken)
     {
-        return await GetById(id, cancellationToken);
+        return await base.GetById(id, cancellationToken);
     }
 }

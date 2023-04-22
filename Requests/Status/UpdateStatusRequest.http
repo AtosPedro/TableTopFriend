@@ -1,0 +1,11 @@
+PUT {{host_https}}/{{api_v1_route}}/statuses
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4ODBhNjFjOC03ZTQ4LTQzNjktYWQ4Yy0zMjk1NTIwZTczMmQiLCJqdGkiOiI3MGNkNWNlMC1jNzI0LTQ3YzItYjg1MS1iOTEzNjMxODE4NmYiLCJnaXZlbl9uYW1lIjoiQXRvcyIsImZhbWlseV9uYW1lIjoiUGVkcm8iLCJleHAiOjE2ODIxMTU5MjQsImlzcyI6IlRhYmxlVG9wIEZyaWVuZCIsImF1ZCI6IlRhYmxlVG9wIEZyaWVuZCJ9.EJYUPBQAnpd_WMbmxLhAROlPNKklGMo2aEgvWkoq--c
+
+{
+    "id": "b9a0c029-6ed1-4b7f-b57c-0f5274bf15c5",
+    "userId": "880a61c8-7e48-4369-ad8c-3295520e732d",
+    "name": "Vida",
+    "description": "pontos de vida",
+    "quantity": 200
+}

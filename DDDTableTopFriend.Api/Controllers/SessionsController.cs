@@ -16,10 +16,10 @@ public class SessionsController : ApiController
     public SessionsController(ISender sender) : base(sender) { }
 
 
-    [HttpGet("list/{userId}")]
-    public async Task<IActionResult> GetSessions(Guid userId)
+    [HttpGet("list/{campaignId}/{userId}")]
+    public async Task<IActionResult> GetSessions(Guid campaignId, Guid userId)
     {
-        var query = new GetAllSessionsQuery(userId);
+        var query = new GetAllSessionsQuery(userId, campaignId);
         var result = await _sender.Send(query);
         return result.Match(
             sessionResults => Ok(sessionResults),

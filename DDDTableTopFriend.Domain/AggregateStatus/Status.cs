@@ -18,11 +18,13 @@ public class Status : AggregateRoot<StatusId, Guid>
 
     private Status(
         StatusId id,
+        UserId userId,
         string name,
         string description,
         float quantity,
         DateTime createdAt) : base(id)
     {
+        UserId = userId;
         Name = name;
         Description = description;
         Quantity = quantity;
@@ -30,6 +32,7 @@ public class Status : AggregateRoot<StatusId, Guid>
     }
 
     public static Status Create(
+        UserId userId,
         string name,
         string description,
         float quantity,
@@ -37,6 +40,7 @@ public class Status : AggregateRoot<StatusId, Guid>
     {
         var status = new Status(
             StatusId.CreateUnique(),
+            userId,
             name,
             description,
             quantity,

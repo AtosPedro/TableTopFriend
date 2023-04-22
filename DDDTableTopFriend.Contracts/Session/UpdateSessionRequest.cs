@@ -1,8 +1,7 @@
 namespace DDDTableTopFriend.Contracts.Skill;
 
 public record UpdateSessionRequest(
-    Guid UserId,
-    Guid CampaignId,
+    Guid Id,
     string Name,
     DateTime DateTime,
     TimeSpan Duration

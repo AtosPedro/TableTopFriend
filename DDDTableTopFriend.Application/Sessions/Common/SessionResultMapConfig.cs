@@ -8,9 +8,13 @@ public class SessionResultMapConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<Session,SessionResult>()
+        config.NewConfig<Session, SessionResult>()
             .Map(dest => dest.Id, src => src.GetId().Value)
             .Map(dest => dest.UserId, src => src.UserId.Value)
-            .Map(dest => dest.CampaignId, src => src.CampaignId.Value);
+            .Map(dest => dest.CampaignId, src => src.CampaignId.Value)
+            .Map(dest => dest.CharacterIds, src => src.CharacterIds.Select(x => x.Value))
+            .Map(dest => dest.AudioEffectIds, src => src.AudioEffectIds.Select(x => x.Value))
+            .MapToConstructor(true);
+
     }
 }

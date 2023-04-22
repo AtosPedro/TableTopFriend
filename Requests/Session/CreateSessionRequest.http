@@ -1,0 +1,10 @@
+POST {{host_https}}/{{api_v1_route}}/sessions
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4ODBhNjFjOC03ZTQ4LTQzNjktYWQ4Yy0zMjk1NTIwZTczMmQiLCJqdGkiOiJiOGRkZjM1My0wYWZkLTRmY2ItYTQ4Yy0zNTUzZWM2ZjVhODYiLCJnaXZlbl9uYW1lIjoiQXRvcyIsImZhbWlseV9uYW1lIjoiUGVkcm8iLCJleHAiOjE2ODIxMTAxMDUsImlzcyI6IlRhYmxlVG9wIEZyaWVuZCIsImF1ZCI6IlRhYmxlVG9wIEZyaWVuZCJ9.JEOAezBt1Cg8-CCNfKecp38ejAdBVl4jQZGLEbMTakU
+
+{
+    "userId":"880a61c8-7e48-4369-ad8c-3295520e732d",
+    "campaignId":"cf9b9ecb-cefb-4f8c-ba8c-79315b8fd5ec",
+    "name":"session 1",
+    "dateTime":"2023-05-22T00:00:00.0000000Z"
+}

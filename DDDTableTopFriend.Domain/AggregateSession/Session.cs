@@ -1,4 +1,5 @@
-﻿using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
+﻿using System.Collections.Generic;
+using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Models;
@@ -31,7 +32,6 @@ public class Session : AggregateRoot<SessionId, Guid>
         CampaignId campaignId,
         string name,
         DateTime dateTime,
-        TimeSpan duration,
         List<CharacterId> characterIds,
         List<AudioEffectId> audioEffectIds,
         DateTime createdAt) : base(id)
@@ -40,7 +40,6 @@ public class Session : AggregateRoot<SessionId, Guid>
         UserId = userId;
         Name = name;
         DateTime = dateTime;
-        Duration = duration;
         CreatedAt = createdAt;
         _characterIds = characterIds;
         _audioEffectIds = audioEffectIds;
@@ -51,9 +50,6 @@ public class Session : AggregateRoot<SessionId, Guid>
         CampaignId campaignId,
         string name,
         DateTime dateTime,
-        TimeSpan duration,
-        List<CharacterId> characterIds,
-        List<AudioEffectId> audioEffectIds,
         DateTime createdAt)
     {
         var session = new Session(
@@ -62,9 +58,8 @@ public class Session : AggregateRoot<SessionId, Guid>
             campaignId,
             name,
             dateTime,
-            duration,
-            characterIds,
-            audioEffectIds,
+            new List<CharacterId>(),
+            new List<AudioEffectId>(),
             createdAt
         );
 
@@ -81,8 +76,6 @@ public class Session : AggregateRoot<SessionId, Guid>
         string name,
         DateTime dateTime,
         TimeSpan duration,
-        List<CharacterId> characterIds,
-        List<AudioEffectId> audioEffectIds,
         DateTime updatedAt)
     {
         Name = name;
@@ -90,17 +83,16 @@ public class Session : AggregateRoot<SessionId, Guid>
         Duration = duration;
         UpdatedAt = updatedAt;
 
-        _characterIds.AddRange(characterIds.Where(c => !_characterIds.Contains(c)));
-        _characterIds.RemoveAll(cid => _characterIds.Except(characterIds).Contains(cid));
-
-        _audioEffectIds.AddRange(audioEffectIds.Where(c => !_audioEffectIds.Contains(c)));
-        _audioEffectIds.RemoveAll(cid => _audioEffectIds.Except(audioEffectIds).Contains(cid));
-
         AddDomainEvent(new SessionChangedDomainEvent(
             UserId,
             CampaignId,
             SessionId.Create(Id.Value)
         ));
+    }
+
+    public void MarkToDelete(DateTime utcNow)
+    {
+        
     }
 
 #pragma warning disable CS8618

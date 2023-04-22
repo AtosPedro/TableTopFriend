@@ -1,0 +1,11 @@
+POST {{host_https}}/{{api_v1_route}}/audio-effects
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4ODBhNjFjOC03ZTQ4LTQzNjktYWQ4Yy0zMjk1NTIwZTczMmQiLCJqdGkiOiI0OTkwZTFiNy0xZWUzLTQ0NTItYmZhNC03NjY0Zjk4ZmI1NTYiLCJnaXZlbl9uYW1lIjoiQXRvcyIsImZhbWlseV9uYW1lIjoiUGVkcm8iLCJleHAiOjE2ODIxMjI5OTYsImlzcyI6IlRhYmxlVG9wIEZyaWVuZCIsImF1ZCI6IlRhYmxlVG9wIEZyaWVuZCJ9.LLS8w1H68R7RXB-ec6yu47UE-i0p2w0Q8VRLCoedG4I
+
+{
+    "userId":"880a61c8-7e48-4369-ad8c-3295520e732d",
+    "name":"fire ball audio",
+    "description":"fire ball audio desc",
+    "audioLink":"https://www.youtube.com/watch?v=FJGdoPmspiU",
+    "audioClip":""
+}

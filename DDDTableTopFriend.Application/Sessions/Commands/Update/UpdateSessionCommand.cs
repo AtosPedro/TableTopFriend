@@ -5,8 +5,7 @@ using MediatR;
 namespace DDDTableTopFriend.Application.Sessions.Commands.Update;
 
 public record UpdateSessionCommand(
-    Guid UserId,
-    Guid CampaignId,
+    Guid Id,
     string Name,
     DateTime DateTime,
     TimeSpan Duration

@@ -139,6 +139,15 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         UpdatedAt = updatedAt;
     }
 
+    
+    public void RemoveSessionId(
+        SessionId sessionId,
+        DateTime updatedAt)
+    {
+        _sessionIds.Remove(sessionId);
+        UpdatedAt = updatedAt;
+    }
+
 #pragma warning disable CS8618
     private Campaign()
     {

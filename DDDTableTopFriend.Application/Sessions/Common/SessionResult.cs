@@ -10,6 +10,6 @@ public record SessionResult(
     string Name,
     DateTime DateTime,
     TimeSpan Duration,
-    List<CharacterId> CharacterIds,
-    List<AudioEffectId> AudioEffectIds
+    List<Guid> CharacterIds,
+    List<Guid> AudioEffectIds
 );

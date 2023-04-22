@@ -31,7 +31,11 @@ public class CreateSkillCommandHandler : IRequestHandler<CreateSkillCommand, Err
         CreateSkillCommand request,
         CancellationToken cancellationToken)
     {
-        var skill = await _skillRepository.GetByName(UserId.Create(request.UserId),request.Name, cancellationToken);
+        var skill = await _skillRepository.GetByName(
+            UserId.Create(request.UserId),
+            request.Name,
+            cancellationToken);
+
         if (skill is not null)
             return Errors.Skill.AlreadyRegistered;
 

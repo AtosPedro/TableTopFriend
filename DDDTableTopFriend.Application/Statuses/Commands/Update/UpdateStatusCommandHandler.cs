@@ -26,7 +26,7 @@ public class UpdateStatusCommandHandler : IRequestHandler<UpdateStatusCommand, E
         CancellationToken cancellationToken)
     {
         var status = await _statusRepository.GetById(
-            StatusId.Create(request.StatusId),
+            StatusId.Create(request.Id),
             cancellationToken);
 
         if (status is null)

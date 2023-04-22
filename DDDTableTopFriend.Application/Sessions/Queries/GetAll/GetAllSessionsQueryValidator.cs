@@ -9,5 +9,9 @@ public class GetAllSessionsQueryValidator : AbstractValidator<GetAllSessionsQuer
         RuleFor(c => c.UserId)
             .NotEmpty()
             .NotNull();
+
+        RuleFor(c => c.CampaignId)
+            .NotEmpty()
+            .NotNull();
     }
 }

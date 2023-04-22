@@ -6,5 +6,20 @@ public class ScheduleSessionCommandValidator : AbstractValidator<ScheduleSession
 {
     public ScheduleSessionCommandValidator()
     {
+        RuleFor(c => c.CampaignId)
+            .NotEmpty()
+            .NotNull();
+        
+        RuleFor(c => c.UserId)
+            .NotEmpty()
+            .NotNull();
+
+        RuleFor(c => c.Name)
+            .NotEmpty()
+            .NotNull();
+        
+        RuleFor(c => c.DateTime)
+            .NotEmpty()
+            .NotNull();
     }
 }
