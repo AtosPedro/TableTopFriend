@@ -8,11 +8,15 @@ var builder = WebApplication.CreateBuilder(args);
         .AddPresenter()
         .AddApplication()
         .AddInfrastructure(builder.Configuration);
+
+    builder.Host
+        .AddLogging();
 }
 
 var app = builder.Build();
 {
     app.UseHttpsRedirection();
+    app.AddLogging();
     app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers();
