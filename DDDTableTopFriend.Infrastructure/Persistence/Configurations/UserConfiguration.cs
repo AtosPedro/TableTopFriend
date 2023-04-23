@@ -44,7 +44,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         userBuilder
             .Property(us =>us.UserRole)
-            .HasConversion(us => (int)us, value => (UserRole)value);
+            .HasConversion(us => (int)us, value => (UserRole)value)
+            .HasComment("0 - Admin, 1 - Free user, 2 - Premium user");
 
         userBuilder
             .Property(us =>us.Password)

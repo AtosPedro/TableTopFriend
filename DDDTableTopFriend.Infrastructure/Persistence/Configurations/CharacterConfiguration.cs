@@ -39,7 +39,8 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
 
         characterBuilder
             .Property(ch => ch.Type)
-            .HasConversion(type => (int)type, value => (CharacterType)value);
+            .HasConversion(type => (int)type, value => (CharacterType)value)
+            .HasComment("0 - Player, 1 - NPC, 2 - Enemy");
 
         characterBuilder
             .Property(ch => ch.Name)
