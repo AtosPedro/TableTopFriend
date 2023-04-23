@@ -31,6 +31,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(200);
 
         userBuilder
+            .HasIndex(us => us.Email)
+            .IsUnique();
+
+        userBuilder
             .HasKey(m => m.Id);
 
         userBuilder
