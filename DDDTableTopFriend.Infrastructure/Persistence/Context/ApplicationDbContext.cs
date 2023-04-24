@@ -7,6 +7,7 @@ using DDDTableTopFriend.Domain.AggregateStatus;
 using DDDTableTopFriend.Domain.AggregateUser;
 using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Options;
 
 namespace DDDTableTopFriend.Infrastructure.Persistence.Context;
@@ -20,6 +21,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Character> Characters { get; set; } = null!;
     public DbSet<AudioEffect> AudioEffects { get; set; } = null!;
     public DbSet<Session> Sessions { get; set; } = null!;
+    public override DatabaseFacade Database => base.Database;
 
     private readonly ApplicationDbSettings _applicationDbSettings;
     public ApplicationDbContext(IOptions<ApplicationDbSettings>  applicationDbSettings)

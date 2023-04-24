@@ -6,6 +6,7 @@ using DDDTableTopFriend.Domain.AggregateSkill;
 using DDDTableTopFriend.Domain.AggregateStatus;
 using DDDTableTopFriend.Domain.AggregateUser;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
 
@@ -21,4 +22,5 @@ public interface IApplicationDbContext
 
     DbSet<T> Set<T>() where T : class;
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
+    public DatabaseFacade Database { get; }
 }

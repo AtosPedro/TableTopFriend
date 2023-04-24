@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
+    app.Services.MigrateDatabase();
     app.UseHttpsRedirection();
     app.AddLogging();
     app.UseAuthentication();

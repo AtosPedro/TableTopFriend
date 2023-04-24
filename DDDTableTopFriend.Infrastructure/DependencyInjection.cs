@@ -17,6 +17,7 @@ using System.Reflection;
 using MediatR;
 using StackExchange.Redis;
 using DDDTableTopFriend.Infrastructure.Services.Caching;
+using Microsoft.EntityFrameworkCore;
 
 namespace DDDTableTopFriend.Infrastructure;
 
@@ -92,6 +93,15 @@ public static class DependencyInjection
         services.AddSingleton<IStatusRepository, StatusRepository>();
         services.AddSingleton<IUserRepository, UserRepository>();
         return services;
+    }
+
+    public static void MigrateDatabase(this IServiceProvider provider)
+    {
+        using var scope = provider.CreateScope();
+        var services = scope.ServiceProvider;
+        var context = services.GetRequiredService<IApplicationDbContext>();
+        if (context.Database.GetPendingMigrations().Any())
+            context.Database.Migrate();
     }
 
     public static IServiceCollection AddCaching(
