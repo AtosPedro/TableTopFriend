@@ -5,7 +5,20 @@
 ```csharp
 public sealed class AudioEffect
 {
-    AudioEffect Create(string name, string? description, string? audioLink, byte[]? audioClip);
+    AudioEffect Create(
+        UserId userId,
+        string name,
+        string? description,
+        string? audioLink,
+        byte[]? audioClip,
+        DateTime createdAt);
+
+    void Update(
+        string name,
+        string? description,
+        string? audioLink,
+        byte[]? audioClip,
+        DateTime updatedAt);
 }
 ```
 
@@ -16,6 +29,8 @@ public sealed class AudioEffect
     "name" : "fireball sound",
     "description": "fireball burning and launching sound",
     "audioLink" : "https://www.youtube.com/watch?v=FJGdoPmspiU",
-    "audioClip" : "YXNkZmFzZGZhc2RmYXNkZmFzZGZhc2Rm"
+    "audioClip" : "YXNkZmFzZGZhc2RmYXNkZmFzZGZhc2Rm",
+    "createdAt":"2023-01-01T00:00:00.0000000Z",
+    "updatedAt":"2023-01-01T00:00:00.0000000Z"
 }
 ```

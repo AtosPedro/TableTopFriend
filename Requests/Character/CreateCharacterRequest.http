@@ -1,0 +1,23 @@
+POST {{host_https}}/{{api_v1_route}}/characters
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNTMwOTczOC04OWU5LTRhZjYtYWM2Ni03M2M2NzU3N2Q2MjEiLCJqdGkiOiI2MjVlNzljYi1iZWUwLTQ2MDMtOTgxYy1iNjAyOWI2OGE1NjQiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwiZXhwIjoxNjgyMzUwOTQyLCJpc3MiOiJUYWJsZVRvcCBGcmllbmQiLCJhdWQiOiJUYWJsZVRvcCBGcmllbmQifQ.zbjv-Zo4lwy-Hk8Zo1Tbd8AXg0HSAxJUNVO1HqxStC4
+
+{
+    "userId": "b5309738-89e9-4af6-ac66-73c67577d621" ,
+    "name": "character 1",
+    "description": "character's 1 history starts ...",
+    "type": 1,
+    "characterSheet": {       
+        "name": "character's sheet",
+        "description": "character's sheet desc",
+        "statusIds":[
+            "5f1322a1-6aa9-4c4a-bd1e-dd37cebd4750" 
+        ],
+        "skillIds":[
+            "17440ef5-93cb-4356-b54e-6a1608c5d1f9" 
+        ]
+    },
+    "audioEffectIds":[
+        "a99ba612-d105-4cc2-82f3-cbed63f03a1d" 
+    ]
+}

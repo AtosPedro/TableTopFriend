@@ -123,7 +123,7 @@ public sealed class Character : AggregateRoot<CharacterId, Guid>
 
     #region -- CharacterSheet --
 
-    public void AddCharacterSheet(
+    private void AddCharacterSheet(
         string sheetName,
         string sheetDescription,
         List<StatusId> sheetStatusIds,
@@ -147,7 +147,7 @@ public sealed class Character : AggregateRoot<CharacterId, Guid>
         ));
     }
 
-    public void UpdateCharacterSheet(
+    private void UpdateCharacterSheet(
         string sheetName,
         string sheetDescription,
         List<StatusId> sheetStatusIds,
@@ -167,7 +167,7 @@ public sealed class Character : AggregateRoot<CharacterId, Guid>
             CharacterSheet.Description,
             CharacterSheet.StatusIds,
             CharacterSheet.SkillIds,
-            CharacterSheet.UpdatedAt.Value
+            CharacterSheet.UpdatedAt!.Value
         ));
     }
 
@@ -179,6 +179,15 @@ public sealed class Character : AggregateRoot<CharacterId, Guid>
     public void AddStatusId(StatusId statusId)
     {
         CharacterSheet.AddStatusId(statusId);
+    }
+
+    public void MarkToDelete(DateTime deletedAt)
+    {
+        AddDomainEvent(new CharacterDeletedDomainEvent(
+            CharacterId.Create(Id.Value),
+            UserId,
+            deletedAt
+        ));
     }
 
     #endregion

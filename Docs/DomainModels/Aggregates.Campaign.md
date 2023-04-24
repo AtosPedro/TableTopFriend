@@ -5,9 +5,28 @@
 ```csharp
 public sealed class Campaign
 {
-    Campaign Create(CampaignId id, string name, string description);
-    Campaign Update(CampaignId id, string name, string description, IEnumerable<CharacterId> characterIds, IEnumerable<SessionId> sessionIds);
-    void AddCharacter(CampaignId id, CharacterId characterId);
+    Campaign Create(
+        UserId userId,
+        string name,
+        string description,
+        List<CharacterId> characterIds,
+        DateTime createdAt);
+
+    void Update(
+        string name,
+        string description,
+        List<CharacterId> characterIds,
+        DateTime updatedAt);
+
+    void MarkToDelete(DateTime deletedAt);
+
+    void AddSessionId(SessionId sessionId, DateTime updatedAt);
+
+    void RemoveSessionId(SessionId sessionId, DateTime updatedAt);
+
+    void AddCharacterId(CharacterId characterId, DateTime updatedAt);
+
+    void RemoveCharacterId(CharacterId characterId, DateTime updatedAt);
 }
 
 ```

@@ -33,7 +33,8 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
 
         if (result.IsError)
         {
-            var errors = String.Join(',', result?.Errors);
+            var errorList = result.Errors ?? new List<Error>();
+            var errors = String.Join(',', errorList);
             _logger.LogError(
                 "Request Failure {@RequestName}, {@Error}, {@DateTimeUtc}",
                 typeof(TRequest).Name,
@@ -46,6 +47,6 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
             typeof(TRequest).Name,
             _dateTimeProvider.UtcNow);
 
-        return result;
+        return result!;
     }
 }

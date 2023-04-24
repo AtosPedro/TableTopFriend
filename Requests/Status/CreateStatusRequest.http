@@ -1,9 +1,9 @@
 POST {{host_https}}/{{api_v1_route}}/statuses
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwNWUzN2I5Ny0xZDM4LTRkNDItYWQ3ZC1mZmQ4ZjgwZjAxZjMiLCJqdGkiOiI2NmRhZGI0Yy1iN2IxLTQ0NzItYmZkMC1iYzA5MDY5M2M1ODAiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwiZXhwIjoxNjgyMTg0NTI4LCJpc3MiOiJUYWJsZVRvcCBGcmllbmQiLCJhdWQiOiJUYWJsZVRvcCBGcmllbmQifQ.yr6nQnsWz721gdN-VOBSb3TpXlTztxPA71sSbPn1-RI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNTMwOTczOC04OWU5LTRhZjYtYWM2Ni03M2M2NzU3N2Q2MjEiLCJqdGkiOiI1M2JjOGQ2My02M2Q1LTQ1NGEtYTAzYS1mMDZiMTZlNjE0YjgiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwiZXhwIjoxNjgyMzM4OTE1LCJpc3MiOiJUYWJsZVRvcCBGcmllbmQiLCJhdWQiOiJUYWJsZVRvcCBGcmllbmQifQ.8bJAZje_plbLqerzOfCaN3GgBwfFSLuzuK--0HslevY
 
 {
-    "userId":"05e37b97-1d38-4d42-ad7d-ffd8f80f01f3",
+    "userId":"b5309738-89e9-4af6-ac66-73c67577d621",
     "name":"Vida",
     "description":"pontos de vida",
     "quantity":100

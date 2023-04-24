@@ -2,19 +2,18 @@ using DDDTableTopFriend.Application.Characters.Common;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Application.Common.Interfaces.Services;
 using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
-using DDDTableTopFriend.Domain.AggregateCharacter;
+using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateSkill.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
-using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Enums;
 using DDDTableTopFriend.Domain.Common.Errors;
 using ErrorOr;
 using Mapster;
 using MediatR;
 
-namespace DDDTableTopFriend.Application.Characters.Commands.Create;
+namespace DDDTableTopFriend.Application.Characters.Commands.Update;
 
-public class CharacterSheetCommandHandler : IRequestHandler<CreateCharacterCommand, ErrorOr<CharacterResult>>
+public class UpdateCharacterCommandHandler : IRequestHandler<UpdateCharacterCommand, ErrorOr<CharacterResult>>
 {
     private readonly ICharacterRepository _characterRepository;
     private readonly ISkillRepository _skillRepository;
@@ -23,56 +22,70 @@ public class CharacterSheetCommandHandler : IRequestHandler<CreateCharacterComma
     private readonly ICachingService _cachingService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IDateTimeProvider _dateTimeProvider;
-
-    public CharacterSheetCommandHandler(
+    public UpdateCharacterCommandHandler(
         ICharacterRepository characterRepository,
         ISkillRepository skillRepository,
         IStatusRepository statusRepository,
+        IAudioEffectRepository audioEffectRepository,
         ICachingService cachingService,
         IUnitOfWork unitOfWork,
-        IDateTimeProvider dateTimeProvider,
-        IAudioEffectRepository audioEffectRepository)
+        IDateTimeProvider dateTimeProvider)
     {
         _characterRepository = characterRepository;
         _skillRepository = skillRepository;
         _statusRepository = statusRepository;
+        _audioEffectRepository = audioEffectRepository;
         _cachingService = cachingService;
         _unitOfWork = unitOfWork;
         _dateTimeProvider = dateTimeProvider;
-        _audioEffectRepository = audioEffectRepository;
     }
 
     public async Task<ErrorOr<CharacterResult>> Handle(
-        CreateCharacterCommand request,
+        UpdateCharacterCommand request,
         CancellationToken cancellationToken)
     {
+        var character = await _characterRepository.GetById(
+            CharacterId.Create(request.Id),
+            cancellationToken);
+
+        if (character is null)
+            return Errors.Character.NotRegistered;
+
         var audioEffectsIds = request.AudioEffectIds.ConvertAll(guid => AudioEffectId.Create(guid));
         var statusIds = request.CharacterSheet.StatusIds.ConvertAll(guid => StatusId.Create(guid));
         var skillIds = request.CharacterSheet.SkillIds.ConvertAll(guid => SkillId.Create(guid));
 
-        var existsAllAudioEffects = (await _audioEffectRepository.Search(
-            au => audioEffectsIds.Contains(au.Id),
-             cancellationToken)).Count() == audioEffectsIds.Count;
+        if (audioEffectsIds.Any())
+        {
+            var existsAllAudioEffects = (await _audioEffectRepository.Search(
+                au => audioEffectsIds.Contains(au.Id),
+                cancellationToken)).Count() == audioEffectsIds.Count;
 
-        if (!existsAllAudioEffects)
-            return Errors.AudioEffect.NotRegistered;
+            if (!existsAllAudioEffects)
+                return Errors.AudioEffect.NotRegistered;
+        }
 
-        var existsAllStatuses = (await _statusRepository.Search(
-            au => statusIds.Contains(au.Id),
-             cancellationToken)).Count() == statusIds.Count;
+        if (statusIds.Any())
+        {
+            var existsAllStatuses = (await _statusRepository.Search(
+                au => statusIds.Contains(au.Id),
+                cancellationToken)).Count() == statusIds.Count;
 
-        if (!existsAllStatuses)
-            return Errors.Status.NotRegistered;
+            if (!existsAllStatuses)
+                return Errors.Status.NotRegistered;
+        }
 
-        var existsAllSkills = (await _skillRepository.Search(
-                au => skillIds.Contains(au.Id),
-                 cancellationToken)).Count() == skillIds.Count;
+        if (skillIds.Any())
+        {
+            var existsAllSkills = (await _skillRepository.Search(
+                    au => skillIds.Contains(au.Id),
+                    cancellationToken)).Count() == skillIds.Count;
 
-        if (!existsAllSkills)
-            return Errors.Skill.NotRegistered;
+            if (!existsAllSkills)
+                return Errors.Skill.NotRegistered;
+        }
 
-        var character = Character.Create(
-            UserId.Create(request.UserId),
+        character.Update(
             request.Name,
             request.Description,
             (CharacterType)request.Type,
@@ -84,9 +97,9 @@ public class CharacterSheetCommandHandler : IRequestHandler<CreateCharacterComma
             _dateTimeProvider.UtcNow
         );
 
-        return await _unitOfWork.Execute(async cancellationToken =>
+        return await _unitOfWork.Execute(async _ =>
         {
-            await _characterRepository.Add(character, cancellationToken);
+            await _characterRepository.Update(character);
             var result = character.Adapt<CharacterResult>();
             await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
             return result;

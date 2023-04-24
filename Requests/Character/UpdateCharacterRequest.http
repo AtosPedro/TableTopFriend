@@ -1,0 +1,24 @@
+PUT {{host_https}}/{{api_v1_route}}/characters
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNTMwOTczOC04OWU5LTRhZjYtYWM2Ni03M2M2NzU3N2Q2MjEiLCJqdGkiOiI1MDg5OGRmMS0xN2ZiLTQ1NzEtYTQ0MS0zNzc0NmM5OTcxZWYiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwiZXhwIjoxNjgyMzQ2NTU5LCJpc3MiOiJUYWJsZVRvcCBGcmllbmQiLCJhdWQiOiJUYWJsZVRvcCBGcmllbmQifQ.Fq0X9Inb-6jlnepYeVpxVRsyhSCkM90ZHtIhGNKz2Yw
+
+{
+    "id": "b425747e-e467-4259-9f6a-c0c1b93874fb" ,
+    "userId": "b5309738-89e9-4af6-ac66-73c67577d621" ,
+    "name": "character 1 Updated",
+    "description": "character's 1 history starts ...",
+    "type": 1,
+    "characterSheet": {       
+        "name": "character's sheet",
+        "description": "character's sheet desc",
+        "statusIds":[
+            
+        ],
+        "skillIds":[
+            
+        ]
+    },
+    "audioEffectIds":[
+        "a99ba612-d105-4cc2-82f3-cbed63f03a1d" 
+    ]
+}

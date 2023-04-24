@@ -5,11 +5,34 @@
 ```csharp
 public sealed class Character
 {
-    Character Create(CharacterId id, string name, string description);
-    Character Update(CharacterId id, string name, string description, IEnumerable<AudioEffectId> audioEffectIds);
-    void AddSheet(CharacterSheet characterSheet);
-    void AddStatus(CharacterSheet characterSheet, StatusId statusId);
-    void AddSkill(CharacterSheet characterSheet, SkillId skillId);
+    Character Create(
+        UserId userId,
+        string name,
+        string description,
+        CharacterType type,
+        List<AudioEffectId> audioEffectIds,
+        string sheetName,
+        string sheetDescription,
+        List<StatusId> sheetStatusIds,
+        List<SkillId> sheetSkillIds,
+        DateTime createdAt);
+
+    void Update(
+        string name,
+        string description,
+        CharacterType type,
+        List<AudioEffectId> audioEffectIds,
+        string sheetName,
+        string sheetDescription,
+        List<StatusId> sheetStatusIds,
+        List<SkillId> sheetSkillIds,
+        DateTime updatedAt);
+
+    void MarkToDelete(DateTime deletedAt);
+
+    void AddSkill(SkillId skillId);
+
+    void AddStatusId(StatusId statusId);
 }
 ```
 
@@ -17,6 +40,7 @@ public sealed class Character
 {
     "id":{ "value": "00000000-0000-0000-0000-00000000000" },
     "userId": { "value": "00000000-0000-0000-0000-00000000000" },
+    "name": "character 1",
     "description": "character's 1 history starts ...",
     "type": 1,
     "characterSheet": {

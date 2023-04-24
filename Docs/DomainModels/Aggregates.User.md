@@ -5,7 +5,25 @@
 ```csharp
 public sealed class User
 {
-    User Create(string firstName, string lastName, UserRole role, string email, string password, string passwordSalt);
+    User Create(
+            string firstName,
+            string lastName,
+            string email,
+            string plainPassword,
+            UserRole userRole,
+            DateTime createdAt);
+
+    void Update(
+        string firstName,
+        string lastName,
+        string email,
+        string plainPassword,
+        UserRole userRole,
+        DateTime updatedAt);
+
+    void MarkToDelete(DateTime deletedAt);
+
+    bool IsValidPassword(string plainPassword);
 }
 ```
 
@@ -18,5 +36,7 @@ public sealed class User
     "Email":"johndoe@email.com",
     "Password":"6237184",
     "PasswordSalt":"uihzxbcgh64812baaf78",
+    "createdAt":"2023-01-01T00:00:00.0000000Z",
+    "updatedAt":"2023-01-01T00:00:00.0000000Z",
 }
 ```

@@ -1,10 +1,10 @@
 using FluentValidation;
 
-namespace DDDTableTopFriend.Application.Characters.Commands.Create;
+namespace DDDTableTopFriend.Application.Characters.Commands.Update;
 
-public class CreateCharacterCommandValidator : AbstractValidator<CreateCharacterCommand>
+public class UpdateCharacterCommandValidator : AbstractValidator<UpdateCharacterCommand>
 {
-    public CreateCharacterCommandValidator()
+    public UpdateCharacterCommandValidator()
     {
         RuleFor(c => c.UserId)
             .NotNull()
@@ -20,9 +20,6 @@ public class CreateCharacterCommandValidator : AbstractValidator<CreateCharacter
 
         RuleFor(c => c.Type)
             .NotEmpty()
-            .NotNull();
-
-        RuleFor(c => c.CharacterSheet)
             .NotNull();
     }
 }

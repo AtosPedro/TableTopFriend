@@ -90,7 +90,7 @@ public class Session : AggregateRoot<SessionId, Guid>
         ));
     }
 
-    public void MarkToDelete(DateTime utcNow)
+    public void MarkToDelete(DateTime deletedAt)
     {
     }
 
