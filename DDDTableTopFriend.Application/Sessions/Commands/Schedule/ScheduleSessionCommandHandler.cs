@@ -39,7 +39,7 @@ public class ScheduleSessionCommandHandler : IRequestHandler<ScheduleSessionComm
         ScheduleSessionCommand request,
         CancellationToken cancellationToken)
     {
-        var session = (await _sessionRepository.Search(
+        var session = (await _sessionRepository.SearchAsNoTracking(
             c => c.DateTime == request.DateTime && c.CampaignId == CampaignId.Create(request.CampaignId),
             cancellationToken)).FirstOrDefault();
 

@@ -5,6 +5,6 @@ public record UpdateCampaignRequest(
     Guid UserId,
     string Name,
     string Description,
-    List<Guid> characterIds,
-    List<Guid> sessionIds
+    List<Guid> CharacterIds,
+    List<Guid> SessionIds
 );

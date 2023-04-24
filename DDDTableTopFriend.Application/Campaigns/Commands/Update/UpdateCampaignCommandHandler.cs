@@ -39,7 +39,7 @@ public class UpdateCampaignCommandHandler : IRequestHandler<UpdateCampaignComman
         if (campaign is null)
             return Errors.Campaign.NotRegistered;
 
-        var characterList = request.CharacterIds.Adapt<List<CharacterId>>();
+        var characterList = request.CharacterIds.ConvertAll(x => CharacterId.Create(x));
 
         campaign.Update(
             request.Name,

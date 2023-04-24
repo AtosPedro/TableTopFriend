@@ -18,7 +18,7 @@ public class SkillRepository : Repository<Skill, SkillId, Guid>, ISkillRepositor
         UserId userId,
         CancellationToken cancellationToken)
     {
-        return await base.Search(w => w.UserId == userId, cancellationToken);
+        return await base.SearchAsNoTracking(w => w.UserId == userId, cancellationToken);
     }
 
     public async Task<Skill?> GetById(
@@ -30,6 +30,6 @@ public class SkillRepository : Repository<Skill, SkillId, Guid>, ISkillRepositor
 
     public async Task<Skill?> GetByName(UserId userId, string name, CancellationToken cancellationToken)
     {
-        return (await base.Search(w => w.Name == name && w.UserId == userId, cancellationToken)).FirstOrDefault();
+        return (await base.SearchAsNoTracking(w => w.Name == name && w.UserId == userId, cancellationToken)).FirstOrDefault();
     }
 }

@@ -1,10 +1,12 @@
 using System.Linq;
+using DDDTableTopFriend.Application.Campaigns.Common;
 using DDDTableTopFriend.Application.Characters.Common;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Application.Common.Interfaces.Services;
 using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Errors;
 using ErrorOr;
+using Mapster;
 using MediatR;
 
 namespace DDDTableTopFriend.Application.Characters.Commands.Delete;
@@ -42,11 +44,10 @@ public class DeleteCharacterCommandHandler : IRequestHandler<DeleteCharacterComm
         if (character is null)
             return Errors.Character.NotRegistered;
 
-        var campaigns = await _campaignRepository.Search(
-            camp => camp.CharacterIds.Contains(CharacterId.Create(request.CharacterId)),
-            cancellationToken);
+        var campaigns = await _campaignRepository.GetAll(character.UserId, cancellationToken);
+        var campaignsWithTheCharacter = campaigns.Where(c => c.HasCharacter(CharacterId.Create(request.CharacterId))).ToList();
 
-        foreach (var campaign in campaigns)
+        foreach (var campaign in campaignsWithTheCharacter)
         {
             campaign.RemoveCharacterId(
                 CharacterId.Create(request.CharacterId),
@@ -56,8 +57,12 @@ public class DeleteCharacterCommandHandler : IRequestHandler<DeleteCharacterComm
         character.MarkToDelete(_dateTimeProvider.UtcNow);
         return await _unitOfWork.Execute(async _ =>
         {
-            foreach (var campaign in campaigns)
+            foreach (var campaign in campaignsWithTheCharacter)
+            {
                 await _campaignRepository.Update(campaign);
+                var campaignResult = campaign.Adapt<CampaignResult>();
+                await _cachingService.SetCacheValueAsync(campaignResult.Id.ToString(),campaignResult);
+            }
 
             await _characterRepository.Remove(character);
             await _cachingService.RemoveCacheValueAsync<CharacterResult>(request.CharacterId.ToString());

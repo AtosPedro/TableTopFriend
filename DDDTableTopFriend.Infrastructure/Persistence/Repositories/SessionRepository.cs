@@ -18,7 +18,7 @@ public class SessionRepository : Repository<Session, SessionId, Guid>, ISessionR
         CampaignId campaignId,
         CancellationToken cancellationToken)
     {
-        return await base.Search(w => w.UserId == userId && w.CampaignId == campaignId, cancellationToken);
+        return await base.SearchAsNoTracking(w => w.UserId == userId && w.CampaignId == campaignId, cancellationToken);
     }
 
     public async Task<Session?> GetById(

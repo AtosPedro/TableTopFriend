@@ -33,7 +33,7 @@ public class CreateStatusCommandHandler : IRequestHandler<CreateStatusCommand, E
         CreateStatusCommand request,
         CancellationToken cancellationToken)
     {
-        var status = (await _statusRepository.Search(
+        var status = (await _statusRepository.SearchAsNoTracking(
             c => c.Name == request.Name &&
             c.UserId == UserId.Create(request.UserId),
             cancellationToken)).FirstOrDefault();

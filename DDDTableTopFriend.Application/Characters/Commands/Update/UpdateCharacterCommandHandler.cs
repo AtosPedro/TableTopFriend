@@ -57,7 +57,7 @@ public class UpdateCharacterCommandHandler : IRequestHandler<UpdateCharacterComm
 
         if (audioEffectsIds.Any())
         {
-            var existsAllAudioEffects = (await _audioEffectRepository.Search(
+            var existsAllAudioEffects = (await _audioEffectRepository.SearchAsNoTracking(
                 au => audioEffectsIds.Contains(au.Id),
                 cancellationToken)).Count() == audioEffectsIds.Count;
 
@@ -67,7 +67,7 @@ public class UpdateCharacterCommandHandler : IRequestHandler<UpdateCharacterComm
 
         if (statusIds.Any())
         {
-            var existsAllStatuses = (await _statusRepository.Search(
+            var existsAllStatuses = (await _statusRepository.SearchAsNoTracking(
                 au => statusIds.Contains(au.Id),
                 cancellationToken)).Count() == statusIds.Count;
 
@@ -77,7 +77,7 @@ public class UpdateCharacterCommandHandler : IRequestHandler<UpdateCharacterComm
 
         if (skillIds.Any())
         {
-            var existsAllSkills = (await _skillRepository.Search(
+            var existsAllSkills = (await _skillRepository.SearchAsNoTracking(
                     au => skillIds.Contains(au.Id),
                     cancellationToken)).Count() == skillIds.Count;
 

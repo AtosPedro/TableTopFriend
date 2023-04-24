@@ -7,7 +7,7 @@ namespace DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 
 public interface ISkillRepository
 {
-    Task<IEnumerable<Skill>> Search(Expression<Func<Skill, bool>> predicate, CancellationToken cancellationToken);
+    Task<IEnumerable<Skill>> SearchAsNoTracking(Expression<Func<Skill, bool>> predicate, CancellationToken cancellationToken);
     Task<Skill?> GetById(SkillId id, CancellationToken cancellationToken);
     Task<IEnumerable<Skill>> GetAll(UserId userId, CancellationToken cancellationToken);
     Task<Skill> Add(Skill skill, CancellationToken cancellationToken);

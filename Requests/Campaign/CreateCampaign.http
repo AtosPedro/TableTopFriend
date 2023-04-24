@@ -1,13 +1,13 @@
 POST {{host_https}}/{{api_v1_route}}/campaigns
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNTMwOTczOC04OWU5LTRhZjYtYWM2Ni03M2M2NzU3N2Q2MjEiLCJqdGkiOiJjZDEyMjc1MC1mN2ZlLTRiNzQtYmFkYi05YTcxNmNkNWM3ZWIiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwiZXhwIjoxNjgyMzUwNzMwLCJpc3MiOiJUYWJsZVRvcCBGcmllbmQiLCJhdWQiOiJUYWJsZVRvcCBGcmllbmQifQ.4481W0BNcxnajtrResM45vxm1GMfVVgkCWuUAi25eN4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiNTMwOTczOC04OWU5LTRhZjYtYWM2Ni03M2M2NzU3N2Q2MjEiLCJqdGkiOiJkZTk3NGE5OS1lYThhLTRhZWMtODBkNC0xYjBkNzJkN2VhMjIiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiRG9lIiwiZXhwIjoxNjgyMzU0MjkxLCJpc3MiOiJUYWJsZVRvcCBGcmllbmQiLCJhdWQiOiJUYWJsZVRvcCBGcmllbmQifQ.6zn3F4UrauNi4YZ26cQm2K9VkXMlEUYmq7GiJhfnP1A
 
 {
    "name":"Out of the Abyss",
    "userId": "b5309738-89e9-4af6-ac66-73c67577d621",
    "description":"DEMOGOOOOORGON",
    "characterIds":[
-      "b425747e-e467-4259-9f6a-c0c1b93874fb"
+      "e9922f53-fe6c-43e3-8b4f-0f0ca6367d51"
    ],
    "sessionIds":[]
 }

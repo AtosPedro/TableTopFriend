@@ -24,6 +24,6 @@ public class UserRepository : Repository<User, UserId, Guid> , IUserRepository
         string email,
         CancellationToken cancellationToken)
     {
-        return (await Search(w => w.Email == email, cancellationToken)).FirstOrDefault();
+        return (await SearchAsNoTracking(w => w.Email == email, cancellationToken)).FirstOrDefault();
     }
 }

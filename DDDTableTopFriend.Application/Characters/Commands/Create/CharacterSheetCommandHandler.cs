@@ -50,21 +50,21 @@ public class CharacterSheetCommandHandler : IRequestHandler<CreateCharacterComma
         var statusIds = request.CharacterSheet.StatusIds.ConvertAll(guid => StatusId.Create(guid));
         var skillIds = request.CharacterSheet.SkillIds.ConvertAll(guid => SkillId.Create(guid));
 
-        var existsAllAudioEffects = (await _audioEffectRepository.Search(
+        var existsAllAudioEffects = (await _audioEffectRepository.SearchAsNoTracking(
             au => audioEffectsIds.Contains(au.Id),
              cancellationToken)).Count() == audioEffectsIds.Count;
 
         if (!existsAllAudioEffects)
             return Errors.AudioEffect.NotRegistered;
 
-        var existsAllStatuses = (await _statusRepository.Search(
+        var existsAllStatuses = (await _statusRepository.SearchAsNoTracking(
             au => statusIds.Contains(au.Id),
              cancellationToken)).Count() == statusIds.Count;
 
         if (!existsAllStatuses)
             return Errors.Status.NotRegistered;
 
-        var existsAllSkills = (await _skillRepository.Search(
+        var existsAllSkills = (await _skillRepository.SearchAsNoTracking(
                 au => skillIds.Contains(au.Id),
                  cancellationToken)).Count() == skillIds.Count;
 

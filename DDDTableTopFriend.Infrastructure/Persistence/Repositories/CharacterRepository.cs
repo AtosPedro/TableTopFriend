@@ -18,7 +18,7 @@ public class CharacterRepository : Repository<Character, CharacterId, Guid>, ICh
         UserId userId,
         CancellationToken cancellationToken)
     {
-        return await Search(ch => ch.UserId == userId, cancellationToken);
+        return await SearchAsNoTracking(ch => ch.UserId == userId, cancellationToken);
     }
 
     public async Task<Character?> GetById(

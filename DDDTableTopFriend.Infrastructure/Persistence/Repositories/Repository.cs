@@ -27,12 +27,21 @@ public abstract class Repository<T, TId, TIdType>
     /// <param name="predicate"></param>
     /// <param name="cancellationToken"></param>
     /// <returns>A Task of type IEnumerable of TEntity or Null if the TEntities was not found</returns>
-    public virtual async Task<IEnumerable<T>> Search(
+    public virtual async Task<IEnumerable<T>> SearchAsNoTracking(
         Expression<Func<T, bool>> predicate,
         CancellationToken cancellationToken)
     {
         return await EntityDbSet
             .AsNoTracking()
+            .Where(predicate)
+            .ToListAsync(cancellationToken);
+    }
+
+    public virtual async Task<IEnumerable<T>> Search(
+        Expression<Func<T, bool>> predicate,
+        CancellationToken cancellationToken)
+    {
+        return await EntityDbSet
             .Where(predicate)
             .ToListAsync(cancellationToken);
     }

@@ -18,7 +18,7 @@ public class StatusRepository : Repository<Status, StatusId, Guid>, IStatusRepos
         UserId userId,
         CancellationToken cancellationToken)
     {
-        return await base.Search(w=> w.UserId == userId, cancellationToken);
+        return await base.SearchAsNoTracking(w=> w.UserId == userId, cancellationToken);
     }
 
     public async Task<Status?> GetById(

@@ -7,7 +7,7 @@ namespace DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 
 public interface IStatusRepository
 {
-   Task<IEnumerable<Status>> Search(Expression<Func<Status, bool>> predicate, CancellationToken cancellationToken);
+   Task<IEnumerable<Status>> SearchAsNoTracking(Expression<Func<Status, bool>> predicate, CancellationToken cancellationToken);
     Task<Status?> GetById(StatusId id, CancellationToken cancellationToken);
     Task<IEnumerable<Status>> GetAll(UserId userId, CancellationToken cancellationToken);
     Task<Status> Add(Status status, CancellationToken cancellationToken);

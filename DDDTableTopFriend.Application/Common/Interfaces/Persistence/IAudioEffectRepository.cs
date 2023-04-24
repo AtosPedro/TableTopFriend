@@ -7,7 +7,7 @@ namespace DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 
 public interface IAudioEffectRepository
 {
-    Task<IEnumerable<AudioEffect>> Search(Expression<Func<AudioEffect, bool>> predicate, CancellationToken cancellationToken);
+    Task<IEnumerable<AudioEffect>> SearchAsNoTracking(Expression<Func<AudioEffect, bool>> predicate, CancellationToken cancellationToken);
     Task<AudioEffect?> GetById(AudioEffectId id, CancellationToken cancellationToken);
     Task<IEnumerable<AudioEffect>> GetAll(UserId userId, CancellationToken cancellationToken);
     Task<AudioEffect> Add(AudioEffect audioEffect, CancellationToken cancellationToken);

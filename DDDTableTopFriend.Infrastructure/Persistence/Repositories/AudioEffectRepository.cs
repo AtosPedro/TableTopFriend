@@ -16,7 +16,7 @@ public class AudioEffectRepository : Repository<AudioEffect, AudioEffectId, Guid
         UserId userId,
         CancellationToken cancellationToken)
     {
-        return await Search(w => w.UserId == userId, cancellationToken);
+        return await SearchAsNoTracking(w => w.UserId == userId, cancellationToken);
     }
 
     public async Task<AudioEffect?> GetById(

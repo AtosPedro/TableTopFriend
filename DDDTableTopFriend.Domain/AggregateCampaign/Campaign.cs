@@ -155,6 +155,11 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         UpdatedAt = updatedAt;
     }
 
+    public bool  HasCharacter(CharacterId characterId)
+    {
+        return _characterIds.Contains(characterId);
+    }
+
 #pragma warning disable CS8618
     private Campaign()
     {

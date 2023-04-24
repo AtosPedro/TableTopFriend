@@ -7,7 +7,7 @@ namespace DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 
 public interface ICampaignRepository
 {
-    Task<IEnumerable<Campaign>> Search(Expression<Func<Campaign, bool>> predicate, CancellationToken cancellationToken);
+    Task<IEnumerable<Campaign>> SearchAsNoTracking(Expression<Func<Campaign, bool>> predicate, CancellationToken cancellationToken);
     Task<Campaign?> GetById(AggregateRootId<Guid> id, CancellationToken cancellationToken);
     Task<IEnumerable<Campaign>> GetAll(UserId userId, CancellationToken cancellationToken);
     Task<Campaign?> GetByName(string name, UserId userId, CancellationToken cancellationToken);
