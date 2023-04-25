@@ -16,13 +16,12 @@ public class MailService : IMailService
     }
 
     public async Task<string> SendMail(
-        string from,
         string to,
         string subject,
         string body)
     {
         var email = new MimeMessage();
-        email.From.Add(MailboxAddress.Parse(from));
+        email.From.Add(MailboxAddress.Parse(_mailServiceSettings.Username));
         email.To.Add(MailboxAddress.Parse(to));
         email.Subject = subject;
         email.Body = new TextPart(TextFormat.Html) { Text = body };

@@ -10,6 +10,7 @@ public record UpdateUserCommand(
     string FirstName,
     string LastName,
     string Email,
+    byte[] ProfileImage,
     string Password,
     UserRole Role
 ): IRequest<ErrorOr<UserResult>>;

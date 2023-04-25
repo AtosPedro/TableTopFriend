@@ -8,6 +8,7 @@ namespace DDDTableTopFriend.Domain.AggregateStatus;
 public class Status : AggregateRoot<StatusId, Guid>
 {
     public UserId UserId { get; private set; } = null!;
+    public byte[]? Image { get; private set; }
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
     public float Quantity { get; private set; }

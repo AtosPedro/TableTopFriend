@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using DDDTableTopFriend.Domain.AggregateCharacter.Entities;
 using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
@@ -15,6 +16,7 @@ public sealed class Character : AggregateRoot<CharacterId, Guid>
     public UserId UserId { get; set; } = null!;
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
+    public byte[]? Image { get; private set; }
     public CharacterType Type { get; private set; }
     public CharacterSheet CharacterSheet { get; private set; } = null!;
     public IReadOnlyList<AudioEffectId> AudioEffectIds => _audioEffectIds.AsReadOnly();

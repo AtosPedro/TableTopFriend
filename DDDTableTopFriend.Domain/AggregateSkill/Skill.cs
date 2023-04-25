@@ -12,6 +12,7 @@ public class Skill : AggregateRoot<SkillId, Guid>
     public UserId UserId { get; private set; } = null!;
     public StatusId StatusId { get; private set; } = null!;
     public AudioEffectId AudioEffectId { get; private set; } = null!;
+    public byte[]? Image { get; private set; }
     public string Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
     public float Cost { get; private set; }

@@ -43,6 +43,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasConversion(us => us.Value, value => UserId.Create(value));
 
         userBuilder
+            .Property(ch => ch.Validation)
+            .HasConversion(type => (int)type, value => (UserValidation)value)
+            .HasComment("0 - Not validated, 1 - Validated");
+
+        userBuilder
             .Property(us =>us.UserRole)
             .HasConversion(us => (int)us, value => (UserRole)value)
             .HasComment("0 - Admin, 1 - Free user, 2 - Premium user");

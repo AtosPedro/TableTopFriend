@@ -1,5 +1,8 @@
 using DDDTableTopFriend.Application.Users.Commands.Delete;
+using DDDTableTopFriend.Application.Users.Commands.Validate;
 using DDDTableTopFriend.Application.Users.Queries.Get;
+using DDDTableTopFriend.Contracts.User;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +18,28 @@ public class UsersController : ApiController
     {
         var query = new GetUserQuery(id);
         var result = await _sender.Send(query);
+        return result.Match(
+            userResult => Ok(userResult),
+            errors => Problem(errors)
+        );
+    }
+
+    [HttpPost("validate/{id}")]
+    public async Task<IActionResult> ValidateUser(Guid id)
+    {
+        var command = new ValidateUserCommand(id);
+        var result = await _sender.Send(command);
+        return result.Match(
+            userResult => Ok(userResult),
+            errors => Problem(errors)
+        );
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateUser(UpdateUserRequest request)
+    {
+        var command = request.Adapt<UpdateUserCommand>();
+        var result = await _sender.Send(command);
         return result.Match(
             userResult => Ok(userResult),
             errors => Problem(errors)

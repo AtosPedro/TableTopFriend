@@ -15,7 +15,9 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public string PasswordSalt { get; private set; } = null!;
     public byte[]? ProfileImage { get; private set; }
     public UserRole UserRole { get; private set; }
-    public DateTime? CreatedAt { get; private set; }
+    public UserValidation Validation { get; private set; }
+    public DateTime? ValidationDate { get; private set; }
+    public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
 
     public User(UserId id) : base(id) { }
@@ -28,6 +30,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
         string password,
         string passwordSalt,
         UserRole userRole,
+        UserValidation validation,
         DateTime createdAt) : base(id)
     {
         FirstName = firstName;
@@ -36,6 +39,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
         Password = password;
         PasswordSalt = passwordSalt;
         UserRole = userRole;
+        Validation = validation;
         CreatedAt = createdAt;
     }
 
@@ -62,6 +66,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
             hashedPassword,
             salt,
             userRole,
+            UserValidation.NotValidated,
             createdAt);
 
         user.AddDomainEvent(new UserRegisteredDomainEvent(
@@ -130,6 +135,12 @@ public sealed class User : AggregateRoot<UserId, Guid>
             UserId.Create(Id.Value),
             deletedAt
         ));
+    }
+
+    public void Validate(DateTime validationDate)
+    {
+        Validation = UserValidation.Validated;
+        ValidationDate = validationDate;
     }
 
 #pragma warning disable CS8618

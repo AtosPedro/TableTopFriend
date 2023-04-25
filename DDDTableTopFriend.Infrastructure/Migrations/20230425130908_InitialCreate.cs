@@ -53,7 +53,8 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    Type = table.Column<int>(type: "int", nullable: false, comment: "0 - Player, 1 - NPC, 2 - Enemy"),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -88,6 +89,7 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StatusId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AudioEffectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     Cost = table.Column<float>(type: "real", nullable: false),
@@ -105,6 +107,7 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     Quantity = table.Column<float>(type: "real", nullable: false),
@@ -127,8 +130,10 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     Password = table.Column<string>(type: "nvarchar(600)", maxLength: 600, nullable: false),
                     PasswordSalt = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     ProfileImage = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    UserRole = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserRole = table.Column<int>(type: "int", nullable: false, comment: "0 - Admin, 1 - Free user, 2 - Premium user"),
+                    Validation = table.Column<int>(type: "int", nullable: false, comment: "0 - Not validated, 1 - Validated"),
+                    ValidationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -326,6 +331,12 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                 name: "IX_SessionCharacterIds_SessionId",
                 table: "SessionCharacterIds",
                 column: "SessionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
         }
 
         /// <inheritdoc />
