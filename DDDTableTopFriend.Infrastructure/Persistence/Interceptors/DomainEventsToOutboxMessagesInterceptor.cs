@@ -1,5 +1,4 @@
-using DDDTableTopFriend.Domain.Common.Models;
-using DDDTableTopFriend.Domain.Common.ValueObjects;
+﻿using DDDTableTopFriend.Domain.Common.Models;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Newtonsoft.Json;
 
@@ -18,7 +17,7 @@ public sealed class DomainEventsToOutboxMessagesInterceptor : SaveChangesInterce
 
         var messages = dbContext
             .ChangeTracker
-            .Entries<AggregateRoot<AggregateRootId<Guid>, Guid>>()
+            .Entries<IDomainEventHolder>()
             .Select(x => x.Entity)
             .SelectMany(x =>
             {
