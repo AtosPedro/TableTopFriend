@@ -1,38 +1,27 @@
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
-using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
-using MediatR;
 
 namespace DDDTableTopFriend.Infrastructure.Persistence.Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {
     private readonly IApplicationDbContext _applicationDbContext;
-    private readonly IPublisher _publisher;
-    public UnitOfWork(IApplicationDbContext applicationDbContext, IPublisher mediator)
+    public UnitOfWork(IApplicationDbContext applicationDbContext)
     {
         _applicationDbContext = applicationDbContext;
-        _publisher = mediator;
     }
 
-    public async Task Commit(
-        IEnumerable<IDomainEvent> domainEvents,
-        CancellationToken cancellationToken = new CancellationToken())
+    private async Task Commit(CancellationToken cancellationToken = default)
     {
         await _applicationDbContext.SaveChangesAsync(cancellationToken);
-        foreach (var domainEvent in domainEvents)
-            await _publisher.Publish(domainEvent, cancellationToken);
     }
 
-    public async Task<T> Execute<T>(
-        Func<CancellationToken,Task<T>> getData,
-        IEnumerable<IDomainEvent> domainEvents,
-        CancellationToken cancellationToken = new CancellationToken())
+    public async Task<T> Execute<T>(Func<CancellationToken,Task<T>> getData, CancellationToken cancellationToken = default)
     {
         try
         {
             var result = await getData(cancellationToken);
-            await Commit(domainEvents, cancellationToken);
+            await Commit(cancellationToken);
             return result;
         }
         catch
@@ -42,7 +31,7 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
-    public async Task Rollback()
+    private async Task Rollback()
     {
         await Task.FromResult(true);
     }

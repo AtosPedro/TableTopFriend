@@ -91,7 +91,6 @@ public class CharacterSheetCommandHandler : IRequestHandler<CreateCharacterComma
             await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
             return result;
         },
-        character.DomainEvents,
         cancellationToken);
     }
 }

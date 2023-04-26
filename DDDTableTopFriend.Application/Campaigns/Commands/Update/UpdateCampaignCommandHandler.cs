@@ -55,7 +55,6 @@ public class UpdateCampaignCommandHandler : IRequestHandler<UpdateCampaignComman
             await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
             return result;
         },
-        campaign.DomainEvents,
         cancellationToken);
     }
 }

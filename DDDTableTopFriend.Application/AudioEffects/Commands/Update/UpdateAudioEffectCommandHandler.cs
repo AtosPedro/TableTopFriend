@@ -54,7 +54,6 @@ public class UpdateAudioEffectCommandHandler : IRequestHandler<UpdateAudioEffect
             await _cachingService.SetCacheValueAsync<AudioEffectResult>(result.Id.ToString(), result);
             return result;
         },
-        audioEffect.DomainEvents,
         cancellationToken);
     }
 }

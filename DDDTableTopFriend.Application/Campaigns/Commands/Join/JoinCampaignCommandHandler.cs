@@ -61,7 +61,6 @@ public class JoinCampaignCommandHandler : IRequestHandler<JoinCampaignCommand, E
             await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
             return result;
         },
-        campaign.DomainEvents,
         cancellationToken);
     }
 }

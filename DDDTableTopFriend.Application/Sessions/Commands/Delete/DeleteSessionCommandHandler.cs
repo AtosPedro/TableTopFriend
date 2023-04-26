@@ -54,7 +54,6 @@ public class DeleteSessionCommandHandler : IRequestHandler<DeleteSessionCommand,
             SessionId.Create(session.GetId().Value),
             _dateTimeProvider.UtcNow);
 
-        List<IDomainEvent> domainEvents = new(session.DomainEvents.Concat(campaign.DomainEvents));
         return await _unitOfWork.Execute(async _ =>
         {
             await _campaignRepository.Update(campaign);
@@ -63,7 +62,6 @@ public class DeleteSessionCommandHandler : IRequestHandler<DeleteSessionCommand,
             await _cachingService.RemoveCacheValueAsync<CampaignResult>(session.CampaignId.Value.ToString());
             return session is not null;
         },
-        domainEvents,
         cancellationToken);
     }
 }

@@ -56,7 +56,6 @@ public class CreateStatusCommandHandler : IRequestHandler<CreateStatusCommand, E
             await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
             return result;
         },
-        status.DomainEvents,
         cancellationToken);
     }
 }

@@ -44,8 +44,6 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Error
             var result = await _userRepository.Remove(user);
             await _cachingService.RemoveCacheValueAsync<UserResult>(result.Id.Value.ToString());
             return result is not null;
-        },
-        user.DomainEvents,
-        cancellationToken);
+        }, cancellationToken);
     }
 }

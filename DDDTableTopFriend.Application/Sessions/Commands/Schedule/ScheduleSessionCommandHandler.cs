@@ -65,7 +65,6 @@ public class ScheduleSessionCommandHandler : IRequestHandler<ScheduleSessionComm
             SessionId.Create(session.Id.Value),
             _dateTimeProvider.UtcNow);
 
-        List<IDomainEvent> domainEvents = new(session.DomainEvents.Concat(campaign.DomainEvents));
         return await _unitOfWork.Execute(async cancellationToken =>
         {
             await _sessionRepository.Add(session, cancellationToken);
@@ -76,7 +75,6 @@ public class ScheduleSessionCommandHandler : IRequestHandler<ScheduleSessionComm
             await _cachingService.SetCacheValueAsync(result.CampaignId.ToString(), campaignResult);
             return result;
         },
-        domainEvents,
         cancellationToken);
     }
 }

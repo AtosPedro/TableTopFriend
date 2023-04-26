@@ -60,7 +60,6 @@ public class CreateSkillCommandHandler : IRequestHandler<CreateSkillCommand, Err
             await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
             return result;
         },
-        skill.DomainEvents,
         cancellationToken);
     }
 }

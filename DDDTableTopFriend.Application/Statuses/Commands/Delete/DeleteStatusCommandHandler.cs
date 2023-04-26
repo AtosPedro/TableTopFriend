@@ -43,7 +43,6 @@ public class DeleteStatusCommandHandler : IRequestHandler<DeleteStatusCommand, E
             await _cachingService.RemoveCacheValueAsync<StatusResult>(status.GetId().Value.ToString());
             return status is not null;
         },
-        status.DomainEvents,
         cancellationToken);
     }
 }

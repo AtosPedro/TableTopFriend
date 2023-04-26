@@ -29,4 +29,6 @@ public abstract class AggregateRoot<TId, TIdType> :
     public void AddDomainEvent(IDomainEvent domainEvent) => _domainEvents.Add(domainEvent);
 
     public bool RemoveDomainEvent(IDomainEvent domainEvent) => _domainEvents.Remove(domainEvent);
+
+    public void ClearDomainEvents() => _domainEvents.Clear();
 }

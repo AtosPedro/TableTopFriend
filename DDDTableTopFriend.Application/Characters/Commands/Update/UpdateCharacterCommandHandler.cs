@@ -104,7 +104,6 @@ public class UpdateCharacterCommandHandler : IRequestHandler<UpdateCharacterComm
             await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
             return result;
         },
-        character.DomainEvents,
         cancellationToken);
     }
 }

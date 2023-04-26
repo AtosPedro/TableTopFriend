@@ -42,7 +42,6 @@ public class DeleteSkillCommandHandler : IRequestHandler<DeleteSkillCommand, Err
             await _cachingService.RemoveCacheValueAsync<SkillResult>(skill.Id.Value.ToString());
             return skill is not null;
         },
-        skill.DomainEvents,
         cancellationToken);
     }
 }
