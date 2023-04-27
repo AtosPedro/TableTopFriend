@@ -7,7 +7,7 @@ public sealed class CampaignId : AggregateRootId<Guid>
 {
     public override Guid Value { get; protected set; }
 
-    private CampaignId(Guid value)
+    public CampaignId(Guid value)
     {
         Value = value;
     }

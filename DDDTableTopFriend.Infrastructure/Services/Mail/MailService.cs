@@ -41,4 +41,12 @@ public class MailService : IMailService
 
         return response;
     }
+
+    public async Task<string> SendConfirmationMail(string to, string confirmationLink)
+    {
+        return await SendMail(
+            to,
+            "Table Top Friend confirmation email",
+            $"Welcome to Table Top Friend here`s your confirmation link {confirmationLink}");
+    }
 }

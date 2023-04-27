@@ -7,7 +7,7 @@ public sealed class SessionId : AggregateRootId<Guid>
 {
     public override Guid Value { get; protected set; }
 
-    private SessionId(Guid value)
+    public SessionId(Guid value)
     {
         Value = value;
     }

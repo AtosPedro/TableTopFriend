@@ -7,7 +7,7 @@ public sealed class SkillId : AggregateRootId<Guid>
 {
     public override Guid Value { get; protected set; }
 
-    private SkillId(Guid value)
+    public SkillId(Guid value)
     {
         Value = value;
     }

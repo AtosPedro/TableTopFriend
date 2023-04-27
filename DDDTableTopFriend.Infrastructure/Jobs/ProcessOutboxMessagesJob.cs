@@ -45,7 +45,7 @@ public class ProcessOutboxMessagesJob : IJob
                     message.Content,
                     new JsonSerializerSettings
                     {
-                        TypeNameHandling = TypeNameHandling.All
+                        TypeNameHandling = TypeNameHandling.All,
                     });
 
                 if (domainEvent is null)
@@ -61,8 +61,9 @@ public class ProcessOutboxMessagesJob : IJob
                 await _dbContext.SaveChangesAsync();
 
                 _logger.LogInformation(
-                        "The domain event {@type} was published at {@dateUtc}",
+                        "The domain event {@type} with data {@data} was published at {@dateUtc}",
                         message.Type,
+                        domainEvent,
                         message.ProcessedOnUtc);
             }
             catch (Exception ex)
