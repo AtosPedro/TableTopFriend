@@ -27,8 +27,6 @@ public abstract class AggregateRoot<TId, TIdType> : Entity<TId> , IDomainEventHo
 #pragma warning restore CS8618
 
     public void AddDomainEvent(IDomainEvent domainEvent) => _domainEvents.Add(domainEvent);
-
-    public bool RemoveDomainEvent(IDomainEvent domainEvent) => _domainEvents.Remove(domainEvent);
-
     public void ClearDomainEvents() => _domainEvents.Clear();
+    public List<IDomainEvent> GetDomainEvents() => _domainEvents.ToList();
 }

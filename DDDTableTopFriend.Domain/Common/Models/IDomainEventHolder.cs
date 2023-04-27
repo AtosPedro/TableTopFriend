@@ -2,9 +2,7 @@
 
 public interface IDomainEventHolder
 {
-    public IReadOnlyList<IDomainEvent> DomainEvents { get; }
     void AddDomainEvent(IDomainEvent domainEvent);
-    bool RemoveDomainEvent(IDomainEvent domainEvent);
+    List<IDomainEvent> GetDomainEvents();
     void ClearDomainEvents();
 }
-

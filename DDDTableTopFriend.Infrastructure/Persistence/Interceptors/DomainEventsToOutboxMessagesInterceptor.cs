@@ -21,7 +21,7 @@ public sealed class DomainEventsToOutboxMessagesInterceptor : SaveChangesInterce
             .Select(x => x.Entity)
             .SelectMany(x =>
             {
-                var domainEvents = x.DomainEvents;
+                var domainEvents = x.GetDomainEvents();
                 x.ClearDomainEvents();
                 return domainEvents;
             })

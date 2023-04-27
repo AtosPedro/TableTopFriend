@@ -41,7 +41,12 @@ public class ProcessOutboxMessagesJob : IJob
         {
             try
             {
-                var domainEvent = JsonConvert.DeserializeObject<IDomainEvent>(message.Content);
+                var domainEvent = JsonConvert.DeserializeObject<IDomainEvent>(
+                    message.Content,
+                    new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.All
+                    });
 
                 if (domainEvent is null)
                 {
@@ -54,13 +59,18 @@ public class ProcessOutboxMessagesJob : IJob
                 await _publisher.Publish(domainEvent, context.CancellationToken);
                 message.ProcessedOnUtc = _dateTimeProvider.UtcNow;
                 await _dbContext.SaveChangesAsync();
+
+                _logger.LogInformation(
+                        "The domain event {@type} was published at {@dateUtc}",
+                        message.Type,
+                        message.ProcessedOnUtc);
             }
             catch (Exception ex)
             {
                 message.Error = ex.Message;
-                 _logger.LogCritical(
-                    "A critical error has occurred while publishing the domain events {@Error}",
-                    ex.Message);
+                _logger.LogCritical(
+                   "A critical error has occurred while publishing the domain events {@Error}",
+                   ex.Message);
                 await _dbContext.SaveChangesAsync();
             }
         }
