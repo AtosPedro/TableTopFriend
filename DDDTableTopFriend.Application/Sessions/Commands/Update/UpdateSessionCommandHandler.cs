@@ -54,7 +54,6 @@ public class UpdateSessionCommandHandler : IRequestHandler<UpdateSessionCommand,
                 result);
             return result;
         },
-        session.DomainEvents,
         cancellationToken);
     }
 }

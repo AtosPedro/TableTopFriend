@@ -6,7 +6,7 @@ public sealed class UserId : AggregateRootId<Guid>
 {
     public override Guid Value { get; protected set; }
 
-    private UserId(Guid value)
+    public UserId(Guid value)
     {
         Value = value;
     }

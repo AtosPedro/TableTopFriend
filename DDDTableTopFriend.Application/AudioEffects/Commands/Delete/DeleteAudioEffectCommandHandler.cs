@@ -41,7 +41,6 @@ public class DeleteAudioEffectCommandHandler : IRequestHandler<DeleteAudioEffect
             await _cachingService.RemoveCacheValueAsync<AudioEffectResult>(audioEffect.GetId().Value.ToString());
             return audioEffect is not null;
         },
-        audioEffect.DomainEvents,
         cancellationToken);
     }
 }

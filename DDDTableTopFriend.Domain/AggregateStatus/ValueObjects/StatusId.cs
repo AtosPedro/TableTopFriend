@@ -6,7 +6,7 @@ public sealed class StatusId : AggregateRootId<Guid>
 {
     public override Guid Value { get; protected set; }
 
-    private StatusId(Guid value)
+    public StatusId(Guid value)
     {
         Value = value;
     }

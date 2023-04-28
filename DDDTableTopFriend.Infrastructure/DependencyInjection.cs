@@ -18,6 +18,9 @@ using MediatR;
 using StackExchange.Redis;
 using DDDTableTopFriend.Infrastructure.Services.Caching;
 using Microsoft.EntityFrameworkCore;
+using DDDTableTopFriend.Infrastructure.Persistence.Interceptors;
+using Quartz;
+using DDDTableTopFriend.Infrastructure.Jobs;
 
 namespace DDDTableTopFriend.Infrastructure;
 
@@ -29,6 +32,7 @@ public static class DependencyInjection
     {
         services.AddAuth(configuration);
         services.AddPersistence(configuration);
+        services.AddProcessOutboxMessagesJob();
         services.AddMailService(configuration);
         services.AddCaching(configuration);
         services.AddMediatR(typeof(DependencyInjection).GetTypeInfo().Assembly);
@@ -82,6 +86,7 @@ public static class DependencyInjection
         configuration.Bind(ApplicationDbSettings.SectionName, applicationDbSettings);
         services.AddSingleton(Options.Create(applicationDbSettings));
 
+        services.AddSingleton<DomainEventsToOutboxMessagesInterceptor>();
         services.AddDbContext<ApplicationDbContext>();
         services.AddSingleton<IApplicationDbContext, ApplicationDbContext>();
         services.AddSingleton<IUnitOfWork, UnitOfWork>();
@@ -114,6 +119,30 @@ public static class DependencyInjection
 
         services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(cachingSettings.ConnectionString));
         services.AddSingleton<ICachingService, RedisCachingService>();
+        return services;
+    }
+
+    public static IServiceCollection AddProcessOutboxMessagesJob(this IServiceCollection services)
+    {
+        services.AddQuartz(configuration =>
+        {
+            var jobKey = new JobKey(nameof(ProcessOutboxMessagesJob));
+            configuration
+                .AddJob<ProcessOutboxMessagesJob>(jobKey)
+                .AddTrigger(
+                    trigger => 
+                        trigger
+                            .ForJob(jobKey)
+                            .WithSimpleSchedule(
+                                schedule =>
+                                    schedule
+                                        .WithIntervalInSeconds(10)
+                                        .RepeatForever()));
+
+            configuration.UseMicrosoftDependencyInjectionJobFactory();
+        });
+
+        services.AddQuartzHostedService();
         return services;
     }
 }

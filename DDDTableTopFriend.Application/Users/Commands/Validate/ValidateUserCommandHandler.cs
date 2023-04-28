@@ -43,7 +43,6 @@ public class ValidateUserCommandHandler : IRequestHandler<ValidateUserCommand, E
             await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
             return result;
         },
-        user.DomainEvents,
         cancellationToken);
     }
 }

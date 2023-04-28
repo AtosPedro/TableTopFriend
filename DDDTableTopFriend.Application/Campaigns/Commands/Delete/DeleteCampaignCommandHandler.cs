@@ -48,7 +48,6 @@ public class DeleteCampaignCommandHandler : IRequestHandler<DeleteCampaignComman
             await _cachingService.RemoveCacheValueAsync<CampaignJoinedResult>(campaign.Id.Value.ToString());
             return request.Adapt<CampaignResult>();
         },
-        campaign.DomainEvents,
         cancellationToken);
     }
 }

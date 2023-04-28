@@ -61,7 +61,6 @@ public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignComman
                 result);
             return result;
         },
-        campaign.DomainEvents,
         cancellationToken);
     }
 }

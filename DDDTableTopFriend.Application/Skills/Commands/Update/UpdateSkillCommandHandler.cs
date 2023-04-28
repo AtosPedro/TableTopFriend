@@ -65,7 +65,6 @@ public class UpdateSkillCommandHandler : IRequestHandler<UpdateSkillCommand, Err
                 result);
             return result;
         },
-        skill.DomainEvents,
         cancellationToken);
     }
 }

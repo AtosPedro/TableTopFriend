@@ -47,7 +47,6 @@ public class CreateAudioEffectCommandHandler : IRequestHandler<CreateAudioEffect
             await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
             return result;
         },
-        audioEffect.DomainEvents,
         cancellationToken);
     }
 }

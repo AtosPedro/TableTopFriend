@@ -68,7 +68,6 @@ public class DeleteCharacterCommandHandler : IRequestHandler<DeleteCharacterComm
             await _cachingService.RemoveCacheValueAsync<CharacterResult>(request.CharacterId.ToString());
             return character is not null;
         },
-        character.DomainEvents,
         cancellationToken);
     }
 }
