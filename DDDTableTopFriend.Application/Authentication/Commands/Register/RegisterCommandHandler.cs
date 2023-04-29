@@ -44,6 +44,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
             request.LastName,
             request.Email,
             request.Password,
+            null,
             request.Role,
             _dateTimeProvider.UtcNow);
 

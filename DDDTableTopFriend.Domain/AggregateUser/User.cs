@@ -48,11 +48,12 @@ public sealed class User : AggregateRoot<UserId, Guid>
         string lastName,
         string email,
         string plainPassword,
+        string? passwordSalt,
         UserRole userRole,
         DateTime createdAt)
     {
         var id = UserId.CreateUnique();
-        string salt = Hasher.GenerateSalt();
+        string salt = passwordSalt ?? Hasher.GenerateSalt();
         string hashedPassword = Hasher.ComputeHash(
             plainPassword,
             salt,
@@ -112,7 +113,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
 
         if (hashedPassword != Password)
         {
-            PasswordSalt = Hasher.GenerateSalt();
+            PasswordSalt ??= Hasher.GenerateSalt();
             Password = Hasher.ComputeHash(
                 plainPassword,
                 PasswordSalt,
