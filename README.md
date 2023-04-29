@@ -1,4 +1,4 @@
-# DDDTableTopFriend
+# TableTopFriend
 
 ## Como rodar o projeto
 
