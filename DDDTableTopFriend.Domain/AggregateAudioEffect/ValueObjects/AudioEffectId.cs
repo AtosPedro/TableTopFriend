@@ -7,7 +7,7 @@ public sealed class AudioEffectId : AggregateRootId<Guid>
 {
     public override Guid Value { get; protected set; }
 
-    public AudioEffectId(Guid value)
+    private AudioEffectId(Guid value)
     {
         Value = value;
     }

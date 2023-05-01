@@ -7,7 +7,7 @@ public sealed class CharacterSheetId : ValueObject
 {
     public  Guid Value { get; set; }
 
-    public CharacterSheetId(Guid value)
+    private CharacterSheetId(Guid value)
     {
         Value = value;
     }
