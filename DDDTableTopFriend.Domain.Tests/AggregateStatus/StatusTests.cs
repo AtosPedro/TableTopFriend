@@ -26,6 +26,8 @@ public class StatusTests
             createdAt
         );
 
+        var domainEvent = status.GetDomainEvents().FirstOrDefault() as StatusCreatedDomainEvent;
+
         Assert.Multiple(() =>
         {
             Assert.That(status.Id.Value, Is.Not.EqualTo(default(Guid)));
@@ -34,6 +36,10 @@ public class StatusTests
             Assert.That(status.Description, Is.EqualTo(description));
             Assert.That(status.Quantity, Is.EqualTo(quantity));
             Assert.That(status.CreatedAt, Is.EqualTo(createdAt));
+            Assert.That(domainEvent!.Name, Is.EqualTo(name));
+            Assert.That(domainEvent!.Description, Is.EqualTo(description));
+            Assert.That(domainEvent!.Quantity, Is.EqualTo(quantity));
+            Assert.That(domainEvent!.CreatedAt, Is.EqualTo(createdAt));
         });
     }
 
@@ -41,14 +47,14 @@ public class StatusTests
     public void Update_Status_Should_Return_Valid_Status()
     {
         var userId = UserId.Create(Guid.NewGuid());
-        const string name = "";
-        const string description = "";
-        const float quantity = 0;
+        const string name = "status test";
+        const string description = "status test desc";
+        const float quantity = 10;
         DateTime createdAt = DateTime.UtcNow;
 
-        const string nameUpdated = "";
-        const string descriptionUpdated = "";
-        const float quantityUpdated = 0;
+        const string nameUpdated = "status test dest";
+        const string descriptionUpdated = "status test desc updated";
+        const float quantityUpdated = 12;
         DateTime updatedAt = DateTime.UtcNow;
 
         var status = Status.Create(
@@ -86,9 +92,9 @@ public class StatusTests
     public void Mark_To_Delete_Should_Return_Deleted_Status_Domain_Event_Valid()
     {
         var userId = UserId.Create(Guid.NewGuid());
-        const string name = "";
-        const string description = "";
-        const float quantity = 0;
+        const string name = "status test";
+        const string description = "status test desc";
+        const float quantity = 10;
         DateTime createdAt = DateTime.UtcNow;
         DateTime deletedAt = DateTime.UtcNow;
 
