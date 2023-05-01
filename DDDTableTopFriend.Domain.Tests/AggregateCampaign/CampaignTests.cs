@@ -2,6 +2,8 @@ using DDDTableTopFriend.Domain.AggregateCampaign;
 using DDDTableTopFriend.Domain.AggregateCampaign.Events;
 using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
+using DDDTableTopFriend.Domain.AggregateSession.Events;
+using DDDTableTopFriend.Domain.AggregateSession.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using NUnit.Framework;
 
@@ -200,6 +202,103 @@ public class CampaignTests
             Assert.That(playerJoinedCampaignDomainEvent!.CampaignId, Is.EqualTo(CampaignId.Create(campaign.Id.Value)));
             Assert.That(playerJoinedCampaignDomainEvent!.CharacterId, Is.EqualTo(characterId));
             Assert.That(playerJoinedCampaignDomainEvent!.UserId, Is.EqualTo(userId));
+            Assert.That(campaign.UpdatedAt, Is.EqualTo(updatedAt));
+        });
+    }
+
+    [Test]
+    [Author("Atos Pedro")]
+    public void Add_Session_Id_Should_Add_If_Id_Not_Exists()
+    {
+        const string name = "";
+        const string description = "";
+        List<CharacterId> characterIds = new();
+        UserId userId = UserId.Create(Guid.NewGuid());
+        SessionId sessionId = SessionId.Create(Guid.NewGuid());
+        var campaign = Campaign.Create(
+            userId,
+            name,
+            description,
+            characterIds,
+            DateTime.UtcNow
+        );
+
+        var updatedAt = DateTime.UtcNow;
+        campaign.AddSessionId(
+            sessionId,
+            updatedAt
+        );
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(campaign.SessionIds, Does.Contain(sessionId));
+            Assert.That(campaign.SessionIds.Count(c => c == sessionId), Is.EqualTo(1));
+            Assert.That(campaign.UpdatedAt, Is.EqualTo(updatedAt));
+        });
+    }
+
+    [Test]
+    [Author("Atos Pedro")]
+    public void Add__Invalid_Session_Id_Should_Not_Add()
+    {
+        const string name = "";
+        const string description = "";
+        List<CharacterId> characterIds = new();
+        UserId userId = UserId.Create(Guid.NewGuid());
+        SessionId sessionId = SessionId.Create(default);
+        var campaign = Campaign.Create(
+            userId,
+            name,
+            description,
+            characterIds,
+            DateTime.UtcNow
+        );
+
+        var updatedAt = DateTime.UtcNow;
+        campaign.AddSessionId(
+            sessionId,
+            updatedAt
+        );
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(campaign.SessionIds, Does.Not.Contain(sessionId));
+            Assert.That(campaign.SessionIds.Count(c => c == sessionId), Is.EqualTo(0));
+            Assert.That(campaign.UpdatedAt, Is.Null);
+        });
+    }
+
+    [Test]
+    [Author("Atos Pedro")]
+    public void Add_Session_Id_Should_Add_Session_Scheduled_Domain_Event()
+    {
+        const string name = "";
+        const string description = "";
+        List<CharacterId> characterIds = new();
+        UserId userId = UserId.Create(Guid.NewGuid());
+        SessionId sessionId = SessionId.Create(Guid.NewGuid());
+        var campaign = Campaign.Create(
+            userId,
+            name,
+            description,
+            characterIds,
+            DateTime.UtcNow
+        );
+
+        campaign.ClearDomainEvents();
+        var updatedAt = DateTime.UtcNow;
+        campaign.AddSessionId(
+            sessionId,
+            updatedAt
+        );
+
+        var sessionScheduledDomainEvent = campaign.GetDomainEvents().FirstOrDefault() as SessionScheduledDomainEvent;
+        Assert.Multiple(() =>
+        {
+            Assert.That(sessionScheduledDomainEvent, Is.Not.Null);
+            Assert.That(sessionScheduledDomainEvent!.CampaignId, Is.EqualTo(CampaignId.Create(campaign.Id.Value)));
+            Assert.That(sessionScheduledDomainEvent!.SessionId, Is.EqualTo(sessionId));
+            Assert.That(sessionScheduledDomainEvent!.UserId, Is.EqualTo(userId));
             Assert.That(campaign.UpdatedAt, Is.EqualTo(updatedAt));
         });
     }

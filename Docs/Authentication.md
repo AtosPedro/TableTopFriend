@@ -13,7 +13,7 @@ public interface IJwtTokenGenerator
 }
 ```
 
-It generates te token using the Options in the JwtSettings class that is following the Option Pattern and can be encountered on  the path 'DDDTableTopFriend.Infrastructure\\Authentication\\JwtSettings.cs' 
+It generates te token using the Options in the JwtSettings class that is following the Option Pattern and can be encountered on  the path 'DDDTableTopFriend.Infrastructure\\Authentication\\JwtSettings.cs'
 
 The class is the flowing:
 
@@ -107,7 +107,6 @@ HTTP/1.1 200 OK
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NDJjNTZlZS0zNTZjLTRiYjMtYWY5OC0zYjQxMWJlOGE0YTciLCJqdGkiOiI5YjAyYWUzNy1iZWU2LTQ1ZmYtODM2ZC0wMmViMzM0MWVjM2MiLCJnaXZlbl9uYW1lIjoiZW1haWx0ZXN0ZUBnbWFpbC5jb20iLCJmYW1pbHlfbmFtZSI6IlBlZHJvIiwiZXhwIjoxNjgwNDY5Mjg0LCJpc3MiOiJUYWJsZVRvcCBGcmllbmQiLCJhdWQiOiJUYWJsZVRvcCBGcmllbmQifQ.NAHMC5AnzDfZsC-7nabonOS3x41L6aTzByqNPphBjJc"
 }
 ```
-
 
 The second contract is the LoginRequest that can be encountered in the path 'DDDTableTopFriend.Contracts\\Authentication\\LoginRequest.cs'
 

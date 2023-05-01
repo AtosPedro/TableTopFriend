@@ -129,6 +129,9 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         SessionId sessionId,
         DateTime updatedAt)
     {
+        if (sessionId.Value == default)
+            return;
+
         bool exists = _sessionIds.Contains(sessionId);
         if (!exists)
         {
