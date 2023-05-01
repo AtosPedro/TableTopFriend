@@ -20,7 +20,7 @@ public class CampaignTests
         const string name = "";
         const string description = "";
         List<CharacterId> characterIds = new();
-        UserId userId = UserId.Create(Guid.NewGuid());
+        UserId userId = UserId.CreateUnique();
 
         var campaign = Campaign.Create(
             userId,
@@ -33,7 +33,7 @@ public class CampaignTests
         Assert.Multiple(() =>
         {
             Assert.That(campaign.Id, Is.Not.Null);
-            Assert.That(campaign.Id.Value, Is.Not.EqualTo(Guid.Parse("00000000-0000-0000-0000-000000000000")));
+            Assert.That(campaign.Id.Value, Is.Not.EqualTo(default(Guid)));
             Assert.That(campaign.UserId, Is.EqualTo(userId));
             Assert.That(campaign.Name, Is.EqualTo(name));
             Assert.That(campaign.Description, Is.EqualTo(description));
@@ -48,11 +48,11 @@ public class CampaignTests
         const string name = "campaign 1";
         const string description = "campaign 1 desc";
         List<CharacterId> characterIds = new();
-        UserId userId = UserId.Create(Guid.NewGuid());
+        UserId userId = UserId.CreateUnique();
 
         const string nameUpdated = "campaign 1 updated";
         const string descriptionUpdated = "campaign 1 desc updated";
-        List<CharacterId> characterIdsUpdated = new() { CharacterId.Create(Guid.NewGuid()) };
+        List<CharacterId> characterIdsUpdated = new() { CharacterId.CreateUnique() };
 
         var campaign = Campaign.Create(
             userId,
@@ -86,7 +86,7 @@ public class CampaignTests
         const string name = "";
         const string description = "";
         List<CharacterId> characterIds = new();
-        UserId userId = UserId.Create(Guid.NewGuid());
+        UserId userId = UserId.CreateUnique();
 
         var campaign = Campaign.Create(
             userId,
@@ -116,8 +116,8 @@ public class CampaignTests
         const string name = "";
         const string description = "";
         List<CharacterId> characterIds = new();
-        UserId userId = UserId.Create(Guid.NewGuid());
-        CharacterId characterId = CharacterId.Create(Guid.NewGuid());
+        UserId userId = UserId.CreateUnique();
+        CharacterId characterId = CharacterId.CreateUnique();
         var campaign = Campaign.Create(
             userId,
             name,
