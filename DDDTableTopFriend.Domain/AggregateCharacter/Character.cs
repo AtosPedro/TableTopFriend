@@ -75,6 +75,7 @@ public sealed class Character : AggregateRoot<CharacterId, Guid>
         );
 
         character.AddDomainEvent(new CharacterCreatedDomainEvent(
+            CharacterId.Create(character.Id.Value),
             character.UserId,
             character.Name,
             character.Description,
@@ -114,6 +115,7 @@ public sealed class Character : AggregateRoot<CharacterId, Guid>
         );
 
         AddDomainEvent(new CharacterChangedDomainEvent(
+            CharacterId.Create(Id.Value),
             Name,
             Description,
             Type,

@@ -121,7 +121,7 @@ public class UserTests
         Assert.Multiple(() =>
         {
             Assert.That(deleteUserDomainEvent!.DeletedDate, Is.EqualTo(deletedAt));
-            Assert.That(deleteUserDomainEvent!.userId, Is.EqualTo(UserId.Create(user.GetId().Value)));
+            Assert.That(deleteUserDomainEvent!.userId, Is.EqualTo(UserId.Create(user.Id.Value)));
             Assert.That(deleteUserDomainEvent!.userId, Is.Not.Null);
         });
     }
