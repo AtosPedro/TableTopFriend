@@ -70,7 +70,7 @@ public class Status : AggregateRoot<StatusId, Guid>
         Quantity = quantity;
         UpdatedAt = updatedAt;
 
-        AddDomainEvent(new StatusCreatedDomainEvent(
+        AddDomainEvent(new StatusChangedDomainEvent(
             StatusId.Create(Id.Value),
             Name,
             Description,
