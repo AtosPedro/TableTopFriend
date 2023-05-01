@@ -1,4 +1,7 @@
+using DDDTableTopFriend.Domain.AggregateStatus;
+using DDDTableTopFriend.Domain.AggregateStatus.Events;
 using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
+using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using NUnit.Framework;
 
 namespace DDDTableTopFriend.Domain.Tests.AggregateStatus;
@@ -6,5 +9,104 @@ namespace DDDTableTopFriend.Domain.Tests.AggregateStatus;
 [TestFixture]
 public class StatusTests
 {
+    public void Create_Should_Return_Valid_Status()
+    {
+        var userId = UserId.Create(Guid.NewGuid());
+        const string name = "";
+        const string description = "";
+        const float quantity = 0;
+        DateTime createdAt = DateTime.UtcNow;
 
+        var status = Status.Create(
+            userId,
+            name,
+            description,
+            quantity,
+            createdAt
+        );
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(status.Id.Value, Is.Not.EqualTo(default(Guid)));
+            Assert.That(status.UserId, Is.EqualTo(userId));
+            Assert.That(status.Name, Is.EqualTo(name));
+            Assert.That(status.Description, Is.EqualTo(description));
+            Assert.That(status.Quantity, Is.EqualTo(quantity));
+            Assert.That(status.CreatedAt, Is.EqualTo(createdAt));
+        });
+    }
+
+    public void Update_Status_Should_Return_Valid_Status()
+    {
+        var userId = UserId.Create(Guid.NewGuid());
+        const string name = "";
+        const string description = "";
+        const float quantity = 0;
+        DateTime createdAt = DateTime.UtcNow;
+
+        const string nameUpdated = "";
+        const string descriptionUpdated = "";
+        const float quantityUpdated = 0;
+        DateTime updatedAt = DateTime.UtcNow;
+
+        var status = Status.Create(
+            userId,
+            name,
+            description,
+            quantity,
+            createdAt
+        );
+
+        status.ClearDomainEvents();
+        status.Update(
+            nameUpdated,
+            descriptionUpdated,
+            quantityUpdated,
+            updatedAt
+        );
+
+        var domainEvent = status.GetDomainEvents().FirstOrDefault() as StatusChangedDomainEvent;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(status.Name, Is.EqualTo(nameUpdated));
+            Assert.That(status.Description, Is.EqualTo(descriptionUpdated));
+            Assert.That(status.Quantity, Is.EqualTo(quantityUpdated));
+            Assert.That(status.UpdatedAt, Is.EqualTo(updatedAt));
+            Assert.That(domainEvent!.Name, Is.EqualTo(nameUpdated));
+            Assert.That(domainEvent!.Description, Is.EqualTo(descriptionUpdated));
+            Assert.That(domainEvent!.Quantity, Is.EqualTo(quantityUpdated));
+            Assert.That(domainEvent!.UpdatedAt, Is.EqualTo(updatedAt));
+        });
+    }
+
+    public void Mark_To_Delete_Should_Return_Deleted_Status_Domain_Event_Valid()
+    {
+        var userId = UserId.Create(Guid.NewGuid());
+        const string name = "";
+        const string description = "";
+        const float quantity = 0;
+        DateTime createdAt = DateTime.UtcNow;
+        DateTime deletedAt = DateTime.UtcNow;
+
+        var status = Status.Create(
+            userId,
+            name,
+            description,
+            quantity,
+            createdAt
+        );
+
+        status.ClearDomainEvents();
+        status.MarkToDelete(deletedAt);
+        var domainEvent = status.GetDomainEvents().FirstOrDefault() as StatusDeletedDomainEvent;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(domainEvent, Is.Not.Null);
+            Assert.That(domainEvent!.DeletedAt, Is.EqualTo(deletedAt));
+            Assert.That(domainEvent!.StatusId, Is.EqualTo(StatusId.Create(status.Id.Value)));
+            Assert.That(domainEvent!.UserId, Is.EqualTo(userId));
+        });
+    }
 }
