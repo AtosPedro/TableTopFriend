@@ -9,6 +9,7 @@ namespace DDDTableTopFriend.Domain.Tests.AggregateStatus;
 [TestFixture]
 public class StatusTests
 {
+    [Test]
     public void Create_Should_Return_Valid_Status()
     {
         var userId = UserId.Create(Guid.NewGuid());
@@ -36,6 +37,7 @@ public class StatusTests
         });
     }
 
+    [Test]
     public void Update_Status_Should_Return_Valid_Status()
     {
         var userId = UserId.Create(Guid.NewGuid());
@@ -80,6 +82,7 @@ public class StatusTests
         });
     }
 
+    [Test]
     public void Mark_To_Delete_Should_Return_Deleted_Status_Domain_Event_Valid()
     {
         var userId = UserId.Create(Guid.NewGuid());
