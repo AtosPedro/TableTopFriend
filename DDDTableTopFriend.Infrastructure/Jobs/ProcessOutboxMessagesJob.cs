@@ -1,6 +1,7 @@
 using DDDTableTopFriend.Application.Common.Interfaces.Services;
 using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Infrastructure.Persistence.Context;
+using DDDTableTopFriend.Infrastructure.Utils;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -46,6 +47,7 @@ public class ProcessOutboxMessagesJob : IJob
                     new JsonSerializerSettings
                     {
                         TypeNameHandling = TypeNameHandling.All,
+                        ContractResolver = new PrivateResolver()
                     });
 
                 if (domainEvent is null)

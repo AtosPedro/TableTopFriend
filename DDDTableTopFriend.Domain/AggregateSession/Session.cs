@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
+﻿using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Models;
@@ -92,6 +91,12 @@ public class Session : AggregateRoot<SessionId, Guid>
 
     public void MarkToDelete(DateTime deletedAt)
     {
+        AddDomainEvent(new SessionDeletedDomainEvent(
+            UserId,
+            SessionId.Create(Id.Value),
+            CampaignId,
+            deletedAt
+        ));
     }
 
 #pragma warning disable CS8618

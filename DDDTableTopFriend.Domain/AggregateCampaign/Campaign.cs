@@ -96,7 +96,8 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         ));
     }
 
-    public void MarkToDelete(DateTime deletedAt){
+    public void MarkToDelete(DateTime deletedAt)
+    {
         AddDomainEvent(new CampaignDeletedDomainEvent(
             CampaignId.Create(Id.Value),
             deletedAt)
@@ -107,6 +108,9 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         CharacterId characterId,
         DateTime updatedAt)
     {
+        if (characterId.Value == default)
+            return;
+
         bool exists = _characterIds.Contains(characterId);
         if (!exists)
         {
@@ -125,6 +129,9 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         SessionId sessionId,
         DateTime updatedAt)
     {
+        if (sessionId.Value == default)
+            return;
+
         bool exists = _sessionIds.Contains(sessionId);
         if (!exists)
         {
@@ -147,7 +154,7 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         UpdatedAt = updatedAt;
     }
 
-    public void  RemoveCharacterId(
+    public void RemoveCharacterId(
         CharacterId characterId,
         DateTime updatedAt)
     {
@@ -155,7 +162,7 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         UpdatedAt = updatedAt;
     }
 
-    public bool  HasCharacter(CharacterId characterId)
+    public bool HasCharacter(CharacterId characterId)
     {
         return _characterIds.Contains(characterId);
     }
