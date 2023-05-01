@@ -79,7 +79,7 @@ public class SessionTests
             Assert.That(session.CampaignId, Is.EqualTo(campaignId));
             Assert.That(session.Name, Is.EqualTo(name));
             Assert.That(session.DateTime, Is.EqualTo(dateTime));
-            Assert.That(session.CreatedAt, Is.EqualTo(createdAt));
+            Assert.That(session.UpdatedAt, Is.EqualTo(updatedAt));
             Assert.That(domainEvent!.CampaignId, Is.EqualTo(campaignId));
             Assert.That(domainEvent!.SessionId, Is.EqualTo(SessionId.Create(session.Id.Value)));
             Assert.That(domainEvent!.UserId, Is.EqualTo(userId));
