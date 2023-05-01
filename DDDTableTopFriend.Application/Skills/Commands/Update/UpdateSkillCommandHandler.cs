@@ -50,6 +50,7 @@ public class UpdateSkillCommandHandler : IRequestHandler<UpdateSkillCommand, Err
 
         skill.Update(
             AudioEffectId.Create(request.AudioEffectId),
+            StatusId.Create(request.StatusId),
             request.Name,
             request.Description,
             request.Cost,

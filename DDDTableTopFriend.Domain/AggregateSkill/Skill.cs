@@ -64,6 +64,7 @@ public class Skill : AggregateRoot<SkillId, Guid>
             SkillId.Create(skill.Id.Value),
             skill.UserId,
             skill.AudioEffectId,
+            skill.StatusId,
             skill.Name,
             skill.Description,
             skill.Cost,
@@ -75,12 +76,14 @@ public class Skill : AggregateRoot<SkillId, Guid>
 
     public void Update(
         AudioEffectId audioEffectId,
+        StatusId statusId,
         string name,
         string description,
         float cost,
         DateTime updatedAt)
     {
         AudioEffectId = audioEffectId;
+        StatusId = statusId;
         Name = name;
         Description = description;
         Cost = cost;
@@ -90,6 +93,7 @@ public class Skill : AggregateRoot<SkillId, Guid>
             SkillId.Create(Id.Value),
             UserId,
             AudioEffectId,
+            StatusId,
             Name,
             Description,
             Cost,

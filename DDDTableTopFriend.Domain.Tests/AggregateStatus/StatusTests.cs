@@ -12,7 +12,7 @@ public class StatusTests
     [Test]
     public void Create_Should_Return_Valid_Status()
     {
-        var userId = UserId.Create(Guid.NewGuid());
+        var userId = UserId.CreateUnique();
         const string name = "";
         const string description = "";
         const float quantity = 0;
@@ -46,7 +46,7 @@ public class StatusTests
     [Test]
     public void Update_Status_Should_Return_Valid_Status()
     {
-        var userId = UserId.Create(Guid.NewGuid());
+        var userId = UserId.CreateUnique();
         const string name = "status test";
         const string description = "status test desc";
         const float quantity = 10;
@@ -91,7 +91,7 @@ public class StatusTests
     [Test]
     public void Mark_To_Delete_Should_Return_Deleted_Status_Domain_Event_Valid()
     {
-        var userId = UserId.Create(Guid.NewGuid());
+        var userId = UserId.CreateUnique();
         const string name = "status test";
         const string description = "status test desc";
         const float quantity = 10;
