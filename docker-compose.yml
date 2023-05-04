@@ -1,6 +1,18 @@
 version: '3.4'
 
 services:
+  dddtabletopfriend.api:
+    image: ${DOCKER_REGISTRY-}dddtabletopfriendapi
+    build:
+      context: .
+      dockerfile: DDDTableTopFriend.Api/Dockerfile
+    depends_on:
+      - tableTopFriend.db
+      - tableTopFriend.caching
+    ports:
+      - "5000:80"
+      - "44388:443"
+
   tableTopFriend.db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:

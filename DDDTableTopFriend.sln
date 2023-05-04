@@ -17,7 +17,83 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{00E1FD78-C41
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{95430FF2-0A6F-4D15-BFBE-10977A4EE966}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDDTableTopFriend.Domain.Tests", "DDDTableTopFriend.Domain.Tests\DDDTableTopFriend.Domain.Tests.csproj", "{8CE662DA-07B4-4501-AB44-8C54D05FB7C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDTableTopFriend.Domain.Tests", "DDDTableTopFriend.Domain.Tests\DDDTableTopFriend.Domain.Tests.csproj", "{8CE662DA-07B4-4501-AB44-8C54D05FB7C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Requests", "Requests", "{4072FF00-EB8A-48B8-A6BD-646A69832550}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{FC62920A-C714-4652-A157-4845FCCE42E9}"
+	ProjectSection(SolutionItems) = preProject
+		Requests\User\DeleteUserRequest.http = Requests\User\DeleteUserRequest.http
+		Requests\User\GetUserRequest.http = Requests\User\GetUserRequest.http
+		Requests\User\UpdateUserRequest.http = Requests\User\UpdateUserRequest.http
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Status", "Status", "{66464082-4D28-4EF8-A145-7071B5A9746E}"
+	ProjectSection(SolutionItems) = preProject
+		Requests\Status\CreateStatusRequest.http = Requests\Status\CreateStatusRequest.http
+		Requests\Status\DeleteStatusRequest.http = Requests\Status\DeleteStatusRequest.http
+		Requests\Status\GetAllStatusRequest.http = Requests\Status\GetAllStatusRequest.http
+		Requests\Status\GetStatusRequest.http = Requests\Status\GetStatusRequest.http
+		Requests\Status\UpdateStatusRequest.http = Requests\Status\UpdateStatusRequest.http
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skill", "Skill", "{6276A9D9-CD14-42C1-9225-D86F336D7027}"
+	ProjectSection(SolutionItems) = preProject
+		Requests\Skill\CreateSkillRequest.http = Requests\Skill\CreateSkillRequest.http
+		Requests\Skill\DeleteSkillRequest.http = Requests\Skill\DeleteSkillRequest.http
+		Requests\Skill\GetAllSkillRequest.http = Requests\Skill\GetAllSkillRequest.http
+		Requests\Skill\GetSkillRequest.http = Requests\Skill\GetSkillRequest.http
+		Requests\Skill\UpdateSkillRequest.http = Requests\Skill\UpdateSkillRequest.http
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Session", "Session", "{A504C2A8-73D4-4A0B-9685-2FD207A2E7E0}"
+	ProjectSection(SolutionItems) = preProject
+		Requests\Session\CreateSessionRequest.http = Requests\Session\CreateSessionRequest.http
+		Requests\Session\DeleteSessionRequest.http = Requests\Session\DeleteSessionRequest.http
+		Requests\Session\GetAllSessionRequest.http = Requests\Session\GetAllSessionRequest.http
+		Requests\Session\GetSessionRequest.http = Requests\Session\GetSessionRequest.http
+		Requests\Session\UpdateSessionRequest.http = Requests\Session\UpdateSessionRequest.http
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Character", "Character", "{4100B5B7-1C47-4E66-9377-EB20255C56DE}"
+	ProjectSection(SolutionItems) = preProject
+		Requests\Character\CreateCharacterRequest.http = Requests\Character\CreateCharacterRequest.http
+		Requests\Character\DeleteCharacterRequest.http = Requests\Character\DeleteCharacterRequest.http
+		Requests\Character\GetAllCharactersRequests.http = Requests\Character\GetAllCharactersRequests.http
+		Requests\Character\GetCharacterRequest.http = Requests\Character\GetCharacterRequest.http
+		Requests\Character\UpdateCharacterRequest.http = Requests\Character\UpdateCharacterRequest.http
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Campaign", "Campaign", "{197D8644-95F4-47B1-9AAD-F4D97BA10A79}"
+	ProjectSection(SolutionItems) = preProject
+		Requests\Campaign\CreateCampaign.http = Requests\Campaign\CreateCampaign.http
+		Requests\Campaign\DeleteCampaign.http = Requests\Campaign\DeleteCampaign.http
+		Requests\Campaign\GetCampaignRequest.http = Requests\Campaign\GetCampaignRequest.http
+		Requests\Campaign\GetCampaignsRequest.http = Requests\Campaign\GetCampaignsRequest.http
+		Requests\Campaign\JoinCampaign.http = Requests\Campaign\JoinCampaign.http
+		Requests\Campaign\UpdateCampaign.http = Requests\Campaign\UpdateCampaign.http
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{54E17364-9D07-488E-A00E-BE7B71642639}"
+	ProjectSection(SolutionItems) = preProject
+		Requests\Authentication\LoginRequest.http = Requests\Authentication\LoginRequest.http
+		Requests\Authentication\RegisterRequest.http = Requests\Authentication\RegisterRequest.http
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AudioEffect", "AudioEffect", "{30311E14-E301-46DC-B8ED-D748F47A28A9}"
+	ProjectSection(SolutionItems) = preProject
+		Requests\AudioEffect\CreateAudioEffectRequest.http = Requests\AudioEffect\CreateAudioEffectRequest.http
+		Requests\AudioEffect\DeleteAudioEffectRequest.http = Requests\AudioEffect\DeleteAudioEffectRequest.http
+		Requests\AudioEffect\GetAllAudioEffectsRequest.http = Requests\AudioEffect\GetAllAudioEffectsRequest.http
+		Requests\AudioEffect\GetAudioEffectRequest.http = Requests\AudioEffect\GetAudioEffectRequest.http
+		Requests\AudioEffect\UpdateAudioEffectRequest.http = Requests\AudioEffect\UpdateAudioEffectRequest.http
+	EndProjectSection
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{67C3D1E6-778A-4180-A5C0-0E48097C27DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDDTableTopFriend.Application.Tests", "DDDTableTopFriend.Application.Tests\DDDTableTopFriend.Application.Tests.csproj", "{4738DABA-BE66-4AED-BDFE-3367BDD01581}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "DDDTableTopFriend-WebApp", "DDDTableTopFriend-WebApp\DDDTableTopFriend-WebApp.esproj", "{E8177EC7-2684-4C33-AD16-4E70D619EC72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +125,20 @@ Global
 		{8CE662DA-07B4-4501-AB44-8C54D05FB7C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CE662DA-07B4-4501-AB44-8C54D05FB7C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CE662DA-07B4-4501-AB44-8C54D05FB7C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67C3D1E6-778A-4180-A5C0-0E48097C27DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67C3D1E6-778A-4180-A5C0-0E48097C27DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67C3D1E6-778A-4180-A5C0-0E48097C27DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67C3D1E6-778A-4180-A5C0-0E48097C27DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4738DABA-BE66-4AED-BDFE-3367BDD01581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4738DABA-BE66-4AED-BDFE-3367BDD01581}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4738DABA-BE66-4AED-BDFE-3367BDD01581}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4738DABA-BE66-4AED-BDFE-3367BDD01581}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8177EC7-2684-4C33-AD16-4E70D619EC72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8177EC7-2684-4C33-AD16-4E70D619EC72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8177EC7-2684-4C33-AD16-4E70D619EC72}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{E8177EC7-2684-4C33-AD16-4E70D619EC72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8177EC7-2684-4C33-AD16-4E70D619EC72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8177EC7-2684-4C33-AD16-4E70D619EC72}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +150,18 @@ Global
 		{1ED6996D-BB9A-473B-9026-802418833570} = {00E1FD78-C412-4339-928D-F295986716E1}
 		{281119CA-583D-4A3D-B264-5433A0332826} = {00E1FD78-C412-4339-928D-F295986716E1}
 		{8CE662DA-07B4-4501-AB44-8C54D05FB7C4} = {95430FF2-0A6F-4D15-BFBE-10977A4EE966}
+		{4072FF00-EB8A-48B8-A6BD-646A69832550} = {00E1FD78-C412-4339-928D-F295986716E1}
+		{FC62920A-C714-4652-A157-4845FCCE42E9} = {4072FF00-EB8A-48B8-A6BD-646A69832550}
+		{66464082-4D28-4EF8-A145-7071B5A9746E} = {4072FF00-EB8A-48B8-A6BD-646A69832550}
+		{6276A9D9-CD14-42C1-9225-D86F336D7027} = {4072FF00-EB8A-48B8-A6BD-646A69832550}
+		{A504C2A8-73D4-4A0B-9685-2FD207A2E7E0} = {4072FF00-EB8A-48B8-A6BD-646A69832550}
+		{4100B5B7-1C47-4E66-9377-EB20255C56DE} = {4072FF00-EB8A-48B8-A6BD-646A69832550}
+		{197D8644-95F4-47B1-9AAD-F4D97BA10A79} = {4072FF00-EB8A-48B8-A6BD-646A69832550}
+		{54E17364-9D07-488E-A00E-BE7B71642639} = {4072FF00-EB8A-48B8-A6BD-646A69832550}
+		{30311E14-E301-46DC-B8ED-D748F47A28A9} = {4072FF00-EB8A-48B8-A6BD-646A69832550}
+		{67C3D1E6-778A-4180-A5C0-0E48097C27DA} = {00E1FD78-C412-4339-928D-F295986716E1}
+		{4738DABA-BE66-4AED-BDFE-3367BDD01581} = {95430FF2-0A6F-4D15-BFBE-10977A4EE966}
+		{E8177EC7-2684-4C33-AD16-4E70D619EC72} = {00E1FD78-C412-4339-928D-F295986716E1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {23F1CAF9-099D-43AA-99AF-6CE4F9BB11BC}
