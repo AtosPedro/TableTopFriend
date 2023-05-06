@@ -12,7 +12,7 @@ public sealed class Name : ValueObject
 
     private Name(string value) => Value = value;
 
-    public static ErrorOr<Name> Create (string value)
+    public static ErrorOr<Name> Create(string value)
     {
         if (string.IsNullOrEmpty(value))
             return Errors.Errors.Name.NullOrEmpty;
@@ -20,7 +20,7 @@ public sealed class Name : ValueObject
         if (value.Length < MinimumLength)
             return Errors.Errors.Name.MinimumLength;
 
-        if (value.Length < MaximumLength)
+        if (value.Length > MaximumLength)
             return Errors.Errors.Name.MaximumLength;
 
         return new Name(value);
@@ -29,5 +29,7 @@ public sealed class Name : ValueObject
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
+        yield return MinimumLength;
+        yield return MaximumLength;
     }
 }

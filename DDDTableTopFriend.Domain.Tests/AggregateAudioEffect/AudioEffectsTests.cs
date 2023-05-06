@@ -1,5 +1,8 @@
+using System.Text;
 using DDDTableTopFriend.Domain.AggregateAudioEffect;
+using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
 using NUnit.Framework;
 
 namespace DDDTableTopFriend.Domain.Tests.AggregateAudioEffect;
@@ -13,9 +16,14 @@ public class AudioEffectsTests
         UserId userId = UserId.CreateUnique();
         const string name = "audio effect test";
         const string description = "audio effect test";
-        const string? audioLink = "";
-        const byte[]? audioClip = default;
+        const string? audioLink = "https://www.youtube.com/watch?v=2m2520TuUdk&t=14s";
+        byte[]? audioClip = Encoding.UTF8.GetBytes("only for get the bytes for test"); ;
         DateTime createdAt = DateTime.UtcNow;
+
+        var nameUpdatedVo = Name.Create(name).Value;
+        var descriptionUpdatedVo = Description.Create(description).Value;
+        var audioLinkUpdatedVo = YoutubeVideoUrl.Create(audioLink).Value;
+        var audioClipUpdatedVo = AudioClip.Create(audioClip).Value;
 
         var audioEffect = AudioEffect.Create(
             userId,
@@ -24,15 +32,15 @@ public class AudioEffectsTests
             audioLink,
             audioClip,
             createdAt
-        );
+        ).Value;
 
         Assert.Multiple(() =>
         {
             Assert.That(audioEffect.UserId, Is.EqualTo(userId));
-            Assert.That(audioEffect.Name, Is.EqualTo(name));
-            Assert.That(audioEffect.Description, Is.EqualTo(description));
-            Assert.That(audioEffect.AudioLink, Is.EqualTo(audioLink));
-            Assert.That(audioEffect.AudioClip, Is.EqualTo(audioClip));
+            Assert.That(audioEffect.Name.Equals(nameUpdatedVo));
+            Assert.That(audioEffect.Description.Equals(descriptionUpdatedVo));
+            Assert.That(audioEffect.AudioLink!.Equals(audioLinkUpdatedVo));
+            Assert.That(audioEffect.Clip!.Equals(audioClipUpdatedVo));
             Assert.That(audioEffect.CreatedAt, Is.EqualTo(createdAt));
         });
     }
@@ -43,16 +51,21 @@ public class AudioEffectsTests
         UserId userId = UserId.CreateUnique();
         const string name = "audio effect test";
         const string description = "audio effect test";
-        const string? audioLink = "";
-        const byte[]? audioClip = default;
+        const string? audioLink = "https://www.youtube.com/watch?v=2m2520TuUdk&t=14s";
+        byte[]? audioClip = Encoding.UTF8.GetBytes("only for get the bytes for test"); ;
         DateTime createdAt = DateTime.UtcNow;
 
         UserId userIdUpdated = UserId.CreateUnique();
         const string nameUpdated = "audio effect test Updated";
         const string descriptionUpdated = "audio effect test Updated";
-        const string? audioLinkUpdated = "";
-        const byte[]? audioClipUpdated = default;
+        const string? audioLinkUpdated = "https://www.youtube.com/watch?v=kzgFwZEAHZQ";
+        byte[]? audioClipUpdated = Encoding.UTF8.GetBytes("only for get the bytes for test update");
         DateTime updatedAt = DateTime.UtcNow;
+
+        Name nameUpdatedVo = Name.Create(nameUpdated).Value;
+        Description descriptionUpdatedVo = Description.Create(descriptionUpdated).Value;
+        YoutubeVideoUrl audioLinkUpdatedVo = YoutubeVideoUrl.Create(audioLinkUpdated).Value;
+        AudioClip audioClipUpdatedVo = AudioClip.Create(audioClipUpdated).Value;
 
         var audioEffect = AudioEffect.Create(
             userId,
@@ -61,23 +74,23 @@ public class AudioEffectsTests
             audioLink,
             audioClip,
             createdAt
-        );
+        ).Value;
 
-        audioEffect.Update(
+        audioEffect = audioEffect.Update(
             nameUpdated,
             descriptionUpdated,
             audioLinkUpdated,
             audioClipUpdated,
             updatedAt
-        );
+        ).Value;
 
         Assert.Multiple(() =>
         {
             Assert.That(audioEffect.UserId, Is.EqualTo(userId));
-            Assert.That(audioEffect.Name, Is.EqualTo(nameUpdated));
-            Assert.That(audioEffect.Description, Is.EqualTo(descriptionUpdated));
-            Assert.That(audioEffect.AudioLink, Is.EqualTo(audioLinkUpdated));
-            Assert.That(audioEffect.AudioClip, Is.EqualTo(audioClipUpdated));
+            Assert.That(audioEffect.Name, Is.EqualTo(nameUpdatedVo));
+            Assert.That(audioEffect.Description, Is.EqualTo(descriptionUpdatedVo));
+            Assert.That(audioEffect.AudioLink, Is.EqualTo(audioLinkUpdatedVo));
+            Assert.That(audioEffect.Clip, Is.EqualTo(audioClipUpdatedVo));
             Assert.That(audioEffect.UpdatedAt, Is.EqualTo(updatedAt));
         });
     }

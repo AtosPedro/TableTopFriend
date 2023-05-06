@@ -31,18 +31,26 @@ public class AudioEffectConfiguration : IEntityTypeConfiguration<AudioEffect>
             .HasConversion(id => id.Value, value => UserId.Create(value));
 
         audioEffectBuilder
-            .Property(audioEffect => audioEffect.Name)
+            .OwnsOne(audioEffect => audioEffect.Name)
+            .Property(name => name.Value)
+            .HasColumnName("Name")
             .HasMaxLength(50);
 
         audioEffectBuilder
-            .Property(audioEffect => audioEffect.Description)
-            .HasMaxLength(200);
+            .OwnsOne(audioEffect => audioEffect.Description)
+            .Property(description => description.Value)
+            .HasColumnName("Description")
+            .HasMaxLength(5000);
 
         audioEffectBuilder
-            .Property(audioEffect => audioEffect.AudioLink)
+            .OwnsOne(audioEffect=> audioEffect.AudioLink)
+            .Property(audioLink => audioLink.Value)
+            .HasColumnName("AudioLink")
             .HasMaxLength(600);
 
         audioEffectBuilder
-            .Property(audioEffect => audioEffect.AudioClip);
+            .OwnsOne(audioEffect => audioEffect.Clip)
+            .Property(clip => clip.Value)
+            .HasColumnName("AudioClip");
     }
 }

@@ -1,3 +1,4 @@
+using System.Reflection.Metadata.Ecma335;
 using DDDTableTopFriend.Domain.AggregateCampaign;
 using DDDTableTopFriend.Domain.AggregateCampaign.Events;
 using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
@@ -5,6 +6,7 @@ using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateSession.Events;
 using DDDTableTopFriend.Domain.AggregateSession.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
 using NUnit.Framework;
 
 namespace DDDTableTopFriend.Domain.Tests.AggregateCampaign;
@@ -17,8 +19,8 @@ public class CampaignTests
     [Author("Atos Pedro")]
     public void Create_Campaign_Should_Return_Valid_Campaign()
     {
-        const string name = "";
-        const string description = "";
+        const string name = "test name";
+        const string description = "test description";
         List<CharacterId> characterIds = new();
         UserId userId = UserId.CreateUnique();
 
@@ -28,15 +30,15 @@ public class CampaignTests
             description,
             characterIds,
             DateTime.UtcNow
-        );
+        ).Value;
 
         Assert.Multiple(() =>
         {
             Assert.That(campaign.Id, Is.Not.Null);
             Assert.That(campaign.Id.Value, Is.Not.EqualTo(default(Guid)));
             Assert.That(campaign.UserId, Is.EqualTo(userId));
-            Assert.That(campaign.Name, Is.EqualTo(name));
-            Assert.That(campaign.Description, Is.EqualTo(description));
+            Assert.That(campaign.Name, Is.EqualTo(Name.Create(name)));
+            Assert.That(campaign.Description, Is.EqualTo(Description.Create(description)));
             Assert.That(campaign.CharacterIds, Is.EqualTo(characterIds));
         });
     }
@@ -59,7 +61,7 @@ public class CampaignTests
             name,
             description,
             characterIds,
-            DateTime.UtcNow);
+            DateTime.UtcNow).Value;
 
         campaign.Update(
             nameUpdated,
@@ -73,8 +75,8 @@ public class CampaignTests
             Assert.That(campaign.Id, Is.Not.Null);
             Assert.That(campaign.Id.Value, Is.Not.EqualTo(default(Guid)));
             Assert.That(campaign.UserId, Is.EqualTo(userId));
-            Assert.That(campaign.Name, Is.EqualTo(nameUpdated));
-            Assert.That(campaign.Description, Is.EqualTo(descriptionUpdated));
+            Assert.That(campaign.Name, Is.EqualTo(Name.Create(nameUpdated)));
+            Assert.That(campaign.Description, Is.EqualTo(Name.Create(descriptionUpdated)));
             Assert.That(campaign.CharacterIds, Is.EqualTo(characterIdsUpdated));
         });
     }
@@ -83,8 +85,8 @@ public class CampaignTests
     [Author("Atos Pedro")]
     public void Mark_To_Delete_Should_Add_Campaign_Deleted_Domain_Event()
     {
-        const string name = "";
-        const string description = "";
+        const string name = "campaign 1";
+        const string description = "campaign 1 desc";
         List<CharacterId> characterIds = new();
         UserId userId = UserId.CreateUnique();
 
@@ -94,7 +96,7 @@ public class CampaignTests
             description,
             characterIds,
             DateTime.UtcNow
-        );
+        ).Value;
 
         var deletedAt = DateTime.UtcNow;
         campaign.ClearDomainEvents();
@@ -113,8 +115,8 @@ public class CampaignTests
     [Author("Atos Pedro")]
     public void Add_Character_Id_Should_Add_If_Id_Not_Exists()
     {
-        const string name = "";
-        const string description = "";
+        const string name = "campaign 1";
+        const string description = "campaign 1 desc";
         List<CharacterId> characterIds = new();
         UserId userId = UserId.CreateUnique();
         CharacterId characterId = CharacterId.CreateUnique();
@@ -124,7 +126,7 @@ public class CampaignTests
             description,
             characterIds,
             DateTime.UtcNow
-        );
+        ).Value;
 
         var updatedAt = DateTime.UtcNow;
         campaign.AddCharacterId(
@@ -144,8 +146,8 @@ public class CampaignTests
     [Author("Atos Pedro")]
     public void Add__Invalid_Character_Id_Should_Not_Add()
     {
-        const string name = "";
-        const string description = "";
+        const string name = "campaign 1";
+        const string description = "campaign 1 desc";
         List<CharacterId> characterIds = new();
         UserId userId = UserId.Create(Guid.NewGuid());
         CharacterId characterId = CharacterId.Create(default);
@@ -155,7 +157,7 @@ public class CampaignTests
             description,
             characterIds,
             DateTime.UtcNow
-        );
+        ).Value;
 
         var updatedAt = DateTime.UtcNow;
         campaign.AddCharacterId(
@@ -175,8 +177,8 @@ public class CampaignTests
     [Author("Atos Pedro")]
     public void Add_Character_Id_Should_Add_Player_Joined_Campaign_Domain_Event()
     {
-        const string name = "";
-        const string description = "";
+        const string name = "campaign 1";
+        const string description = "campaign 1 desc";
         List<CharacterId> characterIds = new();
         UserId userId = UserId.Create(Guid.NewGuid());
         CharacterId characterId = CharacterId.Create(Guid.NewGuid());
@@ -186,7 +188,7 @@ public class CampaignTests
             description,
             characterIds,
             DateTime.UtcNow
-        );
+        ).Value;
 
         campaign.ClearDomainEvents();
         var updatedAt = DateTime.UtcNow;
@@ -210,8 +212,8 @@ public class CampaignTests
     [Author("Atos Pedro")]
     public void Add_Session_Id_Should_Add_If_Id_Not_Exists()
     {
-        const string name = "";
-        const string description = "";
+        const string name = "campaign 1";
+        const string description = "campaign 1 desc";
         List<CharacterId> characterIds = new();
         UserId userId = UserId.Create(Guid.NewGuid());
         SessionId sessionId = SessionId.Create(Guid.NewGuid());
@@ -221,7 +223,7 @@ public class CampaignTests
             description,
             characterIds,
             DateTime.UtcNow
-        );
+        ).Value;
 
         var updatedAt = DateTime.UtcNow;
         campaign.AddSessionId(
@@ -239,10 +241,10 @@ public class CampaignTests
 
     [Test]
     [Author("Atos Pedro")]
-    public void Add__Invalid_Session_Id_Should_Not_Add()
+    public void Add_Invalid_Session_Id_Should_Not_Add()
     {
-        const string name = "";
-        const string description = "";
+        const string name = "campaign 1";
+        const string description = "campaign 1 desc";
         List<CharacterId> characterIds = new();
         UserId userId = UserId.Create(Guid.NewGuid());
         SessionId sessionId = SessionId.Create(default);
@@ -252,7 +254,7 @@ public class CampaignTests
             description,
             characterIds,
             DateTime.UtcNow
-        );
+        ).Value;
 
         var updatedAt = DateTime.UtcNow;
         campaign.AddSessionId(
@@ -272,8 +274,8 @@ public class CampaignTests
     [Author("Atos Pedro")]
     public void Add_Session_Id_Should_Add_Session_Scheduled_Domain_Event()
     {
-        const string name = "";
-        const string description = "";
+        const string name = "campaign 1";
+        const string description = "campaign 1 desc";
         List<CharacterId> characterIds = new();
         UserId userId = UserId.Create(Guid.NewGuid());
         SessionId sessionId = SessionId.Create(Guid.NewGuid());
@@ -283,7 +285,7 @@ public class CampaignTests
             description,
             characterIds,
             DateTime.UtcNow
-        );
+        ).Value;
 
         campaign.ClearDomainEvents();
         var updatedAt = DateTime.UtcNow;

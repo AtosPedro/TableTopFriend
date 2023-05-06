@@ -9,12 +9,12 @@ namespace DDDTableTopFriend.Domain.AggregateAudioEffect;
 
 public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
 {
-    public UserId UserId { get; } = null!;
-    public Name Name { get; } = null!;
-    public Description Description { get; } = null!;
+    public UserId UserId { get; private set; } = null!;
+    public Name Name { get; private set; } = null!;
+    public Description Description { get; private set; } = null!;
     public YoutubeVideoUrl? AudioLink { get; set; }
-    public AudioClip? Clip { get; }
-    public DateTime CreatedAt { get; }
+    public AudioClip? Clip { get; private set; }
+    public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
 
     public AudioEffect(AudioEffectId id) : base(id) { }
@@ -74,8 +74,8 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
             userId,
             name.Value,
             description.Value,
-            audioLink.Value.Value,
-            clip.Value.Value,
+            audioLink?.Value,
+            clip?.Value,
             createdAt
         );
     }
@@ -83,22 +83,36 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
     public ErrorOr<AudioEffect> Update(
         string nameStr,
         string descriptionStr,
-        string? audioLink,
-        byte[]? audioClip,
+        string? audioLinkStr,
+        byte[]? audioClipBuffer,
         DateTime updatedAt)
     {
+        ErrorOr<YoutubeVideoUrl>? audioLink = null;
+        ErrorOr<AudioClip>? clip = null;
+        var errors = new List<Error>();
         var name = Name.Create(nameStr);
         var description = Description.Create(descriptionStr);
 
+        if (audioLinkStr is not null)
+            audioLink = YoutubeVideoUrl.Create(audioLinkStr);
+
+        if (audioClipBuffer is not null)
+            clip = AudioClip.Create(audioClipBuffer);
+
         if (name.IsError)
-            return name.Errors;
+            errors.AddRange(name.Errors);
 
         if (description.IsError)
-            return description.Errors;
+            errors.AddRange(description.Errors);
 
-        // AudioLink = audioLink;
-        // AudioClip = audioClip;
-        // UpdatedAt = updatedAt;
+        if (errors.Any())
+            return errors;
+
+        Name = name.Value ?? Name;
+        Description = description.Value ?? Description;
+        AudioLink = audioLink?.Value ?? AudioLink;
+        Clip = clip?.Value ?? Clip;
+        UpdatedAt = updatedAt;
 
         return this;
     }

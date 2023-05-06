@@ -21,5 +21,6 @@ public sealed class Description : ValueObject
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
+        yield return MaximumLength;
     }
 }
