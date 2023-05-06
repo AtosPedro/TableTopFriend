@@ -2,7 +2,6 @@
 using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.Events;
-using DDDTableTopFriend.Domain.Common.Services;
 
 namespace DDDTableTopFriend.Domain.AggregateUser;
 
@@ -10,13 +9,11 @@ public sealed class User : AggregateRoot<UserId, Guid>
 {
     public string FirstName { get; private set; } = null!;
     public string LastName { get; private set; } = null!;
-    public string Email { get; private set; } = null!;
-    public string Password { get; private set; } = null!;
-    public string PasswordSalt { get; private set; } = null!;
+    public Email Email { get; private set; }
+    public Password Password { get; set; }
     public byte[]? ProfileImage { get; private set; }
     public UserRole UserRole { get; private set; }
-    public UserValidation Validation { get; private set; }
-    public DateTime? ValidationDate { get; private set; }
+    public Validation Validation { get; set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
 
@@ -26,18 +23,16 @@ public sealed class User : AggregateRoot<UserId, Guid>
         UserId id,
         string firstName,
         string lastName,
-        string email,
-        string password,
-        string passwordSalt,
+        Email email,
+        Password password,
         UserRole userRole,
-        UserValidation validation,
+        Validation validation,
         DateTime createdAt) : base(id)
     {
         FirstName = firstName;
         LastName = lastName;
         Email = email;
         Password = password;
-        PasswordSalt = passwordSalt;
         UserRole = userRole;
         Validation = validation;
         CreatedAt = createdAt;
@@ -53,21 +48,14 @@ public sealed class User : AggregateRoot<UserId, Guid>
         DateTime createdAt)
     {
         var id = UserId.CreateUnique();
-        string salt = passwordSalt ?? Hasher.GenerateSalt();
-        string hashedPassword = Hasher.ComputeHash(
-            plainPassword,
-            salt,
-            1000);
-
         var user = new User(
             id,
             firstName,
             lastName,
-            email,
-            hashedPassword,
-            salt,
+            Email.Create(email),
+            Password.CreateHashed(plainPassword, passwordSalt),
             userRole,
-            UserValidation.NotValidated,
+            Validation.Create(),
             createdAt);
 
         user.AddDomainEvent(new UserRegisteredDomainEvent(
@@ -82,43 +70,21 @@ public sealed class User : AggregateRoot<UserId, Guid>
         return user;
     }
 
-    public bool IsValidPassword(string plainPassword)
-    {
-        string hashedPassword = Hasher.ComputeHash(
-            plainPassword,
-            PasswordSalt,
-            1000);
-
-        return Password == hashedPassword;
-    }
+    public bool IsValidPassword(string plainPassword) => Password.IsValid(plainPassword);
+    public void ChangePassword(string plainPassword) => Password = Password.CreateHashed(plainPassword, Password.Salt);
 
     public void Update(
        string firstName,
        string lastName,
        string email,
-       string plainPassword,
        UserRole userRole,
        DateTime updatedAt)
     {
         FirstName = firstName;
         LastName = lastName;
-        Email = email;
+        Email = Email.Create(email);
         UserRole = userRole;
         UpdatedAt = updatedAt;
-
-        string hashedPassword = Hasher.ComputeHash(
-                plainPassword,
-                PasswordSalt,
-                1000);
-
-        if (hashedPassword != Password)
-        {
-            PasswordSalt ??= Hasher.GenerateSalt();
-            Password = Hasher.ComputeHash(
-                plainPassword,
-                PasswordSalt,
-                1000);
-        }
 
         AddDomainEvent(new UserChangedDomainEvent(
             UserId.Create(Id.Value),
@@ -140,8 +106,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
 
     public void Validate(DateTime validationDate)
     {
-        Validation = UserValidation.Validated;
-        ValidationDate = validationDate;
+        Validation.Validate(validationDate);
     }
 
 #pragma warning disable CS8618

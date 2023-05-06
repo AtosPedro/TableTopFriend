@@ -26,7 +26,7 @@ public class SendConfirmationMail : INotificationHandler<UserRegisteredDomainEve
         {
             string link = $"https://localhost:7044/v1/api/users/validate/{notification.Id.Value}";
             await _mailService.SendConfirmationMail(
-                notification.Email,
+                notification.Email.Value,
                 link
             );
 

@@ -1,6 +1,6 @@
 namespace DDDTableTopFriend.Domain.Common.Enums;
 
-public enum UserValidation
+public enum StatusValidation
 {
     NotValidated,
     Validated
