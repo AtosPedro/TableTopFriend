@@ -14,7 +14,7 @@ using MediatR;
 
 namespace DDDTableTopFriend.Application.Characters.Commands.Create;
 
-public class CharacterSheetCommandHandler : IRequestHandler<CreateCharacterCommand, ErrorOr<CharacterResult>>
+public class CreateCharacterCommandHandler : IRequestHandler<CreateCharacterCommand, ErrorOr<CharacterResult>>
 {
     private readonly ICharacterRepository _characterRepository;
     private readonly ISkillRepository _skillRepository;
@@ -24,7 +24,7 @@ public class CharacterSheetCommandHandler : IRequestHandler<CreateCharacterComma
     private readonly IUnitOfWork _unitOfWork;
     private readonly IDateTimeProvider _dateTimeProvider;
 
-    public CharacterSheetCommandHandler(
+    public CreateCharacterCommandHandler(
         ICharacterRepository characterRepository,
         ISkillRepository skillRepository,
         IStatusRepository statusRepository,
@@ -84,9 +84,12 @@ public class CharacterSheetCommandHandler : IRequestHandler<CreateCharacterComma
             _dateTimeProvider.UtcNow
         );
 
+        if (character.IsError)
+            return character.Errors;
+
         return await _unitOfWork.Execute(async cancellationToken =>
         {
-            await _characterRepository.Add(character, cancellationToken);
+            await _characterRepository.Add(character.Value, cancellationToken);
             var result = character.Adapt<CharacterResult>();
             await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
             return result;

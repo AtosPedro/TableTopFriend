@@ -1,4 +1,5 @@
 using System.Reflection.Metadata.Ecma335;
+using DDDTableTopFriend.Application.Common.Interfaces.Services;
 using DDDTableTopFriend.Domain.AggregateCampaign;
 using DDDTableTopFriend.Domain.AggregateCampaign.Events;
 using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
@@ -7,6 +8,7 @@ using DDDTableTopFriend.Domain.AggregateSession.Events;
 using DDDTableTopFriend.Domain.AggregateSession.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.Common.ValueObjects;
+using Moq;
 using NUnit.Framework;
 
 namespace DDDTableTopFriend.Domain.Tests.AggregateCampaign;
@@ -15,6 +17,18 @@ namespace DDDTableTopFriend.Domain.Tests.AggregateCampaign;
 [Author("Atos Pedro")]
 public class CampaignTests
 {
+    private readonly Mock<IDateTimeProvider> _dateTimeProviderMock = new();
+    private readonly IDateTimeProvider _dateTimeProvider;
+
+    public CampaignTests()
+    {
+        var mockDate = DateTime.Parse("06/05/2023 00:00:00");
+        _dateTimeProviderMock.Setup(x => x.UtcNow).Returns(
+            mockDate
+        );
+        _dateTimeProvider = _dateTimeProviderMock.Object;
+    }
+
     [Test]
     [Author("Atos Pedro")]
     public void Create_Campaign_Should_Return_Valid_Campaign()
@@ -24,12 +38,15 @@ public class CampaignTests
         List<CharacterId> characterIds = new();
         UserId userId = UserId.CreateUnique();
 
+        Name nameVo = Name.Create(name).Value;
+        Description descriptionVo = Description.Create(description).Value;
+
         var campaign = Campaign.Create(
             userId,
             name,
             description,
             characterIds,
-            DateTime.UtcNow
+            _dateTimeProvider.UtcNow
         ).Value;
 
         Assert.Multiple(() =>
@@ -37,8 +54,8 @@ public class CampaignTests
             Assert.That(campaign.Id, Is.Not.Null);
             Assert.That(campaign.Id.Value, Is.Not.EqualTo(default(Guid)));
             Assert.That(campaign.UserId, Is.EqualTo(userId));
-            Assert.That(campaign.Name, Is.EqualTo(Name.Create(name)));
-            Assert.That(campaign.Description, Is.EqualTo(Description.Create(description)));
+            Assert.That(campaign.Name, Is.EqualTo(nameVo));
+            Assert.That(campaign.Description, Is.EqualTo(descriptionVo));
             Assert.That(campaign.CharacterIds, Is.EqualTo(characterIds));
         });
     }
@@ -56,18 +73,21 @@ public class CampaignTests
         const string descriptionUpdated = "campaign 1 desc updated";
         List<CharacterId> characterIdsUpdated = new() { CharacterId.CreateUnique() };
 
+        Name nameUpdatedVo = Name.Create(nameUpdated).Value;
+        Description descriptionUpdatedVo = Description.Create(descriptionUpdated).Value;
+
         var campaign = Campaign.Create(
             userId,
             name,
             description,
             characterIds,
-            DateTime.UtcNow).Value;
+            _dateTimeProvider.UtcNow).Value;
 
         campaign.Update(
             nameUpdated,
             descriptionUpdated,
             characterIdsUpdated,
-            DateTime.UtcNow
+            _dateTimeProvider.UtcNow
         );
 
         Assert.Multiple(() =>
@@ -75,8 +95,8 @@ public class CampaignTests
             Assert.That(campaign.Id, Is.Not.Null);
             Assert.That(campaign.Id.Value, Is.Not.EqualTo(default(Guid)));
             Assert.That(campaign.UserId, Is.EqualTo(userId));
-            Assert.That(campaign.Name, Is.EqualTo(Name.Create(nameUpdated)));
-            Assert.That(campaign.Description, Is.EqualTo(Name.Create(descriptionUpdated)));
+            Assert.That(campaign.Name, Is.EqualTo(nameUpdatedVo));
+            Assert.That(campaign.Description, Is.EqualTo(descriptionUpdatedVo));
             Assert.That(campaign.CharacterIds, Is.EqualTo(characterIdsUpdated));
         });
     }
@@ -95,10 +115,10 @@ public class CampaignTests
             name,
             description,
             characterIds,
-            DateTime.UtcNow
+            _dateTimeProvider.UtcNow
         ).Value;
 
-        var deletedAt = DateTime.UtcNow;
+        var deletedAt = _dateTimeProvider.UtcNow;
         campaign.ClearDomainEvents();
         campaign.MarkToDelete(deletedAt);
         var deleteCampaignDomainEvent = campaign.GetDomainEvents().FirstOrDefault() as CampaignDeletedDomainEvent;
@@ -125,10 +145,10 @@ public class CampaignTests
             name,
             description,
             characterIds,
-            DateTime.UtcNow
+            _dateTimeProvider.UtcNow
         ).Value;
 
-        var updatedAt = DateTime.UtcNow;
+        var updatedAt = _dateTimeProvider.UtcNow;
         campaign.AddCharacterId(
             characterId,
             updatedAt
@@ -156,10 +176,10 @@ public class CampaignTests
             name,
             description,
             characterIds,
-            DateTime.UtcNow
+            _dateTimeProvider.UtcNow
         ).Value;
 
-        var updatedAt = DateTime.UtcNow;
+        var updatedAt = _dateTimeProvider.UtcNow;
         campaign.AddCharacterId(
             characterId,
             updatedAt
@@ -187,11 +207,11 @@ public class CampaignTests
             name,
             description,
             characterIds,
-            DateTime.UtcNow
+            _dateTimeProvider.UtcNow
         ).Value;
 
         campaign.ClearDomainEvents();
-        var updatedAt = DateTime.UtcNow;
+        var updatedAt = _dateTimeProvider.UtcNow;
         campaign.AddCharacterId(
             characterId,
             updatedAt
@@ -222,10 +242,10 @@ public class CampaignTests
             name,
             description,
             characterIds,
-            DateTime.UtcNow
+            _dateTimeProvider.UtcNow
         ).Value;
 
-        var updatedAt = DateTime.UtcNow;
+        var updatedAt = _dateTimeProvider.UtcNow;
         campaign.AddSessionId(
             sessionId,
             updatedAt
@@ -253,10 +273,10 @@ public class CampaignTests
             name,
             description,
             characterIds,
-            DateTime.UtcNow
+            _dateTimeProvider.UtcNow
         ).Value;
 
-        var updatedAt = DateTime.UtcNow;
+        var updatedAt = _dateTimeProvider.UtcNow;
         campaign.AddSessionId(
             sessionId,
             updatedAt
@@ -284,11 +304,11 @@ public class CampaignTests
             name,
             description,
             characterIds,
-            DateTime.UtcNow
+            _dateTimeProvider.UtcNow
         ).Value;
 
         campaign.ClearDomainEvents();
-        var updatedAt = DateTime.UtcNow;
+        var updatedAt = _dateTimeProvider.UtcNow;
         campaign.AddSessionId(
             sessionId,
             updatedAt

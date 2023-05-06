@@ -8,6 +8,7 @@ using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using ErrorOr;
 using Mapster;
 using MediatR;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
 
 namespace DDDTableTopFriend.Application.Campaigns.Commands.Create;
 
@@ -34,15 +35,17 @@ public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignComman
         CreateCampaignCommand request,
         CancellationToken cancellationToken)
     {
+        var name = Name.Create(request.Name).Value;
+
         var campaign = await _campaignRepository.GetByName(
-            request.Name,
+            name,
             UserId.Create(request.UserId),
             cancellationToken);
 
         if (campaign is not null)
             return Errors.Campaign.DuplicateName;
 
-        campaign = Campaign.Create(
+        var campaignOrError = Campaign.Create(
             UserId.Create(request.UserId),
             request.Name,
             request.Description,
@@ -50,12 +53,15 @@ public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignComman
             _dateTimeProvider.UtcNow
         );
 
+        if (campaignOrError.IsError)
+            return campaignOrError.Errors;        
+
         return await _unitOfWork.Execute(async cancellationToken =>
         {
             await _campaignRepository.Add(
-                campaign,
+                campaignOrError.Value,
                 cancellationToken);
-            var result = campaign.Adapt<CampaignResult>();
+            var result = campaignOrError.Value.Adapt<CampaignResult>();
             await _cachingService.SetCacheValueAsync(
                 result.Id.ToString(),
                 result);

@@ -2,6 +2,7 @@ using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Domain.AggregateCampaign;
 using DDDTableTopFriend.Domain.AggregateCampaign.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
 using DDDTableTopFriend.Infrastructure.Persistence.Interfaces;
 
 namespace DDDTableTopFriend.Infrastructure.Persistence.Repositories;
@@ -22,7 +23,7 @@ public class CampaignRepository : Repository<Campaign, CampaignId, Guid>, ICampa
     }
 
     public async Task<Campaign?> GetByName(
-        string name,
+        Name name,
         UserId userId,
         CancellationToken cancellationToken)
     {

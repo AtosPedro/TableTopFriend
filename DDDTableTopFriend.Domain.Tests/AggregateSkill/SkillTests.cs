@@ -1,9 +1,11 @@
+using DDDTableTopFriend.Application.Common.Interfaces.Services;
 using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateSkill;
 using DDDTableTopFriend.Domain.AggregateSkill.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateStatus.Events;
 using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
+using Moq;
 using NUnit.Framework;
 
 namespace DDDTableTopFriend.Domain.Tests.AggregateSkill;
@@ -11,6 +13,18 @@ namespace DDDTableTopFriend.Domain.Tests.AggregateSkill;
 [TestFixture]
 public class SkillTests
 {
+    private readonly Mock<IDateTimeProvider> _dateTimeProviderMock = new();
+    private readonly IDateTimeProvider _dateTimeProvider;
+
+    public SkillTests()
+    {
+        var mockDate = DateTime.Parse("06/05/2023 00:00:00");
+        _dateTimeProviderMock.Setup(x => x.UtcNow).Returns(
+            mockDate
+        );
+        _dateTimeProvider = _dateTimeProviderMock.Object;
+    }
+
     [Test]
     public void Create_Skill_Should_Return_Valid_Skill()
     {
@@ -20,7 +34,7 @@ public class SkillTests
         UserId userId = UserId.CreateUnique();
         AudioEffectId audioEffectId = AudioEffectId.CreateUnique();
         StatusId statusId = StatusId.CreateUnique();
-        DateTime createdAt = DateTime.UtcNow;
+        DateTime createdAt = _dateTimeProvider.UtcNow;
 
         var skill = Skill.Create(
             userId,
@@ -62,7 +76,7 @@ public class SkillTests
         UserId userId = UserId.CreateUnique();
         AudioEffectId audioEffectId = AudioEffectId.CreateUnique();
         StatusId statusId = StatusId.CreateUnique();
-        DateTime createdAt = DateTime.UtcNow;
+        DateTime createdAt = _dateTimeProvider.UtcNow;
 
         const string nameUpdated = "skill test updated";
         const string descriptionUpdated = "skill test desc updated";
@@ -70,7 +84,7 @@ public class SkillTests
         UserId userIdUpdated = UserId.CreateUnique();
         AudioEffectId audioEffectIdUpdated = AudioEffectId.CreateUnique();
         StatusId statusIdUpdated = StatusId.CreateUnique();
-        DateTime updatedAt = DateTime.UtcNow;
+        DateTime updatedAt = _dateTimeProvider.UtcNow;
 
         var skill = Skill.Create(
             userId,
@@ -121,8 +135,8 @@ public class SkillTests
         UserId userId = UserId.CreateUnique();
         AudioEffectId audioEffectId = AudioEffectId.CreateUnique();
         StatusId statusId = StatusId.CreateUnique();
-        DateTime createdAt = DateTime.UtcNow;
-        DateTime deletedAt = DateTime.UtcNow;
+        DateTime createdAt = _dateTimeProvider.UtcNow;
+        DateTime deletedAt = _dateTimeProvider.UtcNow;
 
         var skill = Skill.Create(
             userId,

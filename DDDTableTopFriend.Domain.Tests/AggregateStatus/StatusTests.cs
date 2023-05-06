@@ -1,7 +1,9 @@
+using DDDTableTopFriend.Application.Common.Interfaces.Services;
 using DDDTableTopFriend.Domain.AggregateStatus;
 using DDDTableTopFriend.Domain.AggregateStatus.Events;
 using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
+using Moq;
 using NUnit.Framework;
 
 namespace DDDTableTopFriend.Domain.Tests.AggregateStatus;
@@ -9,6 +11,18 @@ namespace DDDTableTopFriend.Domain.Tests.AggregateStatus;
 [TestFixture]
 public class StatusTests
 {
+    private readonly Mock<IDateTimeProvider> _dateTimeProviderMock = new();
+    private readonly IDateTimeProvider _dateTimeProvider;
+
+    public StatusTests()
+    {
+        var mockDate = DateTime.Parse("06/05/2023 00:00:00");
+        _dateTimeProviderMock.Setup(x => x.UtcNow).Returns(
+            mockDate
+        );
+        _dateTimeProvider = _dateTimeProviderMock.Object;
+    }
+
     [Test]
     public void Create_Should_Return_Valid_Status()
     {
@@ -16,7 +30,7 @@ public class StatusTests
         const string name = "";
         const string description = "";
         const float quantity = 0;
-        DateTime createdAt = DateTime.UtcNow;
+        DateTime createdAt = _dateTimeProvider.UtcNow;
 
         var status = Status.Create(
             userId,
@@ -50,12 +64,12 @@ public class StatusTests
         const string name = "status test";
         const string description = "status test desc";
         const float quantity = 10;
-        DateTime createdAt = DateTime.UtcNow;
+        DateTime createdAt = _dateTimeProvider.UtcNow;
 
         const string nameUpdated = "status test dest";
         const string descriptionUpdated = "status test desc updated";
         const float quantityUpdated = 12;
-        DateTime updatedAt = DateTime.UtcNow;
+        DateTime updatedAt = _dateTimeProvider.UtcNow;
 
         var status = Status.Create(
             userId,
@@ -95,8 +109,8 @@ public class StatusTests
         const string name = "status test";
         const string description = "status test desc";
         const float quantity = 10;
-        DateTime createdAt = DateTime.UtcNow;
-        DateTime deletedAt = DateTime.UtcNow;
+        DateTime createdAt = _dateTimeProvider.UtcNow;
+        DateTime deletedAt = _dateTimeProvider.UtcNow;
 
         var status = Status.Create(
             userId,

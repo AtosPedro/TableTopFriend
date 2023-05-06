@@ -81,12 +81,16 @@ public class CampaignConfiguration : IEntityTypeConfiguration<Campaign>
             .HasConversion(id => id.Value, value => CampaignId.Create(value));
 
         campaignBuilder
-            .Property(m => m.Name)
-            .HasMaxLength(100);
+            .OwnsOne(m => m.Name)
+            .Property(name => name.Value)
+            .HasColumnName("Name")
+            .HasMaxLength(50);
 
         campaignBuilder
-            .Property(m => m.Description)
-            .HasMaxLength(200);
+            .OwnsOne(m => m.Description)
+            .Property(description => description.Value)
+            .HasColumnName("Description")
+            .HasMaxLength(5000);
 
         campaignBuilder
             .Property(m => m.UserId)
