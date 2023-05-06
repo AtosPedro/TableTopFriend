@@ -8,6 +8,7 @@ public record SessionResult(
     Guid UserId,
     Guid CampaignId,
     string Name,
+    string Description,
     DateTime DateTime,
     TimeSpan Duration,
     List<Guid> CharacterIds,

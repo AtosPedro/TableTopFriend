@@ -27,25 +27,8 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<byte[]>("AudioClip")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("AudioLink")
-                        .HasMaxLength(600)
-                        .HasColumnType("nvarchar(600)");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -66,16 +49,6 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -95,18 +68,8 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
                     b.Property<byte[]>("Image")
                         .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int")
@@ -140,10 +103,6 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -169,18 +128,8 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
                     b.Property<byte[]>("Image")
                         .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<Guid>("StatusId")
                         .HasColumnType("uniqueidentifier");
@@ -204,18 +153,8 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
                     b.Property<byte[]>("Image")
                         .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<float>("Quantity")
                         .HasColumnType("real");
@@ -317,6 +256,94 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.ToTable("OutboxMessage", (string)null);
                 });
 
+            modelBuilder.Entity("DDDTableTopFriend.Domain.AggregateAudioEffect.AudioEffect", b =>
+                {
+                    b.OwnsOne("DDDTableTopFriend.Domain.Common.ValueObjects.Description", "Description", b1 =>
+                        {
+                            b1.Property<Guid>("AudioEffectId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(5000)
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Description");
+
+                            b1.HasKey("AudioEffectId");
+
+                            b1.ToTable("AudioEffects");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AudioEffectId");
+                        });
+
+                    b.OwnsOne("DDDTableTopFriend.Domain.Common.ValueObjects.Name", "Name", b1 =>
+                        {
+                            b1.Property<Guid>("AudioEffectId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("Name");
+
+                            b1.HasKey("AudioEffectId");
+
+                            b1.ToTable("AudioEffects");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AudioEffectId");
+                        });
+
+                    b.OwnsOne("DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects.AudioClip", "Clip", b1 =>
+                        {
+                            b1.Property<Guid>("AudioEffectId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<byte[]>("Value")
+                                .IsRequired()
+                                .HasColumnType("varbinary(max)")
+                                .HasColumnName("AudioClip");
+
+                            b1.HasKey("AudioEffectId");
+
+                            b1.ToTable("AudioEffects");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AudioEffectId");
+                        });
+
+                    b.OwnsOne("DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects.YoutubeVideoUrl", "AudioLink", b1 =>
+                        {
+                            b1.Property<Guid>("AudioEffectId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(600)
+                                .HasColumnType("nvarchar(600)")
+                                .HasColumnName("AudioLink");
+
+                            b1.HasKey("AudioEffectId");
+
+                            b1.ToTable("AudioEffects");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AudioEffectId");
+                        });
+
+                    b.Navigation("AudioLink");
+
+                    b.Navigation("Clip");
+
+                    b.Navigation("Description")
+                        .IsRequired();
+
+                    b.Navigation("Name")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DDDTableTopFriend.Domain.AggregateCampaign.Campaign", b =>
                 {
                     b.OwnsMany("DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects.CharacterId", "CharacterIds", b1 =>
@@ -339,6 +366,44 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                             b1.HasIndex("CampaignId");
 
                             b1.ToTable("CampaignCharacterIds", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("CampaignId");
+                        });
+
+                    b.OwnsOne("DDDTableTopFriend.Domain.Common.ValueObjects.Description", "Description", b1 =>
+                        {
+                            b1.Property<Guid>("CampaignId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(5000)
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Description");
+
+                            b1.HasKey("CampaignId");
+
+                            b1.ToTable("Campaigns");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CampaignId");
+                        });
+
+                    b.OwnsOne("DDDTableTopFriend.Domain.Common.ValueObjects.Name", "Name", b1 =>
+                        {
+                            b1.Property<Guid>("CampaignId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("Name");
+
+                            b1.HasKey("CampaignId");
+
+                            b1.ToTable("Campaigns");
 
                             b1.WithOwner()
                                 .HasForeignKey("CampaignId");
@@ -371,6 +436,12 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
 
                     b.Navigation("CharacterIds");
 
+                    b.Navigation("Description")
+                        .IsRequired();
+
+                    b.Navigation("Name")
+                        .IsRequired();
+
                     b.Navigation("SessionIds");
                 });
 
@@ -401,6 +472,44 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                                 .HasForeignKey("CharacterId");
                         });
 
+                    b.OwnsOne("DDDTableTopFriend.Domain.Common.ValueObjects.Description", "Description", b1 =>
+                        {
+                            b1.Property<Guid>("CharacterId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(5000)
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Description");
+
+                            b1.HasKey("CharacterId");
+
+                            b1.ToTable("Characters");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CharacterId");
+                        });
+
+                    b.OwnsOne("DDDTableTopFriend.Domain.Common.ValueObjects.Name", "Name", b1 =>
+                        {
+                            b1.Property<Guid>("CharacterId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("Name");
+
+                            b1.HasKey("CharacterId");
+
+                            b1.ToTable("Characters");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CharacterId");
+                        });
+
                     b.OwnsOne("DDDTableTopFriend.Domain.AggregateCharacter.Entities.CharacterSheet", "CharacterSheet", b1 =>
                         {
                             b1.Property<Guid>("Id")
@@ -412,16 +521,6 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
 
                             b1.Property<DateTime>("CreatedAt")
                                 .HasColumnType("datetime2");
-
-                            b1.Property<string>("Description")
-                                .IsRequired()
-                                .HasMaxLength(200)
-                                .HasColumnType("nvarchar(200)");
-
-                            b1.Property<string>("Name")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
 
                             b1.Property<DateTime?>("UpdatedAt")
                                 .HasColumnType("datetime2");
@@ -476,6 +575,56 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                                         .HasForeignKey("CharacterSheetId", "CharacterId");
                                 });
 
+                            b1.OwnsOne("DDDTableTopFriend.Domain.Common.ValueObjects.Description", "Description", b2 =>
+                                {
+                                    b2.Property<Guid>("CharacterSheetId")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<Guid>("CharacterSheetCharacterId")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<string>("Value")
+                                        .IsRequired()
+                                        .HasMaxLength(5000)
+                                        .HasColumnType("nvarchar(max)")
+                                        .HasColumnName("Description");
+
+                                    b2.HasKey("CharacterSheetId", "CharacterSheetCharacterId");
+
+                                    b2.ToTable("CharacterSheets");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("CharacterSheetId", "CharacterSheetCharacterId");
+                                });
+
+                            b1.OwnsOne("DDDTableTopFriend.Domain.Common.ValueObjects.Name", "Name", b2 =>
+                                {
+                                    b2.Property<Guid>("CharacterSheetId")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<Guid>("CharacterSheetCharacterId")
+                                        .HasColumnType("uniqueidentifier");
+
+                                    b2.Property<string>("Value")
+                                        .IsRequired()
+                                        .HasMaxLength(50)
+                                        .HasColumnType("nvarchar(50)")
+                                        .HasColumnName("Name");
+
+                                    b2.HasKey("CharacterSheetId", "CharacterSheetCharacterId");
+
+                                    b2.ToTable("CharacterSheets");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("CharacterSheetId", "CharacterSheetCharacterId");
+                                });
+
+                            b1.Navigation("Description")
+                                .IsRequired();
+
+                            b1.Navigation("Name")
+                                .IsRequired();
+
                             b1.Navigation("SkillIds");
 
                             b1.Navigation("StatusIds");
@@ -484,6 +633,12 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.Navigation("AudioEffectIds");
 
                     b.Navigation("CharacterSheet")
+                        .IsRequired();
+
+                    b.Navigation("Description")
+                        .IsRequired();
+
+                    b.Navigation("Name")
                         .IsRequired();
                 });
 
@@ -539,9 +694,147 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                                 .HasForeignKey("SessionId");
                         });
 
+                    b.OwnsOne("DDDTableTopFriend.Domain.Common.ValueObjects.Description", "Description", b1 =>
+                        {
+                            b1.Property<Guid>("SessionId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(5000)
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Description");
+
+                            b1.HasKey("SessionId");
+
+                            b1.ToTable("Sessions");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SessionId");
+                        });
+
+                    b.OwnsOne("DDDTableTopFriend.Domain.Common.ValueObjects.Name", "Name", b1 =>
+                        {
+                            b1.Property<Guid>("SessionId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("Name");
+
+                            b1.HasKey("SessionId");
+
+                            b1.ToTable("Sessions");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SessionId");
+                        });
+
                     b.Navigation("AudioEffectIds");
 
                     b.Navigation("CharacterIds");
+
+                    b.Navigation("Description")
+                        .IsRequired();
+
+                    b.Navigation("Name")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DDDTableTopFriend.Domain.AggregateSkill.Skill", b =>
+                {
+                    b.OwnsOne("DDDTableTopFriend.Domain.Common.ValueObjects.Description", "Description", b1 =>
+                        {
+                            b1.Property<Guid>("SkillId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(5000)
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Description");
+
+                            b1.HasKey("SkillId");
+
+                            b1.ToTable("Skills");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SkillId");
+                        });
+
+                    b.OwnsOne("DDDTableTopFriend.Domain.Common.ValueObjects.Name", "Name", b1 =>
+                        {
+                            b1.Property<Guid>("SkillId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("Name");
+
+                            b1.HasKey("SkillId");
+
+                            b1.ToTable("Skills");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SkillId");
+                        });
+
+                    b.Navigation("Description")
+                        .IsRequired();
+
+                    b.Navigation("Name")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DDDTableTopFriend.Domain.AggregateStatus.Status", b =>
+                {
+                    b.OwnsOne("DDDTableTopFriend.Domain.Common.ValueObjects.Description", "Description", b1 =>
+                        {
+                            b1.Property<Guid>("StatusId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(5000)
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Description");
+
+                            b1.HasKey("StatusId");
+
+                            b1.ToTable("Status");
+
+                            b1.WithOwner()
+                                .HasForeignKey("StatusId");
+                        });
+
+                    b.OwnsOne("DDDTableTopFriend.Domain.Common.ValueObjects.Name", "Name", b1 =>
+                        {
+                            b1.Property<Guid>("StatusId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("nvarchar(50)")
+                                .HasColumnName("Name");
+
+                            b1.HasKey("StatusId");
+
+                            b1.ToTable("Status");
+
+                            b1.WithOwner()
+                                .HasForeignKey("StatusId");
+                        });
+
+                    b.Navigation("Description")
+                        .IsRequired();
+
+                    b.Navigation("Name")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

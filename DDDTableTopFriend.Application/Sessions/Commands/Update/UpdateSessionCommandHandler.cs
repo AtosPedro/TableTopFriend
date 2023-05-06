@@ -38,17 +38,21 @@ public class UpdateSessionCommandHandler : IRequestHandler<UpdateSessionCommand,
         if (session is null)
             return Errors.Session.NotScheduled;
 
-        session.Update(
+        var sessionOrError = session.Update(
             request.Name,
+            request.Description,
             request.DateTime,
             request.Duration,
             _dateTimeProvider.UtcNow
         );
 
+        if (sessionOrError.IsError)
+            return sessionOrError.Errors;
+
         return await _unitOfWork.Execute(async _ =>
         {
-            await _sessionRepository.Update(session);
-            var result = session.Adapt<SessionResult>();
+            await _sessionRepository.Update(sessionOrError.Value);
+            var result = sessionOrError.Value.Adapt<SessionResult>();
             await _cachingService.SetCacheValueAsync(
                 request.Id.ToString(),
                 result);

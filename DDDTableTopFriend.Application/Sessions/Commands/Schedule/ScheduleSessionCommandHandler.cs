@@ -7,7 +7,6 @@ using DDDTableTopFriend.Domain.AggregateSession;
 using DDDTableTopFriend.Domain.AggregateSession.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Errors;
-using DDDTableTopFriend.Domain.Common.Models;
 using ErrorOr;
 using Mapster;
 using MediatR;
@@ -40,7 +39,8 @@ public class ScheduleSessionCommandHandler : IRequestHandler<ScheduleSessionComm
         CancellationToken cancellationToken)
     {
         var session = (await _sessionRepository.SearchAsNoTracking(
-            c => c.DateTime == request.DateTime && c.CampaignId == CampaignId.Create(request.CampaignId),
+            c => c.DateTime == request.DateTime &&
+            c.CampaignId == CampaignId.Create(request.CampaignId),
             cancellationToken)).FirstOrDefault();
 
         if (session is not null)
@@ -53,23 +53,28 @@ public class ScheduleSessionCommandHandler : IRequestHandler<ScheduleSessionComm
         if (campaign is null)
             return Errors.Campaign.NotRegistered;
 
-        session = Session.Create(
+        var sessionOrError = Session.Create(
             UserId.Create(request.UserId),
             CampaignId.Create(request.CampaignId),
             request.Name,
+            request.Description,
             request.DateTime,
             _dateTimeProvider.UtcNow
         );
 
+        if (sessionOrError.IsError)
+            return sessionOrError.Errors;
+
         campaign.AddSessionId(
-            SessionId.Create(session.Id.Value),
-            _dateTimeProvider.UtcNow);
+            SessionId.Create(sessionOrError.Value.Id.Value),
+            _dateTimeProvider.UtcNow
+        );
 
         return await _unitOfWork.Execute(async cancellationToken =>
         {
-            await _sessionRepository.Add(session, cancellationToken);
+            await _sessionRepository.Add(sessionOrError.Value, cancellationToken);
             await _campaignRepository.Update(campaign);
-            var result = session.Adapt<SessionResult>();
+            var result = sessionOrError.Value.Adapt<SessionResult>();
             var campaignResult = campaign.Adapt<CampaignResult>();
             await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
             await _cachingService.SetCacheValueAsync(result.CampaignId.ToString(), campaignResult);

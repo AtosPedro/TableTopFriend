@@ -2,13 +2,15 @@ using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.AggregateSkill.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
+using ErrorOr;
 
 namespace DDDTableTopFriend.Domain.AggregateCharacter.Entities;
 
 public sealed class CharacterSheet : Entity<CharacterSheetId>
 {
-    public string Name { get; private set; } = null!;
-    public string Description { get; private set; } = null!;
+    public Name Name { get; private set; } = null!;
+    public Description Description { get; private set; } = null!;
     public IReadOnlyList<StatusId> StatusIds => _statusIds.AsReadOnly();
     public IReadOnlyList<SkillId> SkillIds => _skillIds.AsReadOnly();
     public DateTime CreatedAt { get; private set; }
@@ -21,8 +23,8 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
 
     private CharacterSheet(
         CharacterSheetId id,
-        string name,
-        string description,
+        Name name,
+        Description description,
         List<StatusId> statusIds,
         List<SkillId> skillIds,
         DateTime createdAt) : base(id)
@@ -34,31 +36,58 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
         _skillIds = skillIds;
     }
 
-    public static CharacterSheet Create(
-        string name,
-        string description,
+    public static ErrorOr<CharacterSheet> Create(
+        string nameStr,
+        string descriptionStr,
         List<StatusId> statusIds,
         List<SkillId> skillIds,
         DateTime createdAt)
     {
-        return new(
+        var errorList = new List<Error>();
+        var name = Name.Create(nameStr);
+        var description = Description.Create(descriptionStr);
+
+        if (name.IsError)
+            errorList.AddRange(name.Errors);
+
+        if (description.IsError)
+            errorList.AddRange(description.Errors);
+
+        if(errorList.Any())
+            return errorList;
+
+        return new CharacterSheet(
             CharacterSheetId.CreateUnique(),
-            name,
-            description,
+            name.Value,
+            description.Value,
             statusIds,
             skillIds,
             createdAt);
     }
 
-    public void Update(
-        string name,
-        string description,
+    public ErrorOr<CharacterSheet> Update(
+        string nameStr,
+        string descriptionStr,
         List<StatusId> statusIds,
         List<SkillId> skillIds,
         DateTime updatedAt)
     {
-        Name = name;
-        Description = description;
+
+        var errorList = new List<Error>();
+        var name = Name.Create(nameStr);
+        var description = Description.Create(descriptionStr);
+
+        if (name.IsError)
+            errorList.AddRange(name.Errors);
+
+        if (description.IsError)
+            errorList.AddRange(description.Errors);
+
+        if(errorList.Any())
+            return errorList;
+
+        Name = name.Value ?? Name;
+        Description = description.Value ?? Description;
         UpdatedAt = updatedAt;
 
         _statusIds.AddRange(statusIds.Where(c => !_statusIds.Contains(c)));
@@ -66,6 +95,8 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
 
         _skillIds.AddRange(skillIds.Where(c => !_skillIds.Contains(c)));
         _skillIds.RemoveAll(cid => _skillIds.Except(skillIds).Contains(cid));
+
+        return this;
     }
 
     public void AddStatusId(StatusId statusId)

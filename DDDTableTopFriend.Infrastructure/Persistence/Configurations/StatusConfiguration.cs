@@ -31,11 +31,15 @@ public class StatusConfiguration : IEntityTypeConfiguration<Status>
             .HasConversion(us => us.Value, value => UserId.Create(value));
 
         statusBuilder
-            .Property(sk => sk.Name)
+            .OwnsOne(sk => sk.Name)
+            .Property(name => name.Value)
+            .HasColumnName("Name")
             .HasMaxLength(50);
 
         statusBuilder
-            .Property(sk => sk.Description)
-            .HasMaxLength(300);
+            .OwnsOne(sk => sk.Description)
+            .Property(description => description.Value)
+            .HasColumnName("Description")
+            .HasMaxLength(5000);
     }
 }

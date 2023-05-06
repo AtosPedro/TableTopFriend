@@ -38,6 +38,18 @@ public class SessionConfiguration : IEntityTypeConfiguration<Session>
             .Property(se => se.UserId)
             .ValueGeneratedNever()
             .HasConversion(userId => userId.Value, value => UserId.Create(value));
+
+        sessionBuilder
+            .OwnsOne(s => s.Name)
+            .Property(name => name.Value)
+            .HasColumnName("Name")
+            .HasMaxLength(50);
+
+        sessionBuilder
+            .OwnsOne(s => s.Description)
+            .Property(description => description.Value)
+            .HasColumnName("Description")
+            .HasMaxLength(5000);
     }
 
     private static void ConfigureSessionCharacterIdsTable(EntityTypeBuilder<Session> sessionBuilder)

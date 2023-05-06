@@ -1,4 +1,3 @@
-using System.Net.Mime;
 using DDDTableTopFriend.Domain.AggregateCharacter.Entities;
 using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.AggregateCharacter.ValueObjects;
@@ -8,14 +7,16 @@ using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateCharacter.Events;
 using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateSkill.ValueObjects;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
+using ErrorOr;
 
 namespace DDDTableTopFriend.Domain.AggregateCharacter;
 
 public sealed class Character : AggregateRoot<CharacterId, Guid>
 {
     public UserId UserId { get; set; } = null!;
-    public string Name { get; private set; } = null!;
-    public string Description { get; private set; } = null!;
+    public Name Name { get; private set; } = null!;
+    public Description Description { get; private set; } = null!;
     public byte[]? Image { get; private set; }
     public CharacterType Type { get; private set; }
     public CharacterSheet CharacterSheet { get; private set; } = null!;
@@ -30,8 +31,8 @@ public sealed class Character : AggregateRoot<CharacterId, Guid>
     private Character(
         CharacterId id,
         UserId userId,
-        string name,
-        string description,
+        Name name,
+        Description description,
         CharacterType type,
         List<AudioEffectId> audioEffectIds,
         DateTime createdAt) : base(id)
@@ -44,31 +45,44 @@ public sealed class Character : AggregateRoot<CharacterId, Guid>
         _audioEffectIds = audioEffectIds;
     }
 
-    public static Character Create(
+    public static ErrorOr<Character> Create(
         UserId userId,
-        string name,
-        string description,
+        string nameStr,
+        string descriptionStr,
         CharacterType type,
         List<AudioEffectId> audioEffectIds,
-        string sheetName,
-        string sheetDescription,
+        string sheetNameStr,
+        string sheetDescriptionStr,
         List<StatusId> sheetStatusIds,
         List<SkillId> sheetSkillIds,
         DateTime createdAt)
     {
+        var errorList = new List<Error>();
+        var name = Name.Create(nameStr);
+        var description = Description.Create(descriptionStr);
+
+        if (name.IsError)
+            errorList.AddRange(name.Errors);
+
+        if (description.IsError)
+            errorList.AddRange(description.Errors);
+
+        if (errorList.Any())
+            return errorList;
+
         Character character = new(
             CharacterId.CreateUnique(),
             userId,
-            name,
-            description,
+            name.Value,
+            description.Value,
             type,
             audioEffectIds,
             createdAt
         );
 
         character.AddCharacterSheet(
-            sheetName,
-            sheetDescription,
+            sheetNameStr,
+            sheetDescriptionStr,
             sheetStatusIds,
             sheetSkillIds,
             createdAt
@@ -87,19 +101,33 @@ public sealed class Character : AggregateRoot<CharacterId, Guid>
         return character;
     }
 
-    public void Update(
-        string name,
-        string description,
+    public ErrorOr<Character> Update(
+        string nameStr,
+        string descriptionStr,
         CharacterType type,
         List<AudioEffectId> audioEffectIds,
-        string sheetName,
-        string sheetDescription,
+        string sheetNameStr,
+        string sheetDescriptionStr,
         List<StatusId> sheetStatusIds,
         List<SkillId> sheetSkillIds,
         DateTime updatedAt)
     {
-        Name = name;
-        Description = description;
+
+        var errorList = new List<Error>();
+        var name = Name.Create(nameStr);
+        var description = Description.Create(descriptionStr);
+
+        if (name.IsError)
+            errorList.AddRange(name.Errors);
+
+        if (description.IsError)
+            errorList.AddRange(description.Errors);
+
+        if (errorList.Any())
+            return errorList;
+
+        Name = name.Value ?? Name;
+        Description = description.Value ?? Description;
         Type = type;
         UpdatedAt = updatedAt;
 
@@ -107,8 +135,8 @@ public sealed class Character : AggregateRoot<CharacterId, Guid>
         _audioEffectIds.RemoveAll(cid => _audioEffectIds.Except(audioEffectIds).Contains(cid));
 
         UpdateCharacterSheet(
-            sheetName,
-            sheetDescription,
+            sheetNameStr,
+            sheetDescriptionStr,
             sheetStatusIds,
             sheetSkillIds,
             updatedAt
@@ -123,24 +151,31 @@ public sealed class Character : AggregateRoot<CharacterId, Guid>
             AudioEffectIds,
             UpdatedAt.Value
         ));
+
+        return this;
     }
 
     #region -- CharacterSheet --
 
-    private void AddCharacterSheet(
+    private ErrorOr<Character> AddCharacterSheet(
         string sheetName,
         string sheetDescription,
         List<StatusId> sheetStatusIds,
         List<SkillId> sheetSkillIds,
         DateTime createdAt)
     {
-        CharacterSheet = CharacterSheet.Create(
+        var result = CharacterSheet.Create(
             sheetName,
             sheetDescription,
             sheetStatusIds,
             sheetSkillIds,
             createdAt
         );
+
+        if (result.IsError)
+            return result.Errors;
+
+        CharacterSheet = result.Value;
 
         AddDomainEvent(new CharacterSheetCreatedDomainEvent(
             CharacterSheet.Name,
@@ -149,6 +184,8 @@ public sealed class Character : AggregateRoot<CharacterId, Guid>
             CharacterSheet.SkillIds,
             createdAt
         ));
+
+        return this;
     }
 
     private void UpdateCharacterSheet(

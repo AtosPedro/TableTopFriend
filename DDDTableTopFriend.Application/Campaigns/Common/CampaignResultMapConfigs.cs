@@ -16,6 +16,8 @@ public class CampaignResultMapConfigs : IRegister
         config.NewConfig<Campaign, CampaignResult>()
             .Map(dest => dest.Id, src => src.GetId().Value)
             .Map(dest => dest.UserId, src => src.UserId.Value)
+            .Map(dest => dest.Name, src => src.Name.Value)
+            .Map(dest => dest.Description, src => src.Description.Value)
             .Map(dest => dest.CharacterIds, src => src.CharacterIds.Select(x => x.Value))
             .Map(dest => dest.SessionIds, src => src.SessionIds.Select(x => x.Value))
             .MapToConstructor(true);
