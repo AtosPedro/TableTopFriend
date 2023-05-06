@@ -54,7 +54,7 @@ public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignComman
         );
 
         if (campaignOrError.IsError)
-            return campaignOrError.Errors;        
+            return campaignOrError.Errors;
 
         return await _unitOfWork.Execute(async cancellationToken =>
         {

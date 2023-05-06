@@ -51,7 +51,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
         characterBuilder
             .OwnsOne(ch => ch.Description)
             .Property(description => description.Value)
-            .HasColumnName("Name")
+            .HasColumnName("Description")
             .HasMaxLength(5000);
     }
 
@@ -113,7 +113,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
             characterSheetBuilder
                 .OwnsOne(ch => ch.Description)
                 .Property(description => description.Value)
-                .HasColumnName("Name")
+                .HasColumnName("Description")
                 .HasMaxLength(5000);
 
             characterSheetBuilder.OwnsMany(csh => csh.StatusIds, statusIdsBuilder =>

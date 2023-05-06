@@ -56,14 +56,14 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         CampaignId id = CampaignId.CreateUnique();
         List<Error> errors = new();
         ErrorOr<Name> name = Name.Create(nameStr);
-        ErrorOr<Description> description = Description.Create(descriptionStr);        
+        ErrorOr<Description> description = Description.Create(descriptionStr);
 
         if (name.IsError)
             errors.AddRange(name.Errors);
 
         if (description.IsError)
             errors.AddRange(description.Errors);
-        
+
         if (errors.Any())
             return errors;
 

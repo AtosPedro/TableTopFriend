@@ -8,7 +8,7 @@ public sealed class Name : ValueObject
     private const int MinimumLength = 2;
     private const int MaximumLength = 50;
 
-    public string Value { get; }
+    public string Value { get; private set; }
 
     private Name(string value) => Value = value;
 
@@ -32,4 +32,10 @@ public sealed class Name : ValueObject
         yield return MinimumLength;
         yield return MaximumLength;
     }
+
+#pragma warning disable CS8618
+    private Name()
+    {
+    }
+#pragma warning restore CS8618
 }

@@ -11,6 +11,8 @@ public class SkillResultMapConfig : IRegister
             .Map(dest => dest.Id, c => c.GetId().Value)
             .Map(dest => dest.AudioEffectId, c => c.AudioEffectId.Value)
             .Map(dest => dest.UserId, c => c.UserId.Value)
+            .Map(dest => dest.Name, c => c.Name.Value)
+            .Map(dest => dest.Description, c => c.Description.Value)
             .Map(dest => dest.StatusId, c => c.StatusId.Value);
     }
 }

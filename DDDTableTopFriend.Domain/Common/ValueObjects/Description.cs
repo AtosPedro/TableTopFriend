@@ -6,7 +6,7 @@ namespace DDDTableTopFriend.Domain.Common.ValueObjects;
 public sealed class Description : ValueObject
 {
     private const int MaximumLength = 5000;
-    public string Value { get; }
+    public string Value { get; private set; }
 
     private Description(string value) => Value = value;
 
