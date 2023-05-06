@@ -40,7 +40,6 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Error
             request.FirstName,
             request.LastName,
             request.Email,
-            request.Password,
             request.Role,
             _dateTimeProvider.UtcNow
         );

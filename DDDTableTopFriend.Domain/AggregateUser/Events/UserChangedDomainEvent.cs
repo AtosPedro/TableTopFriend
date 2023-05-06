@@ -8,7 +8,7 @@ public record UserChangedDomainEvent(
     UserId Id,
     string FirstName,
     string LastName,
-    string Email,
+    Email Email,
     UserRole Role,
     DateTime UpdatedAt
 ) : IDomainEvent;

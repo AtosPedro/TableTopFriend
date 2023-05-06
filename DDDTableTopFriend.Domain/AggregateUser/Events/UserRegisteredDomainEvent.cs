@@ -8,7 +8,7 @@ public record UserRegisteredDomainEvent(
     UserId Id,
     string FirstName,
     string LastName,
-    string Email,
+    Email Email,
     UserRole Role,
     DateTime? CreatedAt
 ) : IDomainEvent;

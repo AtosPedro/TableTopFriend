@@ -36,10 +36,8 @@ public class UserTests
         {
             Assert.That(user.FirstName, Is.EqualTo(firstName));
             Assert.That(user.LastName, Is.EqualTo(lastName));
-            Assert.That(user.Email, Is.EqualTo(email));
-            Assert.That(user.Password, Is.EqualTo(passwordHash));
-            Assert.That(user.PasswordSalt, Is.Not.Empty);
-            Assert.That(user.PasswordSalt, Is.Not.Null);
+            Assert.That(user.Email, Is.EqualTo(Email.Create(email)));
+            Assert.That(user.Password, Is.EqualTo(Password.Create(passwordHash, passwordSalt)));
         });
     }
 
@@ -56,9 +54,7 @@ public class UserTests
 
         const string firstNameUpdated = "John Updated";
         const string lastNameUpdated = "Doe Updated";
-        const string emailUpdated = "johndoe@email.com Updated";
-        const string passwordUpdated = "12345678 Updated";
-        const string passwordHashUpdated = "3tg+qabf9jTCKneMdJcIXFDZfJi8Q/rVDJgRhtj45Io=";
+        const string emailUpdated = "johndoe@emailUpdated.com";
         const UserRole roleUpdated = UserRole.FreeUser;
 
         var user = User.Create(
@@ -75,7 +71,6 @@ public class UserTests
             firstNameUpdated,
             lastNameUpdated,
             emailUpdated,
-            passwordUpdated,
             roleUpdated,
             DateTime.UtcNow
         );
@@ -84,11 +79,8 @@ public class UserTests
         {
             Assert.That(user.FirstName, Is.EqualTo(firstNameUpdated));
             Assert.That(user.LastName, Is.EqualTo(lastNameUpdated));
-            Assert.That(user.Email, Is.EqualTo(emailUpdated));
-            Assert.That(user.Password, Is.EqualTo(passwordHashUpdated));
+            Assert.That(user.Email, Is.EqualTo(Email.Create(emailUpdated)));
             Assert.That(user.UpdatedAt, Is.Not.Null);
-            Assert.That(user.PasswordSalt, Is.Not.Empty);
-            Assert.That(user.PasswordSalt, Is.Not.Null);
         });
     }
 
@@ -199,8 +191,8 @@ public class UserTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(user.Validation, Is.EqualTo(UserValidation.Validated));
-            Assert.That(user.ValidationDate, Is.EqualTo(validationDate));
+            Assert.That(user.Validation.Value, Is.EqualTo(StatusValidation.Validated));
+            Assert.That(user.Validation.ValidationDate, Is.EqualTo(validationDate));
         });
     }
 }
