@@ -5,6 +5,7 @@ using DDDTableTopFriend.Domain.AggregateSkill.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateStatus.Events;
 using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
 using Moq;
 using NUnit.Framework;
 
@@ -36,6 +37,9 @@ public class SkillTests
         StatusId statusId = StatusId.CreateUnique();
         DateTime createdAt = _dateTimeProvider.UtcNow;
 
+        Name nameVo = Name.Create(name).Value;
+        Description descriptionVo = Description.Create(description).Value;
+
         var skill = Skill.Create(
             userId,
             audioEffectId,
@@ -44,7 +48,7 @@ public class SkillTests
             description,
             cost,
             createdAt
-        );
+        ).Value;
 
         var domainEvent = skill.GetDomainEvents().FirstOrDefault() as SkillCreatedDomainEvent;
 
@@ -53,15 +57,15 @@ public class SkillTests
             Assert.That(skill.UserId, Is.EqualTo(userId));
             Assert.That(skill.AudioEffectId, Is.EqualTo(audioEffectId));
             Assert.That(skill.StatusId, Is.EqualTo(statusId));
-            Assert.That(skill.Name, Is.EqualTo(name));
-            Assert.That(skill.Description, Is.EqualTo(description));
+            Assert.That(skill.Name, Is.EqualTo(nameVo));
+            Assert.That(skill.Description, Is.EqualTo(descriptionVo));
             Assert.That(skill.Cost, Is.EqualTo(cost));
             Assert.That(skill.CreatedAt, Is.EqualTo(createdAt));
             Assert.That(domainEvent!.UserId, Is.EqualTo(userId));
             Assert.That(domainEvent!.AudioEffectId, Is.EqualTo(audioEffectId));
             Assert.That(domainEvent!.StatusId, Is.EqualTo(statusId));
-            Assert.That(domainEvent!.Name, Is.EqualTo(name));
-            Assert.That(domainEvent!.Description, Is.EqualTo(description));
+            Assert.That(domainEvent!.Name, Is.EqualTo(nameVo));
+            Assert.That(domainEvent!.Description, Is.EqualTo(descriptionVo));
             Assert.That(domainEvent!.Cost, Is.EqualTo(cost));
             Assert.That(domainEvent!.CreatedAt, Is.EqualTo(createdAt));
         });
@@ -86,6 +90,9 @@ public class SkillTests
         StatusId statusIdUpdated = StatusId.CreateUnique();
         DateTime updatedAt = _dateTimeProvider.UtcNow;
 
+        Name nameUpdatedVo = Name.Create(nameUpdated).Value;
+        Description descriptionUpdatedVo = Description.Create(descriptionUpdated).Value;
+
         var skill = Skill.Create(
             userId,
             audioEffectId,
@@ -94,7 +101,7 @@ public class SkillTests
             description,
             cost,
             createdAt
-        );
+        ).Value;
 
         skill.ClearDomainEvents();
         skill.Update(
@@ -112,15 +119,15 @@ public class SkillTests
         {
             Assert.That(skill.AudioEffectId, Is.EqualTo(audioEffectIdUpdated));
             Assert.That(skill.StatusId, Is.EqualTo(statusIdUpdated));
-            Assert.That(skill.Name, Is.EqualTo(nameUpdated));
-            Assert.That(skill.Description, Is.EqualTo(descriptionUpdated));
+            Assert.That(skill.Name, Is.EqualTo(nameUpdatedVo));
+            Assert.That(skill.Description, Is.EqualTo(descriptionUpdatedVo));
             Assert.That(skill.Cost, Is.EqualTo(costUpdated));
             Assert.That(skill.UpdatedAt, Is.EqualTo(updatedAt));
             Assert.That(domainEvent!.UserId, Is.EqualTo(userId));
             Assert.That(domainEvent!.AudioEffectId, Is.EqualTo(audioEffectIdUpdated));
             Assert.That(domainEvent!.StatusId, Is.EqualTo(statusIdUpdated));
-            Assert.That(domainEvent!.Name, Is.EqualTo(nameUpdated));
-            Assert.That(domainEvent!.Description, Is.EqualTo(descriptionUpdated));
+            Assert.That(domainEvent!.Name, Is.EqualTo(nameUpdatedVo));
+            Assert.That(domainEvent!.Description, Is.EqualTo(descriptionUpdatedVo));
             Assert.That(domainEvent!.Cost, Is.EqualTo(costUpdated));
             Assert.That(domainEvent!.UpdatedAt, Is.EqualTo(updatedAt));
         });
@@ -146,7 +153,7 @@ public class SkillTests
             description,
             cost,
             createdAt
-        );
+        ).Value;
 
         skill.ClearDomainEvents();
         skill.MarkToDelete(deletedAt);

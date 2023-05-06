@@ -3,6 +3,7 @@ using DDDTableTopFriend.Domain.AggregateStatus;
 using DDDTableTopFriend.Domain.AggregateStatus.Events;
 using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
 using Moq;
 using NUnit.Framework;
 
@@ -27,10 +28,13 @@ public class StatusTests
     public void Create_Should_Return_Valid_Status()
     {
         var userId = UserId.CreateUnique();
-        const string name = "";
-        const string description = "";
+        const string name = "status test";
+        const string description = "status description test";
         const float quantity = 0;
         DateTime createdAt = _dateTimeProvider.UtcNow;
+
+        Name nameVo = Name.Create(name).Value;
+        Description descriptionVo = Description.Create(description).Value;
 
         var status = Status.Create(
             userId,
@@ -38,7 +42,7 @@ public class StatusTests
             description,
             quantity,
             createdAt
-        );
+        ).Value;
 
         var domainEvent = status.GetDomainEvents().FirstOrDefault() as StatusCreatedDomainEvent;
 
@@ -46,12 +50,12 @@ public class StatusTests
         {
             Assert.That(status.Id.Value, Is.Not.EqualTo(default(Guid)));
             Assert.That(status.UserId, Is.EqualTo(userId));
-            Assert.That(status.Name, Is.EqualTo(name));
-            Assert.That(status.Description, Is.EqualTo(description));
+            Assert.That(status.Name, Is.EqualTo(nameVo));
+            Assert.That(status.Description, Is.EqualTo(descriptionVo));
             Assert.That(status.Quantity, Is.EqualTo(quantity));
             Assert.That(status.CreatedAt, Is.EqualTo(createdAt));
-            Assert.That(domainEvent!.Name, Is.EqualTo(name));
-            Assert.That(domainEvent!.Description, Is.EqualTo(description));
+            Assert.That(domainEvent!.Name, Is.EqualTo(nameVo));
+            Assert.That(domainEvent!.Description, Is.EqualTo(descriptionVo));
             Assert.That(domainEvent!.Quantity, Is.EqualTo(quantity));
             Assert.That(domainEvent!.CreatedAt, Is.EqualTo(createdAt));
         });
@@ -71,13 +75,16 @@ public class StatusTests
         const float quantityUpdated = 12;
         DateTime updatedAt = _dateTimeProvider.UtcNow;
 
+        Name nameUpdatedVo = Name.Create(nameUpdated).Value;
+        Description descriptionUpdatedVo = Description.Create(descriptionUpdated).Value;
+
         var status = Status.Create(
             userId,
             name,
             description,
             quantity,
             createdAt
-        );
+        ).Value;
 
         status.ClearDomainEvents();
         status.Update(
@@ -91,12 +98,12 @@ public class StatusTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(status.Name, Is.EqualTo(nameUpdated));
-            Assert.That(status.Description, Is.EqualTo(descriptionUpdated));
+            Assert.That(status.Name, Is.EqualTo(nameUpdatedVo));
+            Assert.That(status.Description, Is.EqualTo(descriptionUpdatedVo));
             Assert.That(status.Quantity, Is.EqualTo(quantityUpdated));
             Assert.That(status.UpdatedAt, Is.EqualTo(updatedAt));
-            Assert.That(domainEvent!.Name, Is.EqualTo(nameUpdated));
-            Assert.That(domainEvent!.Description, Is.EqualTo(descriptionUpdated));
+            Assert.That(domainEvent!.Name, Is.EqualTo(nameUpdatedVo));
+            Assert.That(domainEvent!.Description, Is.EqualTo(descriptionUpdatedVo));
             Assert.That(domainEvent!.Quantity, Is.EqualTo(quantityUpdated));
             Assert.That(domainEvent!.UpdatedAt, Is.EqualTo(updatedAt));
         });
@@ -118,7 +125,7 @@ public class StatusTests
             description,
             quantity,
             createdAt
-        );
+        ).Value;
 
         status.ClearDomainEvents();
         status.MarkToDelete(deletedAt);
