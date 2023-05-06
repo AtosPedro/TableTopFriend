@@ -4,6 +4,8 @@ using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateStatus.Events;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
+using ErrorOr;
 
 namespace DDDTableTopFriend.Domain.AggregateSkill;
 
@@ -13,8 +15,8 @@ public class Skill : AggregateRoot<SkillId, Guid>
     public StatusId StatusId { get; private set; } = null!;
     public AudioEffectId AudioEffectId { get; private set; } = null!;
     public byte[]? Image { get; private set; }
-    public string Name { get; private set; } = null!;
-    public string Description { get; private set; } = null!;
+    public Name Name { get; private set; } = null!;
+    public Description Description { get; private set; } = null!;
     public float Cost { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
@@ -26,8 +28,8 @@ public class Skill : AggregateRoot<SkillId, Guid>
         UserId userId,
         AudioEffectId audioEffectId,
         StatusId statusId,
-        string name,
-        string description,
+        Name name,
+        Description description,
         float cost,
         DateTime createdAt) : base(id)
     {
@@ -40,22 +42,35 @@ public class Skill : AggregateRoot<SkillId, Guid>
         StatusId = statusId;
     }
 
-    public static Skill Create(
+    public static ErrorOr<Skill> Create(
         UserId userId,
         AudioEffectId audioEffectId,
         StatusId statusId,
-        string name,
-        string description,
+        string nameStr,
+        string descriptionStr,
         float cost,
         DateTime createdAt)
     {
+        var errorList = new List<Error>();
+        var name = Name.Create(nameStr);
+        var description = Description.Create(descriptionStr);
+
+        if (name.IsError)
+            errorList.AddRange(name.Errors);
+
+        if (description.IsError)
+            errorList.AddRange(description.Errors);
+
+        if (errorList.Any())
+            return errorList;
+
         Skill skill = new (
             SkillId.CreateUnique(),
             userId,
             audioEffectId,
             statusId,
-            name,
-            description,
+            name.Value,
+            description.Value,
             cost,
             createdAt
         );
@@ -74,18 +89,31 @@ public class Skill : AggregateRoot<SkillId, Guid>
         return skill;
     }
 
-    public void Update(
+    public ErrorOr<Skill> Update(
         AudioEffectId audioEffectId,
         StatusId statusId,
-        string name,
-        string description,
+        string nameStr,
+        string descriptionStr,
         float cost,
         DateTime updatedAt)
     {
+        var errorList = new List<Error>();
+        var name = Name.Create(nameStr);
+        var description = Description.Create(descriptionStr);
+
+        if (name.IsError)
+            errorList.AddRange(name.Errors);
+
+        if (description.IsError)
+            errorList.AddRange(description.Errors);
+
+        if (errorList.Any())
+            return errorList;
+
         AudioEffectId = audioEffectId;
         StatusId = statusId;
-        Name = name;
-        Description = description;
+        Name = name.Value;
+        Description = description.Value;
         Cost = cost;
         UpdatedAt = updatedAt;
 
@@ -99,6 +127,8 @@ public class Skill : AggregateRoot<SkillId, Guid>
             Cost,
             UpdatedAt.Value
         ));
+
+        return this;
     }
 
     public void MarkToDelete(DateTime deletedAt)

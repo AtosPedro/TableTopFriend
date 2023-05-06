@@ -31,7 +31,7 @@ public class CreateAudioEffectCommandHandler : IRequestHandler<CreateAudioEffect
         CreateAudioEffectCommand request,
         CancellationToken cancellationToken)
     {
-        var audioEffect = AudioEffect.Create(
+        var audioEffectOrError = AudioEffect.Create(
             UserId.Create(request.UserId),
             request.Name,
             request.Description,
@@ -40,10 +40,13 @@ public class CreateAudioEffectCommandHandler : IRequestHandler<CreateAudioEffect
             _dateTimeProvider.UtcNow
         );
 
+        if (audioEffectOrError.IsError)
+            return audioEffectOrError.Errors;
+
         return await _unitOfWork.Execute(async _ =>
         {
-            await _audioEffectRepository.Add(audioEffect, cancellationToken);
-            var result = audioEffect.Adapt<AudioEffectResult>();
+            await _audioEffectRepository.Add(audioEffectOrError.Value, cancellationToken);
+            var result = audioEffectOrError.Value.Adapt<AudioEffectResult>();
             await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
             return result;
         },

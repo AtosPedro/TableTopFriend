@@ -5,14 +5,17 @@ using DDDTableTopFriend.Domain.AggregateSession.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateCampaign.Events;
 using DDDTableTopFriend.Domain.AggregateSession.Events;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
+using DDDTableTopFriend.Domain.Common.Errors;
+using ErrorOr;
 
 namespace DDDTableTopFriend.Domain.AggregateCampaign;
 
 public sealed class Campaign : AggregateRoot<CampaignId, Guid>
 {
     public UserId UserId { get; private set; } = null!;
-    public string Name { get; private set; } = null!;
-    public string Description { get; private set; } = null!;
+    public Name Name { get; private set; } = null!;
+    public Description Description { get; private set; } = null!;
     public IReadOnlyList<CharacterId> CharacterIds => _characterIds.AsReadOnly();
     public IReadOnlyList<SessionId> SessionIds => _sessionIds.AsReadOnly();
     public DateTime CreatedAt { get; private set; }
@@ -26,8 +29,8 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
     private Campaign(
         CampaignId id,
         UserId userId,
-        string name,
-        string description,
+        Name name,
+        Description description,
         List<CharacterId> characterIds,
         List<SessionId> sessionIds,
         DateTime createdAt) : base(id)
@@ -40,19 +43,35 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         _sessionIds = sessionIds;
     }
 
-    public static Campaign Create(
+    public static ErrorOr<Campaign> Create(
         UserId userId,
-        string name,
-        string description,
+        string nameStr,
+        string descriptionStr,
         List<CharacterId> characterIds,
         DateTime createdAt)
     {
-        var id = CampaignId.CreateUnique();
+        if (userId is null)
+            return Errors.User.InvalidId;
+
+        CampaignId id = CampaignId.CreateUnique();
+        List<Error> errors = new();
+        ErrorOr<Name> name = Name.Create(nameStr);
+        ErrorOr<Description> description = Description.Create(descriptionStr);
+
+        if (name.IsError)
+            errors.AddRange(name.Errors);
+
+        if (description.IsError)
+            errors.AddRange(description.Errors);
+
+        if (errors.Any())
+            return errors;
+
         Campaign campaign = new(
             id,
             userId,
-            name,
-            description,
+            name.Value,
+            description.Value,
             characterIds ?? new List<CharacterId>(),
             new List<SessionId>(),
             createdAt
@@ -72,14 +91,27 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
         return campaign;
     }
 
-    public void Update(
-        string name,
-        string description,
+    public ErrorOr<Campaign> Update(
+        string nameStr,
+        string descriptionStr,
         List<CharacterId> characterIds,
         DateTime updatedAt)
     {
-        Name = name ?? Name;
-        Description = description ?? Description;
+        var errors = new List<Error>();
+        var name = Name.Create(nameStr);
+        var description = Description.Create(descriptionStr);
+
+        if (name.IsError)
+            errors.AddRange(name.Errors);
+
+        if (description.IsError)
+            errors.AddRange(description.Errors);
+
+        if (errors.Any())
+            return errors;
+
+        Name = name.Value ?? Name;
+        Description = description.Value ?? Description;
         UpdatedAt = updatedAt;
         characterIds ??= new List<CharacterId>();
         _characterIds.AddRange(characterIds.Where(c => !_characterIds.Contains(c)));
@@ -94,6 +126,8 @@ public sealed class Campaign : AggregateRoot<CampaignId, Guid>
             SessionIds,
             UpdatedAt.Value
         ));
+
+        return this;
     }
 
     public void MarkToDelete(DateTime deletedAt)

@@ -2,6 +2,8 @@ using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateStatus.Events;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
+using ErrorOr;
 
 namespace DDDTableTopFriend.Domain.AggregateStatus;
 
@@ -9,8 +11,8 @@ public class Status : AggregateRoot<StatusId, Guid>
 {
     public UserId UserId { get; private set; } = null!;
     public byte[]? Image { get; private set; }
-    public string Name { get; private set; } = null!;
-    public string Description { get; private set; } = null!;
+    public Name Name { get; private set; } = null!;
+    public Description Description { get; private set; } = null!;
     public float Quantity { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
@@ -20,8 +22,8 @@ public class Status : AggregateRoot<StatusId, Guid>
     private Status(
         StatusId id,
         UserId userId,
-        string name,
-        string description,
+        Name name,
+        Description description,
         float quantity,
         DateTime createdAt) : base(id)
     {
@@ -32,18 +34,31 @@ public class Status : AggregateRoot<StatusId, Guid>
         CreatedAt = createdAt;
     }
 
-    public static Status Create(
+    public static ErrorOr<Status> Create(
         UserId userId,
-        string name,
-        string description,
+        string nameStr,
+        string descriptionStr,
         float quantity,
         DateTime createdAt)
     {
+        var errorList = new List<Error>();
+        var name = Name.Create(nameStr);
+        var description = Description.Create(descriptionStr);
+
+        if (name.IsError)
+            errorList.AddRange(name.Errors);
+
+        if (description.IsError)
+            errorList.AddRange(description.Errors);
+
+        if (errorList.Any())
+            return errorList;
+
         var status = new Status(
             StatusId.CreateUnique(),
             userId,
-            name,
-            description,
+            name.Value,
+            description.Value,
             quantity,
             createdAt
         );
@@ -59,14 +74,27 @@ public class Status : AggregateRoot<StatusId, Guid>
         return status;
     }
 
-    public void Update(
-        string name,
-        string description,
+    public ErrorOr<Status> Update(
+        string nameStr,
+        string descriptionStr,
         float quantity,
         DateTime updatedAt)
     {
-        Name = name;
-        Description = description;
+        var errorList = new List<Error>();
+        var name = Name.Create(nameStr);
+        var description = Description.Create(descriptionStr);
+
+        if (name.IsError)
+            errorList.AddRange(name.Errors);
+
+        if (description.IsError)
+            errorList.AddRange(description.Errors);
+
+        if (errorList.Any())
+            return errorList;
+
+        Name = name.Value ?? Name;
+        Description = description.Value ?? Description;
         Quantity = quantity;
         UpdatedAt = updatedAt;
 
@@ -77,6 +105,8 @@ public class Status : AggregateRoot<StatusId, Guid>
             Quantity,
             UpdatedAt.Value
         ));
+
+        return this;
     }
 
     public void MarkToDelete(DateTime deletedAt)

@@ -5,6 +5,8 @@ using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.AggregateSession.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateSession.Events;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
+using ErrorOr;
 
 namespace DDDTableTopFriend.Domain.AggregateSession;
 
@@ -12,7 +14,8 @@ public class Session : AggregateRoot<SessionId, Guid>
 {
     public UserId UserId { get; private set; } = null!;
     public CampaignId CampaignId { get; private set; } = null!;
-    public string Name { get; private set; } = null!;
+    public Name Name { get; private set; } = null!;
+    public Description Description { get; private set; } = null!;
     public DateTime DateTime { get; private set; }
     public TimeSpan Duration { get; private set; }
     public IReadOnlyList<CharacterId> CharacterIds => _characterIds.AsReadOnly();
@@ -29,7 +32,8 @@ public class Session : AggregateRoot<SessionId, Guid>
         SessionId id,
         UserId userId,
         CampaignId campaignId,
-        string name,
+        Name name,
+        Description description,
         DateTime dateTime,
         List<CharacterId> characterIds,
         List<AudioEffectId> audioEffectIds,
@@ -38,24 +42,40 @@ public class Session : AggregateRoot<SessionId, Guid>
         CampaignId = campaignId;
         UserId = userId;
         Name = name;
+        Description = description;
         DateTime = dateTime;
         CreatedAt = createdAt;
         _characterIds = characterIds;
         _audioEffectIds = audioEffectIds;
     }
 
-    public static Session Create(
+    public static ErrorOr<Session> Create(
         UserId userId,
         CampaignId campaignId,
-        string name,
+        string nameStr,
+        string descriptionStr,
         DateTime dateTime,
         DateTime createdAt)
     {
+        var errorList = new List<Error>();
+        var name = Name.Create(nameStr);
+        var description = Description.Create(descriptionStr);
+
+        if (name.IsError)
+            errorList.AddRange(name.Errors);
+
+        if (description.IsError)
+            errorList.AddRange(description.Errors);
+
+        if (errorList.Any())
+            return errorList;
+
         var session = new Session(
             SessionId.CreateUnique(),
             userId,
             campaignId,
-            name,
+            name.Value,
+            description.Value,
             dateTime,
             new List<CharacterId>(),
             new List<AudioEffectId>(),
@@ -71,13 +91,28 @@ public class Session : AggregateRoot<SessionId, Guid>
         return session;
     }
 
-    public void Update(
-        string name,
+    public ErrorOr<Session> Update(
+        string nameStr,
+        string descriptionStr,
         DateTime dateTime,
         TimeSpan duration,
         DateTime updatedAt)
     {
-        Name = name;
+        var errorList = new List<Error>();
+        var name = Name.Create(nameStr);
+        var description = Description.Create(descriptionStr);
+
+        if (name.IsError)
+            errorList.AddRange(name.Errors);
+
+        if (description.IsError)
+            errorList.AddRange(description.Errors);
+
+        if (errorList.Any())
+            return errorList;
+
+        Name = name.Value ?? Name;
+        Description = description.Value ?? Description;
         DateTime = dateTime;
         Duration = duration;
         UpdatedAt = updatedAt;
@@ -87,6 +122,8 @@ public class Session : AggregateRoot<SessionId, Guid>
             CampaignId,
             SessionId.Create(Id.Value)
         ));
+
+        return this;
     }
 
     public void MarkToDelete(DateTime deletedAt)

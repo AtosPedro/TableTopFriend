@@ -8,5 +8,6 @@ public record ScheduleSessionCommand(
     Guid UserId,
     Guid CampaignId,
     string Name,
+    string Description,
     DateTime DateTime
 ) : IRequest<ErrorOr<SessionResult>>;

@@ -6,6 +6,7 @@ using DDDTableTopFriend.Domain.AggregateSkill;
 using DDDTableTopFriend.Domain.AggregateStatus.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Errors;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
 using ErrorOr;
 using Mapster;
 using MediatR;
@@ -35,15 +36,16 @@ public class CreateSkillCommandHandler : IRequestHandler<CreateSkillCommand, Err
         CreateSkillCommand request,
         CancellationToken cancellationToken)
     {
+        var name = Name.Create(request.Name).Value;
         var skill = await _skillRepository.GetByName(
             UserId.Create(request.UserId),
-            request.Name,
+            name,
             cancellationToken);
 
         if (skill is not null)
             return Errors.Skill.AlreadyRegistered;
 
-        skill = Skill.Create(
+        var skillOrError = Skill.Create(
             UserId.Create(request.UserId),
             AudioEffectId.Create(request.AudioEffectId),
             StatusId.Create(request.StatusId),
@@ -53,10 +55,13 @@ public class CreateSkillCommandHandler : IRequestHandler<CreateSkillCommand, Err
             _dateTimeProvider.UtcNow
         );
 
+        if (skillOrError.IsError)
+            return skillOrError.Errors;
+
         return await _unitOfWork.Execute(async cancellationToken =>
         {
-            await _skillRepository.Add(skill, cancellationToken);
-            var result = skill.Adapt<SkillResult>();
+            await _skillRepository.Add(skillOrError.Value, cancellationToken);
+            var result = skillOrError.Value.Adapt<SkillResult>();
             await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
             return result;
         },
