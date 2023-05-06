@@ -4,6 +4,7 @@ using DDDTableTopFriend.Application.Statuses.Common;
 using DDDTableTopFriend.Domain.AggregateStatus;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.Common.Errors;
+using DDDTableTopFriend.Domain.Common.ValueObjects;
 using ErrorOr;
 using Mapster;
 using MediatR;
@@ -33,15 +34,16 @@ public class CreateStatusCommandHandler : IRequestHandler<CreateStatusCommand, E
         CreateStatusCommand request,
         CancellationToken cancellationToken)
     {
+        var name = Name.Create(request.Name).Value;
         var status = (await _statusRepository.SearchAsNoTracking(
-            c => c.Name == request.Name &&
+            c => c.Name == name &&
             c.UserId == UserId.Create(request.UserId),
             cancellationToken)).FirstOrDefault();
 
         if (status is not null)
             return Errors.Status.AlreadyRegistered;
 
-        status = Status.Create(
+        var statusOrError = Status.Create(
             UserId.Create(request.UserId),
             request.Name,
             request.Description,
@@ -49,10 +51,13 @@ public class CreateStatusCommandHandler : IRequestHandler<CreateStatusCommand, E
             _dateTimeProvider.UtcNow
         );
 
+        if (statusOrError.IsError)
+            return statusOrError.Errors;
+
         return await _unitOfWork.Execute(async cancellationToken =>
         {
-            await _statusRepository.Add(status, cancellationToken);
-            var result = status.Adapt<StatusResult>();
+            await _statusRepository.Add(statusOrError.Value, cancellationToken);
+            var result = statusOrError.Value.Adapt<StatusResult>();
             await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
             return result;
         },

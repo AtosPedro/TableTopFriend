@@ -38,14 +38,18 @@ public class SkillConfiguration : IEntityTypeConfiguration<Skill>
 
         skillBuilder.Property(us => us.AudioEffectId)
             .ValueGeneratedNever()
-            .HasConversion(us => us.Value, value => AudioEffectId.Create(value) );
+            .HasConversion(us => us.Value, value => AudioEffectId.Create(value));
 
         skillBuilder
-            .Property(sk => sk.Name)
+            .OwnsOne(sk => sk.Name)
+            .Property(name => name.Value)
+            .HasColumnName("Name")
             .HasMaxLength(50);
 
         skillBuilder
-            .Property(sk => sk.Description)
-            .HasMaxLength(300);
+            .OwnsOne(sk => sk.Description)
+            .Property(description => description.Value)
+            .HasColumnName("Description")
+            .HasMaxLength(5000);
     }
 }

@@ -43,7 +43,7 @@ public class AudioEffectConfiguration : IEntityTypeConfiguration<AudioEffect>
             .HasMaxLength(5000);
 
         audioEffectBuilder
-            .OwnsOne(audioEffect=> audioEffect.AudioLink)
+            .OwnsOne(audioEffect => audioEffect.AudioLink)
             .Property(audioLink => audioLink.Value)
             .HasColumnName("AudioLink")
             .HasMaxLength(600);

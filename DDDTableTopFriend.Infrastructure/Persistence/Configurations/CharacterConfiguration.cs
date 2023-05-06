@@ -43,12 +43,16 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
             .HasComment("0 - Player, 1 - NPC, 2 - Enemy");
 
         characterBuilder
-            .Property(ch => ch.Name)
+            .OwnsOne(ch => ch.Name)
+            .Property(name => name.Value)
+            .HasColumnName("Name")
             .HasMaxLength(50);
 
         characterBuilder
-            .Property(ch => ch.Description)
-            .HasMaxLength(1000);
+            .OwnsOne(ch => ch.Description)
+            .Property(description => description.Value)
+            .HasColumnName("Name")
+            .HasMaxLength(5000);
     }
 
     private static void ConfigureCharacterAudioEffectIdsTable(EntityTypeBuilder<Character> characterBuilder)
@@ -89,7 +93,7 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
                 .HasForeignKey("CharacterId");
 
             characterSheetBuilder
-                .HasKey("Id","CharacterId");
+                .HasKey("Id", "CharacterId");
 
             characterSheetBuilder
                 .Property(csh => csh.Id)
@@ -101,12 +105,16 @@ public class CharacterConfiguration : IEntityTypeConfiguration<Character>
                 );
 
             characterSheetBuilder
-                .Property(c => c.Name)
+                .OwnsOne(ch => ch.Name)
+                .Property(name => name.Value)
+                .HasColumnName("Name")
                 .HasMaxLength(50);
 
             characterSheetBuilder
-                .Property(c => c.Description)
-                .HasMaxLength(200);
+                .OwnsOne(ch => ch.Description)
+                .Property(description => description.Value)
+                .HasColumnName("Name")
+                .HasMaxLength(5000);
 
             characterSheetBuilder.OwnsMany(csh => csh.StatusIds, statusIdsBuilder =>
             {

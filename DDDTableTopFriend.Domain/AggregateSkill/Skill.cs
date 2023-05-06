@@ -89,18 +89,31 @@ public class Skill : AggregateRoot<SkillId, Guid>
         return skill;
     }
 
-    public void Update(
+    public ErrorOr<Skill> Update(
         AudioEffectId audioEffectId,
         StatusId statusId,
-        string name,
-        string description,
+        string nameStr,
+        string descriptionStr,
         float cost,
         DateTime updatedAt)
     {
+        var errorList = new List<Error>();
+        var name = Name.Create(nameStr);
+        var description = Description.Create(descriptionStr);
+
+        if (name.IsError)
+            errorList.AddRange(name.Errors);
+
+        if (description.IsError)
+            errorList.AddRange(description.Errors);
+
+        if (errorList.Any())
+            return errorList;
+
         AudioEffectId = audioEffectId;
         StatusId = statusId;
-        Name = name;
-        Description = description;
+        Name = name.Value;
+        Description = description.Value;
         Cost = cost;
         UpdatedAt = updatedAt;
 
@@ -114,6 +127,8 @@ public class Skill : AggregateRoot<SkillId, Guid>
             Cost,
             UpdatedAt.Value
         ));
+
+        return this;
     }
 
     public void MarkToDelete(DateTime deletedAt)
