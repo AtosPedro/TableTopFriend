@@ -5,9 +5,9 @@ using ErrorOr;
 
 namespace DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 
-public class Email : ValueObject
+public sealed class Email : ValueObject
 {
-    public string Value { get; set; }
+    public string Value { get; private set;}
 
     private Email(string value)
     {
@@ -27,7 +27,7 @@ public class Email : ValueObject
 
     public static bool IsValid(string email)
     {
-        string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+        const string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
         Regex regex = new Regex(pattern);
         return regex.IsMatch(email);
     }
@@ -36,4 +36,10 @@ public class Email : ValueObject
     {
         yield return Value;
     }
+
+#pragma warning disable CS8618
+    private Email()
+    {
+    }
+#pragma warning restore CS8618
 }

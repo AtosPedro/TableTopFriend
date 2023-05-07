@@ -59,7 +59,8 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
                 userOrError.Value.Id.Value,
                 userOrError.Value.FirstName,
                 userOrError.Value.LastName);
-            return (userOrError.Value, token).Adapt<AuthenticationResult>();
+            var result = (userOrError.Value, token).Adapt<AuthenticationResult>();
+            return result;
         },
         cancellationToken);
     }

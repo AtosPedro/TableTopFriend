@@ -43,8 +43,16 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasColumnName("PasswordSalt");
 
         userBuilder
-            .HasIndex(us => us.Email)
-            .IsUnique();
+            .OwnsOne(us => us.Validation)
+            .Property(validation => validation.Value)
+            .HasColumnName("Validation")
+            .HasConversion(type => (int)type, value => (StatusValidation)value)
+            .HasComment("0 - Not Validated, 1 - Validated");
+
+        userBuilder
+            .OwnsOne(us => us.Validation)
+            .Property(validation => validation.ValidationDate)
+            .HasColumnName("ValidationDate");
 
         userBuilder
             .HasKey(m => m.Id);
