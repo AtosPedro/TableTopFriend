@@ -16,7 +16,7 @@ public sealed class Validation : ValueObject
         ValidationDate = validationDate;
     }
 
-    public static Validation Create() => new(StatusValidation.NotValidated, null);
+    public static Validation Create() => new(StatusValidation.NotValidated);
 
     public void Validate(DateTime validationDate)
     {

@@ -10,11 +10,11 @@ public sealed class User : AggregateRoot<UserId, Guid>
 {
     public string FirstName { get; private set; } = null!;
     public string LastName { get; private set; } = null!;
-    public Email Email { get; private set; }
-    public Password Password { get; set; }
+    public Email Email { get; private set; } = null!;
+    public Password Password { get; set; } = null!;
     public byte[]? ProfileImage { get; private set; }
-    public UserRole UserRole { get; private set; }
-    public Validation Validation { get; set; }
+    public UserRole UserRole { get; private set; } 
+    public Validation Validation { get; private set; } = null!;
     public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
 
