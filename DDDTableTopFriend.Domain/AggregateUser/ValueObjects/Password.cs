@@ -1,6 +1,8 @@
 using DDDTableTopFriend.Domain.Common.Exceptions;
 using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.Common.Services;
+using DDDTableTopFriend.Domain.Common.Errors;
+using ErrorOr;
 
 namespace DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 
@@ -17,10 +19,10 @@ public class Password : ValueObject
         Salt = salt;
     }
 
-    public static Password CreateHashed(string plainPassword, string? salt)
+    public static ErrorOr<Password> CreateHashed(string plainPassword, string? salt)
     {
         if (plainPassword.Length < 8)
-            throw new PasswordLengthException();
+            return Errors.Password.MinimumLength;
 
         salt = salt ?? Hasher.GenerateSalt();
         string hashedPassword = Hasher.ComputeHash(

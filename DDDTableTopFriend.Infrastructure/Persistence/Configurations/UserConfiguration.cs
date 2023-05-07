@@ -27,8 +27,20 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(50);
 
         userBuilder
-            .Property(us => us.Email)
+            .OwnsOne(us => us.Email)
+            .Property(email => email.Value)
+            .HasColumnName("Email")
             .HasMaxLength(200);
+
+        userBuilder
+            .OwnsOne(us => us.Password)
+            .Property(password => password.Value)
+            .HasColumnName("Password");
+
+        userBuilder
+            .OwnsOne(us => us.Password)
+            .Property(password => password.Salt)
+            .HasColumnName("PasswordSalt");
 
         userBuilder
             .HasIndex(us => us.Email)

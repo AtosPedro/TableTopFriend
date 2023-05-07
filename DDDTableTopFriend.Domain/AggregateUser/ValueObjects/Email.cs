@@ -1,5 +1,7 @@
 using System.Text.RegularExpressions;
 using DDDTableTopFriend.Domain.Common.Models;
+using DDDTableTopFriend.Domain.Common.Errors;
+using ErrorOr;
 
 namespace DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 
@@ -12,10 +14,13 @@ public class Email : ValueObject
         Value = value;
     }
 
-    public static Email Create(string email)
+    public static ErrorOr<Email> Create(string email)
     {
+        if (string.IsNullOrEmpty(email))
+            return Errors.Email.NullOrEmpty;
+
         if (!IsValid(email))
-            throw new Exception();
+            return Errors.Email.InvalidEmail;
 
         return new Email(email);
     }

@@ -41,7 +41,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
         if (user is null)
             return Errors.Authentication.UserNotRegistered;
 
-        if (!user.IsValidPassword(request.Password))
+        if (!user.Password.IsValid(request.Password))
             return Errors.Authentication.IncorrectPassword;
 
         var token = _jwtTokenGenerator.GenerateToken(

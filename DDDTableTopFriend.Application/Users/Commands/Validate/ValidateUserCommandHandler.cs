@@ -35,7 +35,7 @@ public class ValidateUserCommandHandler : IRequestHandler<ValidateUserCommand, E
         if (user is null)
             return Errors.Authentication.UserNotRegistered;
 
-        user.Validate(_dateTimeProvider.UtcNow);
+        user.Validation.Validate(_dateTimeProvider.UtcNow);
 
         return await _unitOfWork.Execute(async _ =>{
             await _userRepository.Update(user);
