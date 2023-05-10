@@ -7,7 +7,9 @@ namespace DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 
 public sealed class Email : ValueObject
 {
-    public string Value { get; private set;}
+    static Regex regex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.Compiled);
+
+    public string Value { get; private set; }
 
     private Email(string value)
     {
@@ -27,8 +29,6 @@ public sealed class Email : ValueObject
 
     public static bool IsValid(string email)
     {
-        const string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
-        Regex regex = new Regex(pattern);
         return regex.IsMatch(email);
     }
 

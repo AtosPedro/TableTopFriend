@@ -13,7 +13,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public Email Email { get; private set; } = null!;
     public Password Password { get; set; } = null!;
     public byte[]? ProfileImage { get; private set; }
-    public UserRole UserRole { get; private set; } 
+    public UserRole UserRole { get; private set; }
     public Validation Validation { get; private set; } = null!;
     public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
@@ -48,13 +48,19 @@ public sealed class User : AggregateRoot<UserId, Guid>
         UserRole userRole,
         DateTime createdAt)
     {
-        var errors = new List<Error>();
-        var id = UserId.CreateUnique();
+        List<Error> errors = new();
+        UserId id = UserId.CreateUnique();
         var emailVo = Email.Create(email);
         var password = Password.CreateHashed(plainPassword, passwordSalt);
 
         if (emailVo.IsError)
-            return emailVo.Errors;
+            errors.AddRange(emailVo.Errors);
+
+        if (password.IsError)
+            errors.AddRange(password.Errors);
+
+        if (errors.Any())
+            return errors;
 
         var validation = Validation.Create();
         var user = new User(
@@ -78,7 +84,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
 
         return user;
     }
-    
+
     public ErrorOr<User> ChangePassword(string plainPassword)
     {
         var passwordOrError = Password.CreateHashed(plainPassword, Password.Salt);

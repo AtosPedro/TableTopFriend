@@ -3,9 +3,13 @@ using DDDTableTopFriend.Application.Authentication.Common;
 using DDDTableTopFriend.Application.Common.Interfaces.Authentication;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Application.Common.Interfaces.Services;
+using DDDTableTopFriend.Domain.AggregateUser;
 using DDDTableTopFriend.Domain.Common.Enums;
-using NUnit.Framework;
+using DDDTableTopFriend.Domain.Common.Errors;
+
 using Moq;
+
+using NUnit.Framework;
 
 namespace DDDTableTopFriend.Application.Tests.Authentication.Commands;
 
@@ -44,10 +48,11 @@ public class RegisterCommandHandlerTests
 
         _unitOfWork.Setup(
             x => x.Execute(
-                It.IsAny<Func<CancellationToken,Task<AuthenticationResult>>>(),
+                It.IsAny<Func<CancellationToken, Task<AuthenticationResult>>>(),
                 It.IsAny<CancellationToken>()
             )
-        ).ReturnsAsync(new AuthenticationResult{
+        ).ReturnsAsync(new AuthenticationResult
+        {
             Id = Guid.NewGuid(),
             FirstName = firstName,
             LastName = lastName,
@@ -65,6 +70,76 @@ public class RegisterCommandHandlerTests
             Assert.That(result.Value.Id, Is.Not.EqualTo(default(Guid)));
             Assert.That(result.Value.Token, Is.Not.Null);
             Assert.That(result.Value.Token, Is.Not.Empty);
+        });
+    }
+
+    [Test]
+    public async Task Handle_WithAlreadyRegisterUser_Should_ReturnUserAlreadyRegisteredError()
+    {
+        const string firstName = "John";
+        const string lastName = "Doe";
+        const string email = "johndoe@email.com";
+        const string password = "123456789";
+        const UserRole role = UserRole.Administrator;
+
+        User mockUser = User.Create(
+            firstName,
+            lastName,
+            email,
+            password,
+            null,
+            role,
+            _dateTimeProvider.Object.UtcNow
+        ).Value;
+
+        var command = new RegisterCommand(firstName, lastName, email, password, role);
+        var handler = new RegisterCommandHandler(
+            _userRepositoryMock.Object,
+            _jwtTokenGenerator.Object,
+            _dateTimeProvider.Object,
+            _unitOfWork.Object
+        );
+
+        _userRepositoryMock.Setup(
+            x => x.GetUserByEmail(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()
+            )
+        ).ReturnsAsync(mockUser);
+
+        var result = await handler.Handle(command, default);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.IsError, Is.True);
+            Assert.That(result.Errors, Does.Contain(Errors.Authentication.UserAlreadyRegistered));
+            Assert.That(result.Value, Is.Null);
+        });
+    }
+
+    [Test]
+    public async Task Handle_WithInvalidCommand_Should_ReturnErrors()
+    {
+        const string firstName = "J";
+        const string lastName = "e";
+        const string email = "johndoeemail.com";
+        const string password = "123456";
+        const UserRole role = UserRole.Administrator;
+
+        var command = new RegisterCommand(firstName, lastName, email, password, role);
+        var handler = new RegisterCommandHandler(
+            _userRepositoryMock.Object,
+            _jwtTokenGenerator.Object,
+            _dateTimeProvider.Object,
+            _unitOfWork.Object
+        );
+
+        var result = await handler.Handle(command, default);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.IsError, Is.True);
+            Assert.That(result.Errors.Any(), Is.True);
         });
     }
 }

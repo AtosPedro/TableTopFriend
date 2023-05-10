@@ -1,4 +1,3 @@
-using DDDTableTopFriend.Domain.Common.Exceptions;
 using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.Common.Services;
 using DDDTableTopFriend.Domain.Common.Errors;

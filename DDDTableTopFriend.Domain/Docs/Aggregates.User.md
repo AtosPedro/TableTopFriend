@@ -33,9 +33,15 @@ public sealed class User
     "FirstName":"John",
     "LastName":"Doe",
     "Role" : 1,
-    "Email":"johndoe@email.com",
-    "Password":"6237184",
-    "PasswordSalt":"uihzxbcgh64812baaf78",
+    "Email": { "Value": "johndoe@email.com" },
+    "Password": {
+        "Value" : "123456789",
+        "Salt" : "uihzxbcgh64812baaf78",
+    },
+    "Validation":{
+        "Value" : 0,
+        "ValidationDate" : "2023-01-01T00:00:00.0000000Z"
+    },
     "createdAt":"2023-01-01T00:00:00.0000000Z",
     "updatedAt":"2023-01-01T00:00:00.0000000Z",
 }
