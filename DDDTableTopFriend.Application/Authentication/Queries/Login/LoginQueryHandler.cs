@@ -1,4 +1,4 @@
-using DDDTableTopFriend.Application.Authentication.Common;
+﻿using DDDTableTopFriend.Application.Authentication.Common;
 using DDDTableTopFriend.Application.Common.Interfaces.Authentication;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Application.Common.Interfaces.Services;

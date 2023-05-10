@@ -78,6 +78,5 @@ public class LoginQueryHandlerTests
             Assert.That(result.Value.Token, Is.Not.Null);
             Assert.That(result.Value.Token, Is.Not.Empty);
         });
-
     }
 }

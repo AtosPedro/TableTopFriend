@@ -7,7 +7,7 @@ namespace DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 
 public sealed class Email : ValueObject
 {
-    static Regex regex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.Compiled);
+    static readonly Regex regex = new(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.Compiled);
 
     public string Value { get; private set; }
 

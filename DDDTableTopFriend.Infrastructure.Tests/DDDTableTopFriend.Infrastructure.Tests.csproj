@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -16,14 +16,11 @@
     <PackageReference Include="coverlet.collector" Version="3.1.2" />
   </ItemGroup>
 
-
   <ItemGroup>
-    <ProjectReference Include="..\DDDTableTopFriend.Application\DDDTableTopFriend.Domain.csproj" />
+    <ProjectReference Include="..\DDDTableTopFriend.Application\DDDTableTopFriend.Application.csproj" />
+    <ProjectReference Include="..\DDDTableTopFriend.Domain\DDDTableTopFriend.Domain.csproj" />
+    <ProjectReference Include="..\DDDTableTopFriend.Infrastructure\DDDTableTopFriend.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference
-      Include="..\DDDTableTopFriend.Application\DDDTableTopFriend.Infrastructure.csproj" />
-  </ItemGroup>
 
 </Project>

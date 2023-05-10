@@ -1,3 +1,5 @@
+using NUnit.Framework;
+
 namespace DDDTableTopFriend.Infrastructure.Tests.Services;
 
 [TestFixture]

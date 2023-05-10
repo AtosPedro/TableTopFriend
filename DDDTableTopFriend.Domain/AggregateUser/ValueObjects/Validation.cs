@@ -30,7 +30,7 @@ public sealed class Validation : ValueObject
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
-        yield return ValidationDate;
+        yield return ValidationDate!;
     }
 
 #pragma warning disable CS8618

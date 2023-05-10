@@ -5,7 +5,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-    builder.Services
+    _ = builder.Services
         .AddPresenter()
         .AddApplication()
         .AddInfrastructure(builder.Configuration)
@@ -31,7 +31,7 @@ var builder = WebApplication.CreateBuilder(args);
                             Id="Bearer"
                         }
                     },
-                    new string[]{}
+                    Array.Empty<string>()
                 }
             });
         });

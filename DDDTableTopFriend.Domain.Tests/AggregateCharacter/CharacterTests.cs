@@ -32,12 +32,12 @@ public class CharacterTests
         UserId userId = UserId.CreateUnique();
         const string name = "character 1";
         const string description = "character's 1 desc";
-        CharacterType type = CharacterType.Player;
+        const CharacterType type = CharacterType.Player;
         List<AudioEffectId> audioEffectIds = new() { AudioEffectId.CreateUnique() };
         List<StatusId> statusIds = new() { StatusId.CreateUnique() };
         List<SkillId> skillId = new() { SkillId.CreateUnique() };
         const string sheetName = "character 1 sheet";
-        const string sheetDescription = "character's 1 sheet desc";        
+        const string sheetDescription = "character's 1 sheet desc";
         DateTime createdAt = _dateTimeProvider.UtcNow;
 
         Name nameVo = Name.Create(name).Value;
@@ -81,23 +81,23 @@ public class CharacterTests
         UserId userId = UserId.CreateUnique();
         const string name = "character 1";
         const string description = "character's 1 desc";
-        CharacterType type = CharacterType.Player;
+        const CharacterType type = CharacterType.Player;
         List<AudioEffectId> audioEffectIds = new() { AudioEffectId.CreateUnique() };
         List<StatusId> statusIds = new() { StatusId.CreateUnique() };
         List<SkillId> skillId = new() { SkillId.CreateUnique() };
         const string sheetName = "character 1 sheet";
-        const string sheetDescription = "character's 1 sheet desc";        
+        const string sheetDescription = "character's 1 sheet desc";
         DateTime createdAt = _dateTimeProvider.UtcNow;
 
         UserId userIdUpdated = UserId.CreateUnique();
         const string nameUpdated = "character 1 Updated";
         const string descriptionUpdated = "character's 1 desc Updated";
-        CharacterType typeUpdated = CharacterType.Npc;
+        const CharacterType typeUpdated = CharacterType.Npc;
         List<AudioEffectId> audioEffectIdsUpdated = new() { AudioEffectId.CreateUnique() };
         List<StatusId> statusIdsUpdated = new() { StatusId.CreateUnique() };
         List<SkillId> skillIdUpdated = new() { SkillId.CreateUnique() };
         const string sheetNameUpdated = "character 1 sheet Updated";
-        const string sheetDescriptionUpdated = "character's 1 sheet desc Updated";      
+        const string sheetDescriptionUpdated = "character's 1 sheet desc Updated";
 
         Name nameUpdatedVo = Name.Create(nameUpdated).Value;
         Description descriptionUpdatedVo = Description.Create(descriptionUpdated).Value;
