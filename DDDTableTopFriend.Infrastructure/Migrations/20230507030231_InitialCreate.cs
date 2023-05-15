@@ -144,11 +144,11 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(600)", maxLength: 600, nullable: false),
-                    PasswordSalt = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordSalt = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProfileImage = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    UserRole = table.Column<int>(type: "int", nullable: false, comment: "0 - Admin, 1 - Free user, 2 - Premium user"),
-                    Validation = table.Column<int>(type: "int", nullable: false, comment: "0 - Not validated, 1 - Validated"),
+                    UserRole = table.Column<int>(type: "int", nullable: false),
+                    Validation = table.Column<int>(type: "int", nullable: false, comment: "0 - Not Validated, 1 - Validated"),
                     ValidationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -348,12 +348,6 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                 name: "IX_SessionCharacterIds_SessionId",
                 table: "SessionCharacterIds",
                 column: "SessionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_Email",
-                table: "Users",
-                column: "Email",
-                unique: true);
         }
 
         /// <inheritdoc />

@@ -31,7 +31,7 @@ public class AudioEffectsTests
         const string name = "audio effect test";
         const string description = "audio effect test";
         const string? audioLink = "https://www.youtube.com/watch?v=2m2520TuUdk&t=14s";
-        byte[]? audioClip = Encoding.UTF8.GetBytes("only for get the bytes for test"); ;
+        byte[]? audioClip = Encoding.UTF8.GetBytes("only for get the bytes for test");
         DateTime createdAt = _dateTimeProvider.UtcNow;
 
         var nameUpdatedVo = Name.Create(name).Value;
@@ -51,10 +51,10 @@ public class AudioEffectsTests
         Assert.Multiple(() =>
         {
             Assert.That(audioEffect.UserId, Is.EqualTo(userId));
-            Assert.That(audioEffect.Name.Equals(nameUpdatedVo));
-            Assert.That(audioEffect.Description.Equals(descriptionUpdatedVo));
-            Assert.That(audioEffect.AudioLink!.Equals(audioLinkUpdatedVo));
-            Assert.That(audioEffect.Clip!.Equals(audioClipUpdatedVo));
+            Assert.That(audioEffect.Name, Is.EqualTo(nameUpdatedVo));
+            Assert.That(audioEffect.Description, Is.EqualTo(descriptionUpdatedVo));
+            Assert.That(audioEffect.AudioLink!, Is.EqualTo(audioLinkUpdatedVo));
+            Assert.That(audioEffect.Clip!, Is.EqualTo(audioClipUpdatedVo));
             Assert.That(audioEffect.CreatedAt, Is.EqualTo(createdAt));
         });
     }
@@ -66,7 +66,7 @@ public class AudioEffectsTests
         const string name = "audio effect test";
         const string description = "audio effect test";
         const string? audioLink = "https://www.youtube.com/watch?v=2m2520TuUdk&t=14s";
-        byte[]? audioClip = Encoding.UTF8.GetBytes("only for get the bytes for test"); ;
+        byte[]? audioClip = Encoding.UTF8.GetBytes("only for get the bytes for test");
         DateTime createdAt = _dateTimeProvider.UtcNow;
 
         UserId userIdUpdated = UserId.CreateUnique();

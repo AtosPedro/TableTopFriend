@@ -3,10 +3,10 @@ using DDDTableTopFriend.Domain.Common.Models;
 
 namespace DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 
-public class Validation : ValueObject
+public sealed class Validation : ValueObject
 {
-    public StatusValidation Value { get; set; }
-    public DateTime? ValidationDate { get; set; }
+    public StatusValidation Value { get; private set; }
+    public DateTime? ValidationDate { get; private set; }
 
     private Validation(
         StatusValidation value,
@@ -16,7 +16,7 @@ public class Validation : ValueObject
         ValidationDate = validationDate;
     }
 
-    public static Validation Create() => new Validation(StatusValidation.NotValidated, null);
+    public static Validation Create() => new(StatusValidation.NotValidated);
 
     public void Validate(DateTime validationDate)
     {
@@ -30,6 +30,12 @@ public class Validation : ValueObject
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
-        yield return ValidationDate;
+        yield return ValidationDate!;
     }
+
+#pragma warning disable CS8618
+    private Validation()
+    {
+    }
+#pragma warning restore CS8618
 }

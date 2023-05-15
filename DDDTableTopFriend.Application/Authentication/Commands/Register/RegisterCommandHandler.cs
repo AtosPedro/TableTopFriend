@@ -39,23 +39,28 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
         if (user is not null)
             return Errors.Authentication.UserAlreadyRegistered;
 
-        user = User.Create(
+        var userOrError = User.Create(
             request.FirstName,
             request.LastName,
             request.Email,
             request.Password,
             null,
             request.Role,
-            _dateTimeProvider.UtcNow);
+            _dateTimeProvider.UtcNow
+        );
+
+        if (userOrError.IsError)
+            return userOrError.Errors;
 
         return await _unitOfWork.Execute(async cancellationToken =>
         {
-            await _userRepository.Add(user, cancellationToken);
+            await _userRepository.Add(userOrError.Value, cancellationToken);
             string token = _jwtTokenGenerator.GenerateToken(
-                user.Id.Value,
-                user.FirstName,
-                user.LastName);
-            return (user, token).Adapt<AuthenticationResult>();
+                userOrError.Value.Id.Value,
+                userOrError.Value.FirstName,
+                userOrError.Value.LastName);
+            var result = (userOrError.Value, token).Adapt<AuthenticationResult>();
+            return result;
         },
         cancellationToken);
     }

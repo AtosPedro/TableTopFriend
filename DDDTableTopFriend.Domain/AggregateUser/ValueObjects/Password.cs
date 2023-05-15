@@ -1,15 +1,16 @@
-using DDDTableTopFriend.Domain.Common.Exceptions;
 using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.Common.Services;
+using DDDTableTopFriend.Domain.Common.Errors;
+using ErrorOr;
 
 namespace DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 
-public class Password : ValueObject
+public sealed class Password : ValueObject
 {
     public string Value { get; }
     public string Salt { get; }
 
-    private Password (
+    private Password(
         string value,
         string salt)
     {
@@ -17,12 +18,12 @@ public class Password : ValueObject
         Salt = salt;
     }
 
-    public static Password CreateHashed(string plainPassword, string? salt)
+    public static ErrorOr<Password> CreateHashed(string plainPassword, string? salt)
     {
         if (plainPassword.Length < 8)
-            throw new PasswordLengthException();
+            return Errors.Password.MinimumLength;
 
-        salt = salt ?? Hasher.GenerateSalt();
+        salt ??= Hasher.GenerateSalt();
         string hashedPassword = Hasher.ComputeHash(
             plainPassword,
             salt,
@@ -31,7 +32,7 @@ public class Password : ValueObject
         return new Password(hashedPassword, salt);
     }
 
-    public static Password Create(string hashedPassword, string salt) => new Password(hashedPassword, salt);
+    public static Password Create(string hashedPassword, string salt) => new(hashedPassword, salt);
 
     public bool IsValid(string plainPassword)
     {
@@ -48,4 +49,10 @@ public class Password : ValueObject
         yield return Value;
         yield return Salt;
     }
+
+#pragma warning disable CS8618
+    private Password()
+    {
+    }
+#pragma warning restore CS8618
 }

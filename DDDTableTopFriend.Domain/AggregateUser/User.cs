@@ -2,6 +2,7 @@
 using DDDTableTopFriend.Domain.Common.Models;
 using DDDTableTopFriend.Domain.AggregateUser.ValueObjects;
 using DDDTableTopFriend.Domain.AggregateUser.Events;
+using ErrorOr;
 
 namespace DDDTableTopFriend.Domain.AggregateUser;
 
@@ -9,11 +10,11 @@ public sealed class User : AggregateRoot<UserId, Guid>
 {
     public string FirstName { get; private set; } = null!;
     public string LastName { get; private set; } = null!;
-    public Email Email { get; private set; }
-    public Password Password { get; set; }
+    public Email Email { get; private set; } = null!;
+    public Password Password { get; set; } = null!;
     public byte[]? ProfileImage { get; private set; }
     public UserRole UserRole { get; private set; }
-    public Validation Validation { get; set; }
+    public Validation Validation { get; private set; } = null!;
     public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
 
@@ -38,7 +39,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
         CreatedAt = createdAt;
     }
 
-    public static User Create(
+    public static ErrorOr<User> Create(
         string firstName,
         string lastName,
         string email,
@@ -47,15 +48,29 @@ public sealed class User : AggregateRoot<UserId, Guid>
         UserRole userRole,
         DateTime createdAt)
     {
-        var id = UserId.CreateUnique();
+        List<Error> errors = new();
+        UserId id = UserId.CreateUnique();
+        var emailVo = Email.Create(email);
+        var password = Password.CreateHashed(plainPassword, passwordSalt);
+
+        if (emailVo.IsError)
+            errors.AddRange(emailVo.Errors);
+
+        if (password.IsError)
+            errors.AddRange(password.Errors);
+
+        if (errors.Any())
+            return errors;
+
+        var validation = Validation.Create();
         var user = new User(
             id,
             firstName,
             lastName,
-            Email.Create(email),
-            Password.CreateHashed(plainPassword, passwordSalt),
+            emailVo.Value,
+            password.Value,
             userRole,
-            Validation.Create(),
+            validation,
             createdAt);
 
         user.AddDomainEvent(new UserRegisteredDomainEvent(
@@ -70,19 +85,31 @@ public sealed class User : AggregateRoot<UserId, Guid>
         return user;
     }
 
-    public bool IsValidPassword(string plainPassword) => Password.IsValid(plainPassword);
-    public void ChangePassword(string plainPassword) => Password = Password.CreateHashed(plainPassword, Password.Salt);
+    public ErrorOr<User> ChangePassword(string plainPassword)
+    {
+        var passwordOrError = Password.CreateHashed(plainPassword, Password.Salt);
+        if (passwordOrError.IsError)
+            return passwordOrError.Errors;
 
-    public void Update(
+        Password = passwordOrError.Value;
+        return this;
+    }
+
+    public ErrorOr<User> Update(
        string firstName,
        string lastName,
        string email,
        UserRole userRole,
        DateTime updatedAt)
     {
+        var emailVo = Email.Create(email);
+
+        if (emailVo.IsError)
+            return emailVo.Errors;
+
         FirstName = firstName;
         LastName = lastName;
-        Email = Email.Create(email);
+        Email = emailVo.Value;
         UserRole = userRole;
         UpdatedAt = updatedAt;
 
@@ -94,6 +121,8 @@ public sealed class User : AggregateRoot<UserId, Guid>
             UserRole,
             UpdatedAt.Value
         ));
+
+        return this;
     }
 
     public void MarkToDelete(DateTime deletedAt)
@@ -102,11 +131,6 @@ public sealed class User : AggregateRoot<UserId, Guid>
             UserId.Create(Id.Value),
             deletedAt
         ));
-    }
-
-    public void Validate(DateTime validationDate)
-    {
-        Validation.Validate(validationDate);
     }
 
 #pragma warning disable CS8618

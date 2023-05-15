@@ -21,7 +21,7 @@ public class UserTests
         const string passwordSalt = "3KUbX/owfJ+OP9NZB303RQ==";
         const string passwordHash = "gPtaIgXCaqRuNa2Nd5QuaIw2JP54GONRZcZIfKTQOX0=";
         const UserRole role = UserRole.Administrator;
-
+        Email emailVo = Email.Create(email).Value;
         var user = User.Create(
             firstName,
             lastName,
@@ -30,13 +30,13 @@ public class UserTests
             passwordSalt,
             role,
             DateTime.UtcNow
-        );
+        ).Value;
 
         Assert.Multiple(() =>
         {
             Assert.That(user.FirstName, Is.EqualTo(firstName));
             Assert.That(user.LastName, Is.EqualTo(lastName));
-            Assert.That(user.Email, Is.EqualTo(Email.Create(email)));
+            Assert.That(user.Email, Is.EqualTo(emailVo));
             Assert.That(user.Password, Is.EqualTo(Password.Create(passwordHash, passwordSalt)));
         });
     }
@@ -57,6 +57,8 @@ public class UserTests
         const string emailUpdated = "johndoe@emailUpdated.com";
         const UserRole roleUpdated = UserRole.FreeUser;
 
+        Email emailUpdatedVo = Email.Create(emailUpdated).Value;
+
         var user = User.Create(
             firstName,
             lastName,
@@ -65,7 +67,7 @@ public class UserTests
             passwordSalt,
             role,
             DateTime.UtcNow
-        );
+        ).Value;
 
         user.Update(
             firstNameUpdated,
@@ -79,7 +81,7 @@ public class UserTests
         {
             Assert.That(user.FirstName, Is.EqualTo(firstNameUpdated));
             Assert.That(user.LastName, Is.EqualTo(lastNameUpdated));
-            Assert.That(user.Email, Is.EqualTo(Email.Create(emailUpdated)));
+            Assert.That(user.Email, Is.EqualTo(emailUpdatedVo));
             Assert.That(user.UpdatedAt, Is.Not.Null);
         });
     }
@@ -103,7 +105,7 @@ public class UserTests
             passwordSalt,
             role,
             DateTime.UtcNow
-        );
+        ).Value;
 
         user.ClearDomainEvents();
         var deletedAt = DateTime.UtcNow;
@@ -137,9 +139,9 @@ public class UserTests
             passwordSalt,
             role,
             DateTime.UtcNow
-        );
+        ).Value;
 
-        Assert.That(user.IsValidPassword(password), Is.True);
+        Assert.That(user.Password.IsValid(password), Is.True);
     }
 
     [Test]
@@ -161,9 +163,9 @@ public class UserTests
             passwordSalt,
             role,
             DateTime.UtcNow
-        );
+        ).Value;
 
-        Assert.That(user.IsValidPassword("abcdefghijkl"), Is.False);
+        Assert.That(user.Password.IsValid("abcdefghijkl"), Is.False);
     }
 
     [Test]
@@ -185,9 +187,9 @@ public class UserTests
             passwordSalt,
             role,
             DateTime.UtcNow
-        );
+        ).Value;
         var validationDate = DateTime.UtcNow;
-        user.Validate(validationDate);
+        user.Validation.Validate(validationDate);
 
         Assert.Multiple(() =>
         {

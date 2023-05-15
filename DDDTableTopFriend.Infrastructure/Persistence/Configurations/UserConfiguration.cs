@@ -27,12 +27,32 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(50);
 
         userBuilder
-            .Property(us => us.Email)
+            .OwnsOne(us => us.Email)
+            .Property(email => email.Value)
+            .HasColumnName("Email")
             .HasMaxLength(200);
 
         userBuilder
-            .HasIndex(us => us.Email)
-            .IsUnique();
+            .OwnsOne(us => us.Password)
+            .Property(password => password.Value)
+            .HasColumnName("Password");
+
+        userBuilder
+            .OwnsOne(us => us.Password)
+            .Property(password => password.Salt)
+            .HasColumnName("PasswordSalt");
+
+        userBuilder
+            .OwnsOne(us => us.Validation)
+            .Property(validation => validation.Value)
+            .HasColumnName("Validation")
+            .HasConversion(type => (int)type, value => (StatusValidation)value)
+            .HasComment("0 - Not Validated, 1 - Validated");
+
+        userBuilder
+            .OwnsOne(us => us.Validation)
+            .Property(validation => validation.ValidationDate)
+            .HasColumnName("ValidationDate");
 
         userBuilder
             .HasKey(m => m.Id);

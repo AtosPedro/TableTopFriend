@@ -19,18 +19,18 @@ public sealed class Status
             float quantity,
             DateTime updatedAt);
 
-    void MarkToDelete(DateTime deletedAt);        
+    void MarkToDelete(DateTime deletedAt);
 }
 ```
 
 ```json
 {
-    "id": { "value": "00000000-0000-0000-0000-00000000000" },
-    "userId": { "value": "00000000-0000-0000-0000-00000000000" },
-    "name": "Life Points",
-    "description": "represents the life energy!",
-    "quantity": 0,
-    "createdAt":"2023-01-01T00:00:00.0000000Z",
-    "updatedAt":"2023-01-01T00:00:00.0000000Z"
+    "Id": { "value": "00000000-0000-0000-0000-00000000000" },
+    "UserId": { "value": "00000000-0000-0000-0000-00000000000" },
+    "Name": { "Value": "Life Points" },
+    "Description": { "Value": "represents the life energy!"} ,
+    "Quantity": 0,
+    "CreatedAt":"2023-01-01T00:00:00.0000000Z",
+    "UpdatedAt":"2023-01-01T00:00:00.0000000Z"
 }
 ```

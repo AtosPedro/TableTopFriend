@@ -1,4 +1,4 @@
-using DDDTableTopFriend.Application.Authentication.Common;
+﻿using DDDTableTopFriend.Application.Authentication.Common;
 using DDDTableTopFriend.Application.Common.Interfaces.Authentication;
 using DDDTableTopFriend.Application.Common.Interfaces.Persistence;
 using DDDTableTopFriend.Application.Common.Interfaces.Services;
@@ -41,7 +41,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
         if (user is null)
             return Errors.Authentication.UserNotRegistered;
 
-        if (!user.IsValidPassword(request.Password))
+        if (!user.Password.IsValid(request.Password))
             return Errors.Authentication.IncorrectPassword;
 
         var token = _jwtTokenGenerator.GenerateToken(

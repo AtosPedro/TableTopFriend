@@ -40,13 +40,13 @@ public sealed class Character
 {
     "id":{ "value": "00000000-0000-0000-0000-00000000000" },
     "userId": { "value": "00000000-0000-0000-0000-00000000000" },
-    "name": "character 1",
-    "description": "character's 1 history starts ...",
+    "name": { "Value": "character 1" },
+    "description":  { "Value": "character's 1 history starts ..." },
     "type": 1,
     "characterSheet": {
         "id":{ "value": "00000000-0000-0000-0000-00000000000" },
-        "name": "sheet 1",
-        "description": "sheet 1 desc",
+        "name":  { "Value": "sheet 1" },
+        "description": { "Value": "sheet 1 desc" },
         "statusIds":[
             { "value": "00000000-0000-0000-0000-00000000000" },
         ],

@@ -91,9 +91,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AudioEffect", "AudioEffect"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{67C3D1E6-778A-4180-A5C0-0E48097C27DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDDTableTopFriend.Application.Tests", "DDDTableTopFriend.Application.Tests\DDDTableTopFriend.Application.Tests.csproj", "{4738DABA-BE66-4AED-BDFE-3367BDD01581}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDTableTopFriend.Application.Tests", "DDDTableTopFriend.Application.Tests\DDDTableTopFriend.Application.Tests.csproj", "{4738DABA-BE66-4AED-BDFE-3367BDD01581}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "DDDTableTopFriend-WebApp", "DDDTableTopFriend-WebApp\DDDTableTopFriend-WebApp.esproj", "{E8177EC7-2684-4C33-AD16-4E70D619EC72}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDTableTopFriend.Infrastructure.Tests", "DDDTableTopFriend.Infrastructure.Tests\DDDTableTopFriend.Infrastructure.Tests.csproj", "{C677AFCA-72FF-48A6-BB78-2172C8D2C219}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -139,6 +141,10 @@ Global
 		{E8177EC7-2684-4C33-AD16-4E70D619EC72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8177EC7-2684-4C33-AD16-4E70D619EC72}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E8177EC7-2684-4C33-AD16-4E70D619EC72}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{C677AFCA-72FF-48A6-BB78-2172C8D2C219}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C677AFCA-72FF-48A6-BB78-2172C8D2C219}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C677AFCA-72FF-48A6-BB78-2172C8D2C219}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C677AFCA-72FF-48A6-BB78-2172C8D2C219}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -162,6 +168,7 @@ Global
 		{67C3D1E6-778A-4180-A5C0-0E48097C27DA} = {00E1FD78-C412-4339-928D-F295986716E1}
 		{4738DABA-BE66-4AED-BDFE-3367BDD01581} = {95430FF2-0A6F-4D15-BFBE-10977A4EE966}
 		{E8177EC7-2684-4C33-AD16-4E70D619EC72} = {00E1FD78-C412-4339-928D-F295986716E1}
+		{C677AFCA-72FF-48A6-BB78-2172C8D2C219} = {95430FF2-0A6F-4D15-BFBE-10977A4EE966}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {23F1CAF9-099D-43AA-99AF-6CE4F9BB11BC}

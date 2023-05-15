@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DDDTableTopFriend.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230506220650_InitialCreate")]
+    [Migration("20230507030231_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -181,11 +181,6 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -196,16 +191,6 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(600)
-                        .HasColumnType("nvarchar(600)");
-
-                    b.Property<string>("PasswordSalt")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
                     b.Property<byte[]>("ProfileImage")
                         .HasColumnType("varbinary(max)");
 
@@ -213,20 +198,9 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserRole")
-                        .HasColumnType("int")
-                        .HasComment("0 - Admin, 1 - Free user, 2 - Premium user");
-
-                    b.Property<int>("Validation")
-                        .HasColumnType("int")
-                        .HasComment("0 - Not validated, 1 - Validated");
-
-                    b.Property<DateTime?>("ValidationDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
 
                     b.ToTable("Users", (string)null);
                 });
@@ -837,6 +811,82 @@ namespace DDDTableTopFriend.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Name")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DDDTableTopFriend.Domain.AggregateUser.User", b =>
+                {
+                    b.OwnsOne("DDDTableTopFriend.Domain.AggregateUser.ValueObjects.Email", "Email", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("nvarchar(200)")
+                                .HasColumnName("Email");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("Users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.OwnsOne("DDDTableTopFriend.Domain.AggregateUser.ValueObjects.Password", "Password", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Salt")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("PasswordSalt");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)")
+                                .HasColumnName("Password");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("Users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.OwnsOne("DDDTableTopFriend.Domain.AggregateUser.ValueObjects.Validation", "Validation", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<DateTime?>("ValidationDate")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("ValidationDate");
+
+                            b1.Property<int>("Value")
+                                .HasColumnType("int")
+                                .HasColumnName("Validation")
+                                .HasComment("0 - Not Validated, 1 - Validated");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("Users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.Navigation("Email")
+                        .IsRequired();
+
+                    b.Navigation("Password")
+                        .IsRequired();
+
+                    b.Navigation("Validation")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

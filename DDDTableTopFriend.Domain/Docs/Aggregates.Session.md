@@ -26,7 +26,8 @@ public sealed class Session
 {
     "userId": { "value": "00000000-0000-0000-0000-00000000000" },
     "campaignId": { "value": "00000000-0000-0000-0000-00000000000" },
-    "name":"name",
+    "name": { "Value": "name" },
+    "Description": { "Value": "Description" },
     "dateTime":"2023-01-01T00:00:00.0000000Z",
     "duration":"00:00:00",
     "characterIds" :[

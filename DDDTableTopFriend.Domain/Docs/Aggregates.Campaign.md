@@ -35,8 +35,8 @@ public sealed class Campaign
 {
     "id": { "value": "00000000-0000-0000-0000-00000000000" },
     "userId": { "value": "00000000-0000-0000-0000-00000000000" },
-    "name": "Campaign 1",
-    "description": "Campaign 1 description",
+    "name": { "Value": "Campaign 1" },
+    "description": { "Value":  "Campaign 1 description" },
     "charactersIds":[
         { "value": "00000000-0000-0000-0000-00000000000" },
     ],
