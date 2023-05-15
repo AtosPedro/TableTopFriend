@@ -97,6 +97,8 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "DDDTableTopFriend-WebApp", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDTableTopFriend.Infrastructure.Tests", "DDDTableTopFriend.Infrastructure.Tests\DDDTableTopFriend.Infrastructure.Tests.csproj", "{C677AFCA-72FF-48A6-BB78-2172C8D2C219}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDDTableTopFriend.Gameplay.Api", "DDDTableTopFriend.Gameplay.Api\DDDTableTopFriend.Gameplay.Api.csproj", "{E764D675-4231-42FC-BAE8-80A7AAC03A70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +147,10 @@ Global
 		{C677AFCA-72FF-48A6-BB78-2172C8D2C219}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C677AFCA-72FF-48A6-BB78-2172C8D2C219}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C677AFCA-72FF-48A6-BB78-2172C8D2C219}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E764D675-4231-42FC-BAE8-80A7AAC03A70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E764D675-4231-42FC-BAE8-80A7AAC03A70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E764D675-4231-42FC-BAE8-80A7AAC03A70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E764D675-4231-42FC-BAE8-80A7AAC03A70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -169,6 +175,7 @@ Global
 		{4738DABA-BE66-4AED-BDFE-3367BDD01581} = {95430FF2-0A6F-4D15-BFBE-10977A4EE966}
 		{E8177EC7-2684-4C33-AD16-4E70D619EC72} = {00E1FD78-C412-4339-928D-F295986716E1}
 		{C677AFCA-72FF-48A6-BB78-2172C8D2C219} = {95430FF2-0A6F-4D15-BFBE-10977A4EE966}
+		{E764D675-4231-42FC-BAE8-80A7AAC03A70} = {00E1FD78-C412-4339-928D-F295986716E1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {23F1CAF9-099D-43AA-99AF-6CE4F9BB11BC}
