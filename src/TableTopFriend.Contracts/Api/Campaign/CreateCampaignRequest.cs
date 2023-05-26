@@ -1,4 +1,4 @@
-namespace TableTopFriend.Contracts.Campaign;
+namespace TableTopFriend.Contracts.Api.Campaign;
 
 public record CreateCampaignRequest(
     Guid UserId,

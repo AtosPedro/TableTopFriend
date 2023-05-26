@@ -1,5 +1,5 @@
-﻿namespace TableTopFriend.Contracts.Status;
-public record UpdateStatusRequest(
+﻿namespace TableTopFriend.Contracts.Api.Status;
+public record CreateStatusRequest(
     Guid Id,
     Guid UserId,
     string Name,

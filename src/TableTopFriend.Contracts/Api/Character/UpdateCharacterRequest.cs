@@ -1,6 +1,7 @@
-namespace TableTopFriend.Contracts.Character;
+namespace TableTopFriend.Contracts.Api.Character;
 
-public record CreateCharacterRequest(
+public record UpdateCharacterRequest(
+    Guid Id,
     Guid UserId,
     string Name,
     string Description,

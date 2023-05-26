@@ -1,4 +1,4 @@
-﻿namespace TableTopFriend.Contracts.Authentication;
+﻿namespace TableTopFriend.Contracts.Api.Authentication;
 
 public record RegisterRequest(
     string FirstName,

@@ -1,13 +1,21 @@
-﻿using MediatR;
+﻿using Mapster;
+using MediatR;
 using Microsoft.AspNetCore.SignalR;
+using TableTopFriend.Application.Characters.Commands.CastSkill;
+using TableTopFriend.Contracts.Gameplay.Api.Session;
 
 namespace TableTopFriend.Gameplay.Api.Hubs;
 
-public class SessionHub : Hub
+public class SessionHub : HubBase
 {
-    private readonly ISender _sender;
-    public SessionHub(ISender sender)
+    public SessionHub(ISender sender) : base(sender) { }
+
+    public async Task CharacterCastedSpellMessage(CharacterCastedSpellRequest request)
     {
-        _sender = sender;
+        var command = request.Adapt<CharacterCastedSkillCommand>();
+        var result = await Sender.Send(command);
+        await result.MatchAsync(
+            async result => await Clients.All.SendAsync("", result),
+            async error => await Clients.All.SendAsync("", error));
     }
 }

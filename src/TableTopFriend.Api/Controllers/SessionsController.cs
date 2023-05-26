@@ -3,7 +3,7 @@ using TableTopFriend.Application.Sessions.Commands.Schedule;
 using TableTopFriend.Application.Sessions.Commands.Update;
 using TableTopFriend.Application.Sessions.Queries.Get;
 using TableTopFriend.Application.Sessions.Queries.GetAll;
-using TableTopFriend.Contracts.Skill;
+using TableTopFriend.Contracts.Api.Skill;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

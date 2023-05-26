@@ -1,7 +1,7 @@
 using TableTopFriend.Application.Users.Commands.Delete;
 using TableTopFriend.Application.Users.Commands.Validate;
 using TableTopFriend.Application.Users.Queries.Get;
-using TableTopFriend.Contracts.User;
+using TableTopFriend.Contracts.Api.User;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -17,7 +17,7 @@ public class SendConfirmationEmailTests
         _loggerMock = new();
     }
 
-    public async Task Handle_ShouldNot_ThrowException()
+    public void Handle_ShouldNot_ThrowException()
     {
         _mailServiceMock.Setup(
             x => x.SendConfirmationMail(

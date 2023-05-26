@@ -72,7 +72,6 @@ public sealed class CharacterSheet : Entity<CharacterSheetId>
         List<SkillId> skillIds,
         DateTime updatedAt)
     {
-
         var errorList = new List<Error>();
         var name = Name.Create(nameStr);
         var description = Description.Create(descriptionStr);

@@ -1,6 +1,6 @@
 ﻿using TableTopFriend.Application.Authentication.Commands.Register;
 using TableTopFriend.Application.Authentication.Queries.Login;
-using TableTopFriend.Contracts.Authentication;
+using TableTopFriend.Contracts.Api.Authentication;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

@@ -4,7 +4,7 @@ using TableTopFriend.Application.Campaigns.Commands.Join;
 using TableTopFriend.Application.Campaigns.Commands.Update;
 using TableTopFriend.Application.Campaigns.Get.Queries;
 using TableTopFriend.Application.Campaigns.GetAll.Queries;
-using TableTopFriend.Contracts.Campaign;
+using TableTopFriend.Contracts.Api.Campaign;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

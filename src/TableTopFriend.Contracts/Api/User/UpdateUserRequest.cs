@@ -1,4 +1,4 @@
-namespace TableTopFriend.Contracts.User;
+namespace TableTopFriend.Contracts.Api.User;
 
 public record UpdateUserRequest(
     Guid Id,

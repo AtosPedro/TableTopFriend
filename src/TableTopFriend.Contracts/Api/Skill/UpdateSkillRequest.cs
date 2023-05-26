@@ -1,4 +1,4 @@
-namespace TableTopFriend.Contracts.Skill;
+namespace TableTopFriend.Contracts.Api.Skill;
 
 public record UpdateSkillRequest(
     Guid Id,

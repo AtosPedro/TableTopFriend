@@ -1,4 +1,4 @@
-namespace TableTopFriend.Contracts.Character;
+namespace TableTopFriend.Contracts.Api.Character;
 
 public record CharacterSheetDto(
     string Name,

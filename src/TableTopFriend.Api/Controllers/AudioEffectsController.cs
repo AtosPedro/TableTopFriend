@@ -3,7 +3,7 @@ using TableTopFriend.Application.AudioEffects.Commands.Delete;
 using TableTopFriend.Application.AudioEffects.Commands.Update;
 using TableTopFriend.Application.AudioEffects.Queries.Get;
 using TableTopFriend.Application.AudioEffects.Queries.GetAll;
-using TableTopFriend.Contracts.Campaign;
+using TableTopFriend.Contracts.Api.Campaign;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -3,7 +3,7 @@ using TableTopFriend.Application.Characters.Commands.Delete;
 using TableTopFriend.Application.Characters.Commands.Update;
 using TableTopFriend.Application.Characters.Queries.Get;
 using TableTopFriend.Application.Characters.Queries.GetAll;
-using TableTopFriend.Contracts.Character;
+using TableTopFriend.Contracts.Api.Character;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

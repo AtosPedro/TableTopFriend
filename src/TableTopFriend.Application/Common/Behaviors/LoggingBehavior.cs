@@ -34,7 +34,7 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         if (result.IsError)
         {
             var errorList = result.Errors ?? new List<Error>();
-            var errors = String.Join(',', errorList);
+            var errors = string.Join(',', errorList);
             _logger.LogError(
                 "Request Failure {@RequestName}, {@Error}, {@DateTimeUtc}",
                 typeof(TRequest).Name,
