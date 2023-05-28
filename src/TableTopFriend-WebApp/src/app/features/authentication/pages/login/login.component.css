@@ -1,0 +1,25 @@
+a{
+  text-decoration: none;
+}
+
+.login-container{
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 30%;
+}
+
+.login-card{
+  padding: 50px;
+  width: 400px;
+  height: 300px;
+}
+
+.login-card form{
+  display: flex;
+  flex-direction: column;
+}
+
+.register-link{
+  margin: 20px 0 0 0;
+}

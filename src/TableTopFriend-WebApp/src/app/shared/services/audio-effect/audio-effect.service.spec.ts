@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { AudioEffectService } from './audio-effect.service';
 
 describe('AudioEffectService', () => {
