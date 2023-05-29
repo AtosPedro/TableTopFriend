@@ -1,4 +1,4 @@
-export interface Status {
+export type Status = {
   id: string,
   userId: string,
   image: string,

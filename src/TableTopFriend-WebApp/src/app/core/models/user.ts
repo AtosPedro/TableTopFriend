@@ -1,7 +1,7 @@
 import { UserRole } from "../constants/userRole";
 import { UserValidation } from "../constants/userValidation";
 
-export interface User {
+export type User = {
   id: string,
   firstName: string,
   lastName: string,

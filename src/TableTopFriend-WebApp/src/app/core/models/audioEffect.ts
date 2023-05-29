@@ -1,4 +1,4 @@
-export interface AudioEffect {
+export type AudioEffect = {
   userId: string,
   name: string,
   description: string,

@@ -1,4 +1,4 @@
-export interface Skill {
+export type Skill =  {
   id: string
   userId: string,
   statusId: string,

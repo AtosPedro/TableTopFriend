@@ -1,1 +1,33 @@
-<p>register works!</p>
+<div class="register-container">
+  <mat-card class="register-card">
+    <mat-card-header>
+      <h1>Register</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="registerForm" (submit)="register()">
+        <mat-form-field appearance="fill">
+          <mat-label>First Name</mat-label>
+          <input matInput placeholder="Enter your first name" name="firstName" type="text" formControlName="firstName" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Last Name</mat-label>
+          <input matInput placeholder="Enter your last name" name="lastName" type="text" formControlName="lastName" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Enter your email" name="email" type="email" formControlName="email" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput type="password" formControlName="passwordConfirmation">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Register</button>
+      </form>
+      <a routerLink="/sign-in" color="primary" class="login-link"> Already have a account? Sign in now</a>
+    </mat-card-content>
+  </mat-card>
+</div>

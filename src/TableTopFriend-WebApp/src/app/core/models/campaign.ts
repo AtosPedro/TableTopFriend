@@ -1,4 +1,4 @@
-export interface Campaign {
+export type Campaign = {
   userId: string,
   name: string,
   description: string,

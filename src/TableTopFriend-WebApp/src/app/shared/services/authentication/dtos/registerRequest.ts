@@ -1,6 +1,6 @@
 import { UserRole } from "src/app/core/constants/userRole";
 
-export interface RegisterRequest{
+export type RegisterRequest = {
    firstName : string,
    lastName : string,
    email : string,

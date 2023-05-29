@@ -1,6 +1,6 @@
 import { Time } from "@angular/common";
 
-export interface Session {
+export type Session =  {
   id: string,
   userId: string,
   campaignId: string,
