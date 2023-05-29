@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthenticationResult } from './dtos/authenticationResult';
 import { RegisterRequest } from './dtos/registerRequest';
@@ -11,26 +10,33 @@ import { LoginRequest } from './dtos/loginRequest';
 })
 
 export class AuthenticationService {
-  private loginUrl = environment.apiUrl + '/login';
-  private registerUrl = environment.apiUrl + '/register';
+  private loginUrl = environment.apiUrl + '/auth/login';
+  private registerUrl = environment.apiUrl + '/auth/register';
 
   constructor(private httpClient: HttpClient) { }
 
-  public register(registerRequest: RegisterRequest): AuthenticationResult | null {
-    let authenticationResult: AuthenticationResult | null = null;
+  public register(registerRequest: RegisterRequest): AuthenticationResult | any {
+    let result: AuthenticationResult | any = null;
+
     this.httpClient.post<AuthenticationResult>(this.registerUrl, registerRequest)
-      .subscribe(response => {
-        authenticationResult = response;
+      .subscribe({
+        next: value => result = value,
+        error: err => result = err
       });
-    return authenticationResult;
+
+    return result;
   }
 
-  public login(loginRequest: LoginRequest): AuthenticationResult | null {
-    let authenticationResult: AuthenticationResult | null = null;
+  public login(loginRequest: LoginRequest): AuthenticationResult | any {
+    let result: AuthenticationResult | any = null;
+
     this.httpClient.post<AuthenticationResult>(this.loginUrl, loginRequest)
-      .subscribe(response => {
-        authenticationResult = response;
+      .subscribe({
+        next: value => result = value,
+        error: err => result = err
       });
-    return authenticationResult;
+
+    return result;
   }
+
 }

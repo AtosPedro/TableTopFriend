@@ -26,13 +26,7 @@ public class UnitOfWork : IUnitOfWork
         }
         catch
         {
-            await Rollback();
             throw;
         }
-    }
-
-    private async Task Rollback()
-    {
-        await Task.FromResult(true);
     }
 }

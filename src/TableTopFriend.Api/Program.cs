@@ -38,17 +38,30 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Host
         .AddLogging();
+
+    builder.Services.AddCors(opt =>
+    {
+        opt.AddPolicy(
+            name: "DevCORS",
+            policy => policy.WithOrigins("http://localhost:4200")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials());
+    });
 }
 
 var app = builder.Build();
 {
     app.Services.MigrateDatabase();
-    app.UseHttpsRedirection();
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Table Top Friend API V1"));
     }
+
+    app.UseHttpsRedirection();
+    app.UseCors("DevCORS");
+
     app.AddLogging();
     app.UseAuthentication();
     app.UseAuthorization();
