@@ -15,13 +15,13 @@ export class RegisterComponent {
     private authenticationService: AuthenticationService,
     private builder: FormBuilder) { }
 
-registerForm = this.builder.group({
-  firstName: this.builder.control('', Validators.compose([Validators.required])),
-  lastName:this.builder.control('', Validators.compose([Validators.required])),
-  email:this.builder.control('', Validators.compose([Validators.required, Validators.email])),
-  password:this.builder.control('', Validators.compose([Validators.required])),
-  passwordConfirmation:this.builder.control('', Validators.compose([Validators.required])),
-});
+  registerForm = this.builder.group({
+    firstName: this.builder.control('', Validators.compose([Validators.required])),
+    lastName:this.builder.control('', Validators.compose([Validators.required])),
+    email:this.builder.control('', Validators.compose([Validators.required, Validators.email])),
+    password:this.builder.control('', Validators.compose([Validators.required])),
+    passwordConfirmation:this.builder.control('', Validators.compose([Validators.required])),
+  });
 
   register() {
 

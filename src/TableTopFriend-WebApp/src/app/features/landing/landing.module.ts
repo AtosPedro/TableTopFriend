@@ -6,6 +6,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CharacterExplanationComponent } from './pages/character-explanation/character-explanation.component';
 import { CampaignExplanationComponent } from './pages/campaign-explanation/campaign-explanation.component';
 import { AudioEffectExplanationComponent } from './pages/audio-effect-explanation/audio-effect-explanation.component';
+import { LandingNavigationComponent } from './landing-navigation/landing-navigation.component';
 
 
 
@@ -14,7 +15,8 @@ import { AudioEffectExplanationComponent } from './pages/audio-effect-explanatio
     LandingComponent,
     CharacterExplanationComponent,
     CampaignExplanationComponent,
-    AudioEffectExplanationComponent
+    AudioEffectExplanationComponent,
+    LandingNavigationComponent
   ],
   imports: [
     CommonModule,
