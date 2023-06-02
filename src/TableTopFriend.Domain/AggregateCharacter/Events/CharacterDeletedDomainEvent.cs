@@ -5,7 +5,7 @@ using TableTopFriend.Domain.Common.Models;
 namespace TableTopFriend.Domain.AggregateCharacter.Events;
 
 public record CharacterDeletedDomainEvent(
-    CharacterId Id,
-    UserId userId,
-    DateTime deletedAt
+    CharacterId CharacterId,
+    UserId UserId,
+    DateTime DeletedAt
 ) : IDomainEvent;

@@ -33,7 +33,8 @@ public class UpdateSessionCommandHandler : IRequestHandler<UpdateSessionCommand,
     {
         var session = await _sessionRepository.GetById(
             SessionId.Create(request.Id),
-            cancellationToken);
+            cancellationToken
+        );
 
         if (session is null)
             return Errors.Session.NotScheduled;
@@ -53,9 +54,7 @@ public class UpdateSessionCommandHandler : IRequestHandler<UpdateSessionCommand,
         {
             await _sessionRepository.Update(sessionOrError.Value);
             var result = sessionOrError.Value.Adapt<SessionResult>();
-            await _cachingService.SetCacheValueAsync(
-                request.Id.ToString(),
-                result);
+            await _cachingService.SetCacheValueAsync(request.Id.ToString(),result);
             return result;
         },
         cancellationToken);

@@ -2,7 +2,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace TableTopFriend.Infrastructure.Utils;
+namespace TableTopFriend.Infrastructure.Json;
 
 public class PrivateResolver : DefaultContractResolver
 {

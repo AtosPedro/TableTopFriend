@@ -37,29 +37,26 @@ public class DeleteSessionCommandHandler : IRequestHandler<DeleteSessionCommand,
     {
         var session = await _sessionRepository.GetById(
             SessionId.Create(request.Id),
-            cancellationToken);
+            cancellationToken
+        );
 
         if (session is null)
             return Errors.Session.NotScheduled;
 
         var campaign = await _campaignRepository.GetById(
             session.CampaignId,
-            cancellationToken);
+            cancellationToken
+        );
 
         if (campaign is null)
             return Errors.Campaign.NotRegistered;
 
         session.MarkToDelete(_dateTimeProvider.UtcNow);
-        campaign.RemoveSessionId(
-            SessionId.Create(session.GetId().Value),
-            _dateTimeProvider.UtcNow);
 
         return await _unitOfWork.Execute(async _ =>
         {
-            await _campaignRepository.Update(campaign);
             await _sessionRepository.Remove(session);
             await _cachingService.RemoveCacheValueAsync<SessionResult>(request.Id.ToString());
-            await _cachingService.RemoveCacheValueAsync<CampaignResult>(session.CampaignId.Value.ToString());
             return session is not null;
         },
         cancellationToken);

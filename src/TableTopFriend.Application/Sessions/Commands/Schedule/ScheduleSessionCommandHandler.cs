@@ -41,14 +41,16 @@ public class ScheduleSessionCommandHandler : IRequestHandler<ScheduleSessionComm
         var session = (await _sessionRepository.SearchAsNoTracking(
             c => c.DateTime == request.DateTime &&
             c.CampaignId == CampaignId.Create(request.CampaignId),
-            cancellationToken)).FirstOrDefault();
+            cancellationToken)
+        ).FirstOrDefault();
 
         if (session is not null)
             return Errors.Session.AlreadyScheduled;
 
         var campaign = await _campaignRepository.GetById(
             CampaignId.Create(request.CampaignId),
-            cancellationToken);
+            cancellationToken
+        );
 
         if (campaign is null)
             return Errors.Campaign.NotRegistered;
@@ -65,19 +67,11 @@ public class ScheduleSessionCommandHandler : IRequestHandler<ScheduleSessionComm
         if (sessionOrError.IsError)
             return sessionOrError.Errors;
 
-        campaign.AddSessionId(
-            SessionId.Create(sessionOrError.Value.Id.Value),
-            _dateTimeProvider.UtcNow
-        );
-
         return await _unitOfWork.Execute(async cancellationToken =>
         {
             await _sessionRepository.Add(sessionOrError.Value, cancellationToken);
-            await _campaignRepository.Update(campaign);
             var result = sessionOrError.Value.Adapt<SessionResult>();
-            var campaignResult = campaign.Adapt<CampaignResult>();
             await _cachingService.SetCacheValueAsync(result.Id.ToString(), result);
-            await _cachingService.SetCacheValueAsync(result.CampaignId.ToString(), campaignResult);
             return result;
         },
         cancellationToken);

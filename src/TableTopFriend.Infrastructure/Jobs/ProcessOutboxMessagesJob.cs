@@ -1,7 +1,7 @@
 using TableTopFriend.Application.Common.Interfaces.Services;
 using TableTopFriend.Domain.Common.Models;
 using TableTopFriend.Infrastructure.Persistence.Context;
-using TableTopFriend.Infrastructure.Utils;
+using TableTopFriend.Infrastructure.Json;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

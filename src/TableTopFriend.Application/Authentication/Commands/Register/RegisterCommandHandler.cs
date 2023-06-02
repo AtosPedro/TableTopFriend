@@ -58,9 +58,10 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
             string token = _jwtTokenGenerator.GenerateToken(
                 userOrError.Value.Id.Value,
                 userOrError.Value.FirstName,
-                userOrError.Value.LastName);
-            var result = (userOrError.Value, token).Adapt<AuthenticationResult>();
-            return result;
+                userOrError.Value.LastName
+            );
+
+            return (userOrError.Value, token).Adapt<AuthenticationResult>();
         },
         cancellationToken);
     }

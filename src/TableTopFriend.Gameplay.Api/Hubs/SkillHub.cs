@@ -1,13 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
-using TableTopFriend.Contracts.Gameplay.Api.ChatHub;
+using TableTopFriend.Contracts.Gameplay.Api.SkillHub;
 
 namespace TableTopFriend.Gameplay.Api.Hubs;
 
-public class ChatHub : Hub<IChatHub>
+public class SkillHub : Hub<ISkillHub>
 {
     private readonly ISender _sender;
-    public ChatHub(ISender sender)
+    public SkillHub(ISender sender)
     {
         _sender = sender;
     }

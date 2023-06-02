@@ -22,6 +22,7 @@ public class UpdateCharacterCommandHandler : IRequestHandler<UpdateCharacterComm
     private readonly ICachingService _cachingService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IDateTimeProvider _dateTimeProvider;
+
     public UpdateCharacterCommandHandler(
         ICharacterRepository characterRepository,
         ISkillRepository skillRepository,
