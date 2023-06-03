@@ -6,7 +6,8 @@ public static class DependencyInjection
 {
     public static WebApplication AddHubs(this WebApplication app)
     {
-        app.MapHub<SessionHub>("/session-hub");
+        app.MapHub<SkillHub>("/skill-hub");
+        app.MapHub<ChatHub>("/chat-hub");
         app.MapHub<ChatHub>("/chat-hub");
         return app;
     }

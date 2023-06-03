@@ -2,8 +2,10 @@
 using TableTopFriend.Application;
 using TableTopFriend.Infrastructure;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
 {
     _ = builder.Services
         .AddPresenter()
@@ -48,6 +50,10 @@ var builder = WebApplication.CreateBuilder(args);
                             .AllowAnyMethod()
                             .AllowCredentials());
     });
+
+    builder.Services.AddHealthChecks()
+        .AddSqlServer(config["DBConfiguration:ConnectionString"]!)
+        .AddRedis(config["CachingSettings:ConnectionString"]!);
 }
 
 var app = builder.Build();
@@ -60,7 +66,13 @@ var app = builder.Build();
     }
 
     app.UseHttpsRedirection();
+
     app.UseCors("DevCORS");
+
+    app.MapHealthChecks("/_health", new HealthCheckOptions
+    {
+        ResponseWriter = HealthChecks.UI.Client.UIResponseWriter.WriteHealthCheckUIResponse
+    });
 
     app.AddLogging();
     app.UseAuthentication();
