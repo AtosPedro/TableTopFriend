@@ -1,3 +1,6 @@
+using System.Reflection.Metadata;
+using ErrorOr;
+
 namespace TableTopFriend.Domain.Common.Models;
 
 public abstract class Entity<TId> : IEquatable<Entity<TId>> where TId : notnull
@@ -14,6 +17,18 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>> where TId : notnull
     {
     }
 #pragma warning restore CS8618
+
+    public static List<Error> HandleErrors(params ErrorOr<object>[] errorOrObjects)
+    {
+        var errorList = new List<Error>();
+        foreach (var errorOrObject in errorOrObjects)
+        {
+            if (errorOrObject.IsError)
+                errorList.AddRange(errorOrObject.Errors);
+        }
+
+        return errorList;
+    }
 
     public override bool Equals(object? obj)
     {

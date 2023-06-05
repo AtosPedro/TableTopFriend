@@ -48,21 +48,19 @@ public sealed class User : AggregateRoot<UserId, Guid>
         UserRole userRole,
         DateTime createdAt)
     {
-        List<Error> errors = new();
         UserId id = UserId.CreateUnique();
         var emailVo = Email.Create(email);
         var password = Password.CreateHashed(plainPassword, passwordSalt);
+        var validation = Validation.Create();
 
-        if (emailVo.IsError)
-            errors.AddRange(emailVo.Errors);
+        var errors = HandleErrors(
+            emailVo,
+            password
+        );
 
-        if (password.IsError)
-            errors.AddRange(password.Errors);
-
-        if (errors.Any())
+        if(errors.Any())
             return errors;
 
-        var validation = Validation.Create();
         var user = new User(
             id,
             firstName,
@@ -83,16 +81,6 @@ public sealed class User : AggregateRoot<UserId, Guid>
         ));
 
         return user;
-    }
-
-    public ErrorOr<User> ChangePassword(string plainPassword)
-    {
-        var passwordOrError = Password.CreateHashed(plainPassword, Password.Salt);
-        if (passwordOrError.IsError)
-            return passwordOrError.Errors;
-
-        Password = passwordOrError.Value;
-        return this;
     }
 
     public ErrorOr<User> Update(
