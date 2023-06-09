@@ -17,5 +17,6 @@
         "Mediat"
     ],
     "outline.showProperties": false,
-    "explorer.fileNesting.enabled": true
+    "explorer.fileNesting.enabled": true,
+    "dotnet.defaultSolution": "TableTopFriend.sln"
 }
