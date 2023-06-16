@@ -1,5 +1,4 @@
-using System.Net.Mime;
-using ErrorOr;
+﻿using ErrorOr;
 using TableTopFriend.Domain.AggregateMap.ValueObjects;
 using TableTopFriend.Domain.Common.Models;
 using TableTopFriend.Domain.Common.ValueObjects;
@@ -38,7 +37,7 @@ public sealed class Map : AggregateRoot<MapId, Guid>
         var name = Name.Create(nameStr);
         var description = Description.Create(descriptionStr);
         var grid = Grid.Create(imageT);
-        var image = Image.Create(imageT);
+        var image = Image.Create(imageT, 10, 10);
 
         var errors = HandleErrors(
             name,

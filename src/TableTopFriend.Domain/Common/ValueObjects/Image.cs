@@ -1,4 +1,4 @@
-using ErrorOr;
+﻿using ErrorOr;
 using TableTopFriend.Domain.Common.Models;
 
 namespace TableTopFriend.Domain.Common.ValueObjects;
@@ -9,9 +9,25 @@ public class Image : ValueObject
     public int Width { get; set; }
     public byte[] Value { get; set; } = null!;
 
-    public static ErrorOr<Image> Create(byte[] image)
+    private Image(
+        int length,
+        int width,
+        byte[] value)
     {
-        return new();
+        Length = length;
+        Width = width;
+        Value = value;
+    }
+
+    public static ErrorOr<Image> Create(
+        byte[] image,
+        int length,
+        int width)
+    {
+        if (image.Length <= 0)
+            return Errors.Errors.Image.InvalidImage;
+
+        return new Image(length, width, image);
     }
 
     public override IEnumerable<object> GetEqualityComponents()
