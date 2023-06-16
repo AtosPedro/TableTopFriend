@@ -1,5 +1,4 @@
-using System.Text.Json.Serialization;
-using TableTopFriend.Domain.Common.ValueObjects;
+﻿using TableTopFriend.Domain.Common.ValueObjects;
 
 namespace TableTopFriend.Domain.AggregateUser.ValueObjects;
 
@@ -12,8 +11,10 @@ public sealed class UserId : AggregateRootId<Guid>
         Value = value;
     }
 
-    public static UserId CreateUnique() => new (Guid.NewGuid());
-    public static UserId Create(Guid id) => new (id);
+    public static UserId CreateUnique() => new(Guid.NewGuid());
+
+    public static UserId Create(Guid id) => new(id);
+
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
