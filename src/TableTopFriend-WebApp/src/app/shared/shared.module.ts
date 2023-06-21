@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { FooterComponent } from './components/footer/footer.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { FooterComponent } from './components/footer/footer.component';
     MatIconModule,
     MatCardModule,
     HttpClientModule,
+    MatSnackBarModule,
   ],
   exports: [
     NavigationComponent,
@@ -39,6 +41,7 @@ import { FooterComponent } from './components/footer/footer.component';
     ReactiveFormsModule,
     MatIconModule,
     MatCardModule,
+    MatSnackBarModule,
   ]
 })
 export class SharedModule { }

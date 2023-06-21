@@ -10,16 +10,27 @@ a{
 }
 
 .login-card{
-  padding: 50px;
+  padding: 60px;
   width: 400px;
-  height: 300px;
+
 }
 
 .login-card form{
   display: flex;
   flex-direction: column;
+  margin: 0 0 20px 0;
 }
 
-.register-link{
-  margin: 20px 0 0 0;
+.login-title{
+  align-items: center;
+  margin: 20px 0 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-card-header{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

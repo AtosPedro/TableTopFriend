@@ -1,7 +1,10 @@
 <div class="register-container">
   <mat-card class="register-card">
-    <mat-card-header>
-      <h1>Register</h1>
+    <mat-card-header class="register-card-header">
+      <span class="register-title">
+        <mat-icon>lock</mat-icon>
+        <h1>Register</h1>
+      </span>
     </mat-card-header>
     <mat-card-content>
       <form [formGroup]="registerForm" (submit)="register()">

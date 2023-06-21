@@ -1,5 +1,22 @@
-#main-sec {
+.main-sec {
   display: flex;
   flex-direction: column;
-  width: 40%;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 100%;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 100%;
+}
+
+
+.content button{
+  margin: 20px;
 }

@@ -28,16 +28,17 @@ export class AuthenticationService {
     return result;
   }
 
-  public login(loginRequest: LoginRequest): Result<AuthenticationResult, any> {
+  public login(
+    loginRequest: LoginRequest,
+     succes: ( x : AuthenticationResult) => void,
+     error: (err: any) => void) : void{
+
     let result: any = null;
 
     this.httpClient.post<AuthenticationResult>(this.loginUrl, loginRequest)
       .subscribe({
-        next: value => result = Result.success<AuthenticationResult, HttpErrorResponse>(value),
-        error: err => result = Result.fail<AuthenticationResult, HttpErrorResponse>(err)
+        next: value => succes(value),
+        error: err => error(err.error)
       });
-
-    return result;
   }
-
 }
