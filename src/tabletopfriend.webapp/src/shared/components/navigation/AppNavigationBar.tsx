@@ -1,4 +1,4 @@
-import { AppBar, Toolbar } from "@mui/material";
+import { AppBar, Toolbar, IconButton } from "@mui/material";
 
 export const AppNavigationBar = () => {
   return (

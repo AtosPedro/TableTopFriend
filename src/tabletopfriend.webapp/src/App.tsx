@@ -1,8 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 import { AppRoutes } from "./routes";
 import { AppThemeProvider } from "./shared/context/ThemeContext";
-import { AppBar, Button, Input, Toolbar } from "@mui/material";
-import { AppNavigationBar } from "./shared/components/AppNavigationBar";
+import { AppNavigationBar } from "./shared/components/navigation/AppNavigationBar";
 
 export const App = () => {
   return (
