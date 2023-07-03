@@ -1,4 +1,4 @@
-using TableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
+﻿using TableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
 using TableTopFriend.Domain.AggregateUser.ValueObjects;
 using TableTopFriend.Domain.Common.Models;
 using TableTopFriend.Domain.Common.Errors;
@@ -50,21 +50,8 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
         var errors = new List<Error>();
         var name = Name.Create(nameStr);
         var description = Description.Create(descriptionStr);
-
-        ErrorOr<YoutubeVideoUrl>? audioLink = null;
-        ErrorOr<AudioClip>? clip = null;
-
-        if (audioLinkStr is not null)
-            audioLink = YoutubeVideoUrl.Create(audioLinkStr);
-
-        if (audioClipBuffer is not null)
-            clip = AudioClip.Create(audioClipBuffer);
-
-        if (name.IsError)
-            errors.AddRange(name.Errors);
-
-        if (description.IsError)
-            errors.AddRange(description.Errors);
+        var audioLink = YoutubeVideoUrl.Create(audioLinkStr);
+        var clip = AudioClip.Create(audioClipBuffer);
 
         if (errors.Any())
             return errors;
@@ -74,8 +61,8 @@ public sealed class AudioEffect : AggregateRoot<AudioEffectId, Guid>
             userId,
             name.Value,
             description.Value,
-            audioLink?.Value,
-            clip?.Value,
+            audioLink.Value,
+            clip.Value,
             createdAt
         );
     }

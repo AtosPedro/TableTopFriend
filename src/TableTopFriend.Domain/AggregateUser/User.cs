@@ -58,7 +58,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
             password
         );
 
-        if(errors.Any())
+        if (errors.Any())
             return errors;
 
         var user = new User(
