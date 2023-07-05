@@ -1,4 +1,4 @@
-using TableTopFriend.Domain.Common.Models;
+﻿using TableTopFriend.Domain.Common.Models;
 using TableTopFriend.Domain.AggregateStatus.ValueObjects;
 using TableTopFriend.Domain.AggregateStatus.Events;
 using TableTopFriend.Domain.AggregateUser.ValueObjects;
@@ -41,18 +41,15 @@ public class Status : AggregateRoot<StatusId, Guid>
         float quantity,
         DateTime createdAt)
     {
-        var errorList = new List<Error>();
         var name = Name.Create(nameStr);
         var description = Description.Create(descriptionStr);
 
-        if (name.IsError)
-            errorList.AddRange(name.Errors);
+        var errors = HandleErrors(
+            name,
+            description);
 
-        if (description.IsError)
-            errorList.AddRange(description.Errors);
-
-        if (errorList.Any())
-            return errorList;
+        if (errors.Any())
+            return errors;
 
         var status = new Status(
             StatusId.CreateUnique(),
