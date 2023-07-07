@@ -1,6 +1,6 @@
 using TableTopFriend.Domain.AggregateUser;
 using TableTopFriend.Domain.AggregateUser.ValueObjects;
-using TableTopFriend.Domain.Common.Enums;
+using TableTopFriend.Domain.AggregateUser.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

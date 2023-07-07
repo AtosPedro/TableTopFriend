@@ -1,7 +1,6 @@
 using TableTopFriend.Domain.AggregateCharacter.Entities;
 using TableTopFriend.Domain.Common.Models;
 using TableTopFriend.Domain.AggregateCharacter.ValueObjects;
-using TableTopFriend.Domain.Common.Enums;
 using TableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
 using TableTopFriend.Domain.AggregateUser.ValueObjects;
 using TableTopFriend.Domain.AggregateCharacter.Events;
@@ -9,6 +8,7 @@ using TableTopFriend.Domain.AggregateStatus.ValueObjects;
 using TableTopFriend.Domain.AggregateSkill.ValueObjects;
 using TableTopFriend.Domain.Common.ValueObjects;
 using ErrorOr;
+using TableTopFriend.Domain.AggregateCharacter.Enums;
 
 namespace TableTopFriend.Domain.AggregateCharacter;
 

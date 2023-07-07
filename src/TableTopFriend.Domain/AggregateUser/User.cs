@@ -1,4 +1,4 @@
-﻿using TableTopFriend.Domain.Common.Enums;
+﻿using TableTopFriend.Domain.AggregateUser.Enums;
 using TableTopFriend.Domain.Common.Models;
 using TableTopFriend.Domain.AggregateUser.ValueObjects;
 using TableTopFriend.Domain.AggregateUser.Events;

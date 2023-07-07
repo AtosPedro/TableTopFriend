@@ -1,4 +1,4 @@
-namespace TableTopFriend.Domain.Common.Enums;
+namespace TableTopFriend.Domain.AggregateUser.Enums;
 public enum UserRole
 {
     Administrator,

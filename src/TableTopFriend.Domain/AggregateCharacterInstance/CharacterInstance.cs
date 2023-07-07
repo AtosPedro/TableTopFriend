@@ -1,7 +1,7 @@
 using TableTopFriend.Domain.AggregateCharacterInstance.Entities;
 using TableTopFriend.Domain.AggregateCharacterInstance.ValueObjects;
 using TableTopFriend.Domain.AggregateUser.ValueObjects;
-using TableTopFriend.Domain.Common.Enums;
+using TableTopFriend.Domain.AggregateCharacter.Enums;
 using TableTopFriend.Domain.Common.Models;
 using TableTopFriend.Domain.Common.ValueObjects;
 

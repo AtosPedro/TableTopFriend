@@ -4,7 +4,7 @@ using TableTopFriend.Domain.AggregateCharacter.ValueObjects;
 using TableTopFriend.Domain.AggregateSkill.ValueObjects;
 using TableTopFriend.Domain.AggregateStatus.ValueObjects;
 using TableTopFriend.Domain.AggregateUser.ValueObjects;
-using TableTopFriend.Domain.Common.Enums;
+using TableTopFriend.Domain.AggregateCharacter.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,4 +1,4 @@
-namespace TableTopFriend.Domain.Common.Enums;
+namespace TableTopFriend.Domain.AggregateCharacter.Enums;
 
 public enum CharacterType
 {

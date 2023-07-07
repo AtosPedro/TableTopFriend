@@ -6,7 +6,7 @@ using TableTopFriend.Domain.AggregateCharacter;
 using TableTopFriend.Domain.AggregateSkill.ValueObjects;
 using TableTopFriend.Domain.AggregateStatus.ValueObjects;
 using TableTopFriend.Domain.AggregateUser.ValueObjects;
-using TableTopFriend.Domain.Common.Enums;
+using TableTopFriend.Domain.AggregateCharacter.Enums;
 using TableTopFriend.Domain.Common.Errors;
 using ErrorOr;
 using Mapster;

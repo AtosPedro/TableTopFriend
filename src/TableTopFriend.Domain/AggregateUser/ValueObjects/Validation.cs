@@ -1,4 +1,4 @@
-using TableTopFriend.Domain.Common.Enums;
+using TableTopFriend.Domain.AggregateUser.Enums;
 using TableTopFriend.Domain.Common.Models;
 
 namespace TableTopFriend.Domain.AggregateUser.ValueObjects;
