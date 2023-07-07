@@ -1,11 +1,11 @@
 version: '3.4'
 
 services:
-  dddtabletopfriend.api:
-    image: ${DOCKER_REGISTRY-}dddtabletopfriendapi
+  tabletopfriend.api:
+    image: ${DOCKER_REGISTRY-}tabletopfriendapi
     build:
       context: .
-      dockerfile: DDDTableTopFriend.Api/Dockerfile
+      dockerfile: src/TableTopFriend.Api/Dockerfile
     depends_on:
       - tableTopFriend.db
       - tableTopFriend.caching

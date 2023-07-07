@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/DDDTableTopFriend.Api/DDDTableTopFriend.Api.csproj",
+                "${workspaceFolder}/src/TableTopFriend.Api/TableTopFriend.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/DDDTableTopFriend.Api/DDDTableTopFriend.Api.csproj",
+                "${workspaceFolder}/src/TableTopFriend.Api/TableTopFriend.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/DDDTableTopFriend.Api/DDDTableTopFriend.Api.csproj"
+                "${workspaceFolder}/src/TableTopFriend.Api/TableTopFriend.Api.csproj"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -44,7 +44,7 @@
             "args": [
                 "test",
                 "run",
-                "${workspaceFolder}/DDDTableTopFriend.Api/DDDTableTopFriend.Api.csproj"
+                "${workspaceFolder}/src/TableTopFriend.Api/TableTopFriend.Api.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

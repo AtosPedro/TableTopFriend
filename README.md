@@ -4,7 +4,7 @@
 
 baixe o docker desktop
 
-entre no aqruivo appsettings.development.json que está no caminho DDDTableTopFriend/DDDTableTopFriend.Api/appsettings.Development.json
+entre no aqruivo appsettings.development.json que está no caminho TableTopFriend/TableTopFriend.Api/appsettings.Development.json
 os seguintes parâmetros
 
 {{IPV4}} = IPV4 DO SEU COMPUTADOR

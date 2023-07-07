@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/DDDTableTopFriend.Api/bin/Debug/net6.0/DDDTableTopFriend.Api.dll",
+            "program": "${workspaceFolder}/src/TableTopFriend.Api/bin/Debug/net6.0/TableTopFriend.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/DDDTableTopFriend.Api",
+            "cwd": "${workspaceFolder}/src/TableTopFriend.Api",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {

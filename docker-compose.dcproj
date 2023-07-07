@@ -3,10 +3,10 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>67c3d1e6-778a-4180-a5c0-0e48097c27da</ProjectGuid>
+    <ProjectGuid>9fc3e744-3f25-48bf-b4c3-3881adf13226</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>dddtabletopfriend.api</DockerServiceName>
+    <DockerServiceName>tabletopfriend.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
