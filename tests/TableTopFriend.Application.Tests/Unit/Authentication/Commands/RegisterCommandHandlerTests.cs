@@ -1,10 +1,10 @@
-using TableTopFriend.Application.Authentication.Commands.Register;
+﻿using TableTopFriend.Application.Authentication.Commands.Register;
 using TableTopFriend.Application.Authentication.Common;
 using TableTopFriend.Application.Common.Interfaces.Authentication;
 using TableTopFriend.Application.Common.Interfaces.Persistence;
 using TableTopFriend.Application.Common.Interfaces.Services;
 using TableTopFriend.Domain.AggregateUser;
-using TableTopFriend.Domain.Common.Enums;
+using TableTopFriend.Domain.AggregateUser.Enums;
 using TableTopFriend.Domain.Common.Errors;
 
 using Moq;

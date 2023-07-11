@@ -1,9 +1,9 @@
-using TableTopFriend.Application.Authentication.Queries.Login;
+﻿using TableTopFriend.Application.Authentication.Queries.Login;
 using TableTopFriend.Application.Common.Interfaces.Authentication;
 using TableTopFriend.Application.Common.Interfaces.Persistence;
 using TableTopFriend.Application.Common.Interfaces.Services;
 using TableTopFriend.Domain.AggregateUser;
-using TableTopFriend.Domain.Common.Enums;
+using TableTopFriend.Domain.AggregateUser.Enums;
 using MediatR;
 using Moq;
 using NUnit.Framework;

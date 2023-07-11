@@ -5,8 +5,8 @@ namespace TableTopFriend.Domain.Common.ValueObjects;
 
 public sealed class Name : ValueObject
 {
-    private const int MinimumLength = 2;
-    private const int MaximumLength = 50;
+    private static readonly int MINIMUM_LENGHT = 2;
+    private static readonly int MAXIMUM_LENGHT = 50;
 
     public string Value { get; private set; }
 
@@ -17,10 +17,10 @@ public sealed class Name : ValueObject
         if (string.IsNullOrEmpty(value))
             return Errors.Errors.Name.NullOrEmpty;
 
-        if (value.Length < MinimumLength)
+        if (value.Length < MINIMUM_LENGHT)
             return Errors.Errors.Name.MinimumLength;
 
-        if (value.Length > MaximumLength)
+        if (value.Length > MAXIMUM_LENGHT)
             return Errors.Errors.Name.MaximumLength;
 
         return new Name(value);
@@ -29,8 +29,8 @@ public sealed class Name : ValueObject
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
-        yield return MinimumLength;
-        yield return MaximumLength;
+        yield return MINIMUM_LENGHT;
+        yield return MAXIMUM_LENGHT;
     }
 
 #pragma warning disable CS8618

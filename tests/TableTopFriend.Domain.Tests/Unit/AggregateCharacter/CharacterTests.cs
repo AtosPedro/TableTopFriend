@@ -1,10 +1,10 @@
-using TableTopFriend.Application.Common.Interfaces.Services;
+﻿using TableTopFriend.Application.Common.Interfaces.Services;
 using TableTopFriend.Domain.AggregateAudioEffect.ValueObjects;
 using TableTopFriend.Domain.AggregateCharacter;
 using TableTopFriend.Domain.AggregateSkill.ValueObjects;
 using TableTopFriend.Domain.AggregateStatus.ValueObjects;
 using TableTopFriend.Domain.AggregateUser.ValueObjects;
-using TableTopFriend.Domain.Common.Enums;
+using TableTopFriend.Domain.AggregateCharacter.Enums;
 using TableTopFriend.Domain.Common.ValueObjects;
 using Moq;
 using NUnit.Framework;
