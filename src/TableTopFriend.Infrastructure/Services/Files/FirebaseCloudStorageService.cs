@@ -7,6 +7,7 @@ public class FirebaseCloudStorageService : ICloudStorageService
 {
     private readonly CloudStorageServiceSettings _options;
 
+
     public FirebaseCloudStorageService(IOptions<CloudStorageServiceSettings> options)
     {
         _options = options.Value;
@@ -14,13 +15,25 @@ public class FirebaseCloudStorageService : ICloudStorageService
 
     public async Task SaveFileAsync(
          string fileName,
-         Stream fileStream)
+         string folderName,
+         Stream fileStream,
+         CancellationToken cancellationToken = default)
     {
-        await Task.CompletedTask;
+        try
+        {
+        }
+        catch
+        {
+            throw;
+        }
     }
 
     public async Task DeleteFileAsync(string fileName)
     {
         await Task.CompletedTask;
+    }
+
+    private async Task<object> AuthenticateAsync()
+    {
     }
 }
