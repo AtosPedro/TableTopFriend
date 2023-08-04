@@ -27,4 +27,10 @@ public sealed class YoutubeVideoUrl : ValueObject
         yield return Value;
         yield return YoutubeBaseUrl;
     }
+
+#pragma warning disable CS8618
+    private YoutubeVideoUrl()
+    {
+    }
+#pragma warning restore CS8618
 }

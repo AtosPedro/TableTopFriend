@@ -11,10 +11,16 @@ public sealed class MapId : AggregateRootId<Guid>
         Value = value;
     }
 
-    public static MapId CreateUnique() => new (Guid.NewGuid());
-    public static MapId Create(Guid value) => new (value);
+    public static MapId CreateUnique() => new(Guid.NewGuid());
+    public static MapId Create(Guid value) => new(value);
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
     }
+
+#pragma warning disable CS8618
+    private MapId()
+    {
+    }
+#pragma warning restore CS8618
 }

@@ -23,4 +23,10 @@ public sealed class Description : ValueObject
         yield return Value;
         yield return MaximumLength;
     }
+
+#pragma warning disable CS8618
+    private Description()
+    {
+    }
+#pragma warning restore CS8618
 }

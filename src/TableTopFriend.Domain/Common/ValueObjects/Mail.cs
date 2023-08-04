@@ -32,4 +32,11 @@ public sealed class Mail : ValueObject
         yield return Subject;
         yield return Body;
     }
+
+    
+#pragma warning disable CS8618
+    private Mail()
+    {
+    }
+#pragma warning restore CS8618
 }

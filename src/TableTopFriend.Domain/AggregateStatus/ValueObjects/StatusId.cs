@@ -17,4 +17,10 @@ public sealed class StatusId : AggregateRootId<Guid>
     {
         yield return Value;
     }
+    
+#pragma warning disable CS8618
+    private StatusId()
+    {
+    }
+#pragma warning restore CS8618
 }

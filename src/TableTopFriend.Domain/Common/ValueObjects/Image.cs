@@ -36,4 +36,11 @@ public class Image : ValueObject
         yield return Width;
         yield return Value;
     }
+
+    
+#pragma warning disable CS8618
+    private Image()
+    {
+    }
+#pragma warning restore CS8618
 }

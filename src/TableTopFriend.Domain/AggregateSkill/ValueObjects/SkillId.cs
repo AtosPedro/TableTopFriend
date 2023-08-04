@@ -18,4 +18,10 @@ public sealed class SkillId : AggregateRootId<Guid>
     {
         yield return Value;
     }
+#pragma warning disable CS8618
+    private SkillId()
+    {
+    }
+#pragma warning restore CS8618
+    
 }

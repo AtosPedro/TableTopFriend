@@ -12,10 +12,15 @@ public sealed class CharacterId : AggregateRootId<Guid>
         Value = value;
     }
 
-    public static CharacterId CreateUnique() => new (Guid.NewGuid());
-    public static CharacterId Create(Guid id) => new (id);
+    public static CharacterId CreateUnique() => new(Guid.NewGuid());
+    public static CharacterId Create(Guid id) => new(id);
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
     }
+#pragma warning disable CS8618
+    private CharacterId()
+    {
+    }
+#pragma warning restore CS8618
 }

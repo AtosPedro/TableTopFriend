@@ -12,10 +12,16 @@ public sealed class SessionId : AggregateRootId<Guid>
         Value = value;
     }
 
-    public static SessionId CreateUnique() => new (Guid.NewGuid());
-    public static SessionId Create(Guid id) => new (id);
+    public static SessionId CreateUnique() => new(Guid.NewGuid());
+    public static SessionId Create(Guid id) => new(id);
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
     }
+
+#pragma warning disable CS8618
+    private SessionId()
+    {
+    }
+#pragma warning restore CS8618
 }
