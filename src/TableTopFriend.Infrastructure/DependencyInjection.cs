@@ -21,6 +21,8 @@ using Microsoft.EntityFrameworkCore;
 using TableTopFriend.Infrastructure.Persistence.Interceptors;
 using Quartz;
 using TableTopFriend.Infrastructure.Jobs;
+using Amazon.S3;
+using TableTopFriend.Infrastructure.Services.Files;
 
 namespace TableTopFriend.Infrastructure;
 
@@ -35,6 +37,7 @@ public static class DependencyInjection
         services.AddProcessOutboxMessagesJob();
         services.AddMailService(configuration);
         services.AddCaching(configuration);
+        services.AddCloudStorage(configuration);
         services.AddMediatR(typeof(DependencyInjection).GetTypeInfo().Assembly);
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         return services;
@@ -97,6 +100,20 @@ public static class DependencyInjection
         services.AddSingleton<ISkillRepository, SkillRepository>();
         services.AddSingleton<IStatusRepository, StatusRepository>();
         services.AddSingleton<IUserRepository, UserRepository>();
+        return services;
+    }
+
+    public static IServiceCollection AddCloudStorage(
+        this IServiceCollection services,
+        ConfigurationManager configuration)
+
+    {
+        var fileStorageServiceSettings = new FileStorageServiceSettings();
+        configuration.Bind(FileStorageServiceSettings.SectionName, fileStorageServiceSettings);
+        services.AddSingleton(Options.Create(fileStorageServiceSettings));
+
+        services.AddSingleton<IAmazonS3, AmazonS3Client>();
+        services.AddSingleton<IFileStorageService, AmazonS3FileStorageService>();
         return services;
     }
 

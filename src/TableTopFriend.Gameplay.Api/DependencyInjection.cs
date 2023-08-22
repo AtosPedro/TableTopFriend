@@ -8,7 +8,6 @@ public static class DependencyInjection
     {
         app.MapHub<SkillHub>("/skill-hub");
         app.MapHub<ChatHub>("/chat-hub");
-        app.MapHub<ChatHub>("/chat-hub");
         return app;
     }
 }
