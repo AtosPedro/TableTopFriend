@@ -10,40 +10,38 @@ public sealed class Map : AggregateRoot<MapId, Guid>
     public Name Name { get; private set; } = null!;
     public Description Description { get; private set; } = null!;
     public Image Image { get; set; } = null!;
-    public Grid Grid { get; set; } = null!;
-    public DateTime CreatedAt { get; private set; }
-    public DateTime? UpdatedAt { get; private set; }
+    public CreatedInfo CreatedInfo { get; private set; } = null!;
+    public UpdatedInfo? UpdatedInfo { get; private set; }
     public Map(MapId id) : base(id) { }
 
     private Map(
         Name name,
         Description description,
         Image image,
-        Grid grid,
-        DateTime createdAt)
+        CreatedInfo created)
     {
         Name = name;
         Description = description;
         Image = image;
-        Grid = grid;
-        CreatedAt = createdAt;
+        CreatedInfo = created;
     }
     public static ErrorOr<Map> Create(
         string nameStr,
         string descriptionStr,
-        byte[] imageT,
-        DateTime createdAt)
+        string fileKey,
+        DateTime createdAt,
+        string createdBy)
     {
         var name = Name.Create(nameStr);
         var description = Description.Create(descriptionStr);
-        var grid = Grid.Create(imageT);
-        var image = Image.Create(imageT, 10, 10);
+        var image = Image.Create(fileKey, 10, 10);
+        var created = CreatedInfo.Create(createdAt, createdBy);
 
         var errors = HandleErrors(
             name,
             description,
-            grid,
-            image
+            image,
+            created
         );
 
         if (errors.Any())
@@ -53,8 +51,7 @@ public sealed class Map : AggregateRoot<MapId, Guid>
             name.Value,
             description.Value,
             image.Value,
-            grid.Value,
-            createdAt
+            created.Value
         );
     }
 

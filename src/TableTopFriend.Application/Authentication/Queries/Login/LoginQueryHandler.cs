@@ -39,10 +39,10 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
             cancellationToken);
 
         if (user is null)
-            return Errors.Authentication.UserNotRegistered;
+            return Errors.Authentication.WrongCredentials;
 
         if (!user.Password.IsValid(request.Password))
-            return Errors.Authentication.IncorrectPassword;
+            return Errors.Authentication.WrongCredentials;
 
         var token = _jwtTokenGenerator.GenerateToken(
             user.Id.Value,

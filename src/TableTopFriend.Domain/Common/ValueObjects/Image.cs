@@ -5,35 +5,35 @@ namespace TableTopFriend.Domain.Common.ValueObjects;
 
 public class Image : ValueObject
 {
-    public int Length { get; set; }
+    public int Height { get; set; }
     public int Width { get; set; }
-    public byte[] Value { get; set; } = null!;
+    public string FileKey { get; set; } = null!;
 
     private Image(
         int length,
         int width,
-        byte[] value)
+        string fileKey)
     {
-        Length = length;
+        Height = length;
         Width = width;
-        Value = value;
+        FileKey = fileKey;
     }
 
     public static ErrorOr<Image> Create(
-        byte[] image,
+        string fileKey,
         int length,
         int width)
     {
-        if (image.Length <= 0)
+        if (fileKey.Length <= 0)
             return Errors.Errors.Image.InvalidImage;
 
-        return new Image(length, width, image);
+        return new Image(length, width, fileKey);
     }
 
     public override IEnumerable<object> GetEqualityComponents()
     {
-        yield return Length;
+        yield return Height;
         yield return Width;
-        yield return Value;
+        yield return FileKey;
     }
 }

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.Processing.Processors.Transforms;
 using TableTopFriend.Application.Common.Interfaces.Services;
-using TableTopFriend.Domain.AggregateMap.ValueObjects;
 using TableTopFriend.Domain.AggregateUser.ValueObjects;
 
 namespace TableTopFriend.Infrastructure.Services.Files.Images;
@@ -16,9 +15,9 @@ public class ImageService : IImageService
         _fileStorageService = fileStorageService;
     }
 
-    public async Task<bool> UploadImage(UserId userId, MapId mapId, IFormFile file)
+    public async Task<bool> UploadImage(UserId userId, string key, IFormFile file)
     {
-        string filePath = $"images/{userId}/{mapId}";
+        string filePath = $"images/{userId.Value}/{key}";
         using var outStream = new MemoryStream();
         using (var image = await Image.LoadAsync(file.OpenReadStream()))
         {
@@ -30,9 +29,9 @@ public class ImageService : IImageService
         return response.HttpStatusCode == HttpStatusCode.OK;
     }
 
-    public async Task<Stream?> GetImage(UserId userId, MapId mapId)
+    public async Task<Stream?> GetImage(UserId userId, string key)
     {
-        string filePath = $"images/{userId}/{mapId}";
+        string filePath = $"images/{userId.Value}/{key}";
         var response = await _fileStorageService.GetFileAsync(filePath);
 
         if (response is null)
@@ -41,9 +40,9 @@ public class ImageService : IImageService
         return response.ResponseStream;
     }
 
-    public async Task<bool> DeleteImage(UserId userId, MapId mapId)
+    public async Task<bool> DeleteImage(UserId userId, string key)
     {
-        string filePath = $"images/{userId}/{mapId}";
+        string filePath = $"images/{userId.Value}/{key}";
         var response = await _fileStorageService.DeleteFileAsync(filePath);            
         return response.HttpStatusCode == HttpStatusCode.OK;
     }

@@ -1,4 +1,3 @@
-using TableTopFriend.Domain.Common.Models;
 using TableTopFriend.Domain.Common.ValueObjects;
 
 namespace TableTopFriend.Domain.AggregateCampaign.ValueObjects;

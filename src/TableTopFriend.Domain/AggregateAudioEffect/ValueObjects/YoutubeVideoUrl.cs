@@ -25,6 +25,5 @@ public sealed class YoutubeVideoUrl : ValueObject
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
-        yield return YoutubeBaseUrl;
     }
 }
